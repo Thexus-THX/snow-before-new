@@ -1,0 +1,77 @@
+/* ============================================================ */
+/* 《雪落之前》V1 — CSS 变量体系                                 */
+/* ============================================================ */
+
+:root {
+  /* ---- 画布尺寸 ---- */
+  --canvas-logical-width: 1920px;
+  --canvas-logical-height: 1080px;
+  --scene-height: 864px;
+  --dialogue-height: 216px;
+  --top-status-height: 72px;
+
+  /* ---- 主色调 — 历史叙事风格 ---- */
+  --color-bg-dark: #1a1410;
+  --color-bg-panel: #2a2218;
+  --color-bg-dialogue: rgba(18, 16, 14, 0.92);
+  --color-bg-overlay: rgba(0, 0, 0, 0.65);
+
+  --color-text-primary: #e8dfcf;
+  --color-text-secondary: #b8a88c;
+  --color-text-dim: #6a6050;
+  --color-text-amber: #d4a843;
+
+  /* ---- 状态/数值颜色 ---- */
+  --color-knowledge: #7eb8da;
+  --color-wellbeing: #a3c9a3;
+  --color-preparation: #d4a843;
+  --color-change-positive: #a3c9a3;
+  --color-change-negative: #c97a7a;
+  --color-change-highlight: rgba(212, 168, 67, 0.3);
+
+  /* ---- 选项颜色 ---- */
+  --color-choice-bg: rgba(42, 34, 24, 0.85);
+  --color-choice-hover: rgba(60, 48, 32, 0.9);
+  --color-choice-critical: rgba(180, 60, 40, 0.15);
+  --color-choice-locked: rgba(80, 70, 60, 0.5);
+  --color-choice-border: #5a5040;
+
+  /* ---- 字体 ---- */
+  --font-body: "Source Han Serif SC", "Noto Serif SC", "SimSun", "Songti SC",
+    serif;
+  --font-display: "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  --font-mono: "Courier New", monospace;
+
+  --font-size-title: 48px;
+  --font-size-chapter: 32px;
+  --font-size-dialogue: 22px;
+  --font-size-choice: 20px;
+  --font-size-status: 16px;
+  --font-size-small: 14px;
+
+  --line-height-body: 1.7;
+  --line-height-dialogue: 1.5;
+
+  /* ---- 间距 ---- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* ---- 过渡 ---- */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 600ms ease;
+  --transition-typing: 50ms step-end;
+
+  /* ---- 阴影 ---- */
+  --shadow-panel: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-text: 0 1px 4px rgba(0, 0, 0, 0.6);
+
+  /* ---- 边框 ---- */
+  --border-radius-sm: 2px;
+  --border-radius-md: 4px;
+  --border-radius-lg: 8px;
+}

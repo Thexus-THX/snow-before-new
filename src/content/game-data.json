@@ -1,0 +1,392 @@
+{
+  "meta": {
+    "id": "snow-before-v1",
+    "title": "雪落之前",
+    "version": "0.2.0-alpha",
+    "startSceneId": "prologue_train",
+    "continueEnabled": true,
+    "logicalWidth": 1920,
+    "logicalHeight": 1080,
+    "sceneHeight": 864,
+    "dialogueHeight": 216,
+    "topStatusHeight": 72
+  },
+  "characters": {
+    "shen": {
+      "id": "shen",
+      "name": "沈怀远",
+      "shortName": "怀远",
+      "fullName": "沈怀远",
+      "defaultPortrait": "neutral",
+      "portraits": {
+        "neutral": "/assets/characters/char_shen_huaiyuan_neutral.webp",
+        "focused": "/assets/characters/char_shen_huaiyuan_focused.webp",
+        "tired": "/assets/characters/char_shen_huaiyuan_tired.webp",
+        "hesitant": "/assets/characters/char_shen_huaiyuan_hesitant.webp",
+        "determined": "/assets/characters/char_shen_huaiyuan_determined.webp"
+      }
+    },
+    "chen": {
+      "id": "chen",
+      "name": "陈绍衡",
+      "shortName": "绍衡",
+      "defaultPortrait": "neutral",
+      "portraits": {
+        "neutral": "/assets/characters/char_chen_shaoheng_neutral.webp",
+        "friendly": "/assets/characters/char_chen_shaoheng_friendly.webp",
+        "tense": "/assets/characters/char_chen_shaoheng_tense.webp",
+        "resolved": "/assets/characters/char_chen_shaoheng_resolved.webp"
+      }
+    },
+    "nadya": {
+      "id": "nadya",
+      "name": "娜佳",
+      "fullName": "娜杰日达·索科洛娃",
+      "defaultPortrait": "neutral",
+      "portraits": {
+        "neutral": "/assets/characters/char_nadya_neutral.webp",
+        "warm": "/assets/characters/char_nadya_warm.webp",
+        "concerned": "/assets/characters/char_nadya_concerned.webp",
+        "farewell": "/assets/characters/char_nadya_farewell.webp"
+      }
+    },
+    "belov": {
+      "id": "belov",
+      "name": "别洛夫",
+      "fullName": "亚历山大·别洛夫",
+      "defaultPortrait": "neutral",
+      "portraits": {
+        "neutral": "/assets/characters/char_belov_neutral.webp",
+        "approving": "/assets/characters/char_belov_approving.webp",
+        "disappointed": "/assets/characters/char_belov_disappointed.webp"
+      }
+    },
+    "ivan": {
+      "id": "ivan",
+      "name": "伊万",
+      "fullName": "伊万·科瓦廖夫",
+      "defaultPortrait": "neutral",
+      "portraits": {
+        "neutral": "/assets/characters/char_ivan_neutral.webp",
+        "skeptical": "/assets/characters/char_ivan_skeptical.webp",
+        "approving": "/assets/characters/char_ivan_approving.webp"
+      }
+    }
+  },
+  "initialState": {
+    "currentSceneId": "prologue_train",
+    "chapterId": "prologue_1931",
+    "stats": {
+      "knowledge": 4,
+      "wellbeing": 7,
+      "responsibility": 4,
+      "homesickness": 5
+    },
+    "preparationItems": {
+      "route": 0,
+      "documents": 0,
+      "funds": 1,
+      "technicalMaterials": 0,
+      "contact": 0
+    },
+    "trust": {
+      "chen": 6,
+      "nadya": 4,
+      "belov": 4,
+      "ivan": 3
+    },
+    "cooperationModifier": 0,
+    "returnTendency": 0,
+    "stayTendency": 0,
+    "flags": [],
+    "lockedCriticalChoiceIds": [],
+    "history": [],
+    "visitedSceneIds": ["prologue_train"]
+  },
+  "chapters": [
+    {
+      "id": "prologue_1931",
+      "title": "序章·1931",
+      "year": 1931,
+      "season": "prologue",
+      "location": "苏联·某车站",
+      "introSceneId": "prologue_train"
+    },
+    {
+      "id": "d1_1936_spring",
+      "title": "第一日·1936 春",
+      "year": 1936,
+      "season": "spring",
+      "location": "莫斯科",
+      "introSceneId": "d1_lab_intro"
+    }
+  ],
+  "scenes": {
+    "prologue_train": {
+      "id": "prologue_train",
+      "name": "序章·初到异乡",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "1931 年末，一列火车缓缓驶入苏联境内的一座陌生城市。车窗外是陌生的雪原，而沈怀远唯一熟悉的，是行李箱夹层里母亲塞进的那封家书。"
+      },
+      "nextSceneId": "prologue_choice"
+    },
+    "prologue_choice": {
+      "id": "prologue_choice",
+      "name": "序章·初始选择",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "火车摇晃着减速。车厢里响起零碎的俄语，有人在搬运行李，有人站起来张望。你低下头，母亲的那封家书仍在夹层里沙沙作响。不远处的座位上，一台陌生的无线电设备发出微弱嗡鸣。前方的车厢连接处，几个同学正在互相攀谈。"
+      },
+      "choices": [
+        {
+          "id": "P0_LETTER",
+          "text": "先拆开母亲的来信",
+          "isCritical": false,
+          "nextSceneId": "prologue_end",
+          "effects": {
+            "stats": { "homesickness": 1 },
+            "addFlags": ["intro_letter_first"]
+          }
+        },
+        {
+          "id": "P0_RADIO",
+          "text": "先观察陌生的无线电设备",
+          "isCritical": false,
+          "nextSceneId": "prologue_end",
+          "effects": {
+            "stats": { "knowledge": 1 },
+            "addFlags": ["intro_radio_first"]
+          }
+        },
+        {
+          "id": "P0_PEOPLE",
+          "text": "主动与身边的同学攀谈",
+          "isCritical": false,
+          "nextSceneId": "prologue_end",
+          "effects": {
+            "trust": { "nadya": 1 },
+            "addFlags": ["intro_people_first"]
+          }
+        }
+      ]
+    },
+    "prologue_end": {
+      "id": "prologue_end",
+      "name": "序章·尾声",
+      "chapterId": "prologue_1931",
+      "template": "chapterIntro",
+      "background": "/assets/backgrounds/bg_time_note_four_seasons.webp",
+      "showTopStatusBar": false,
+      "showDialoguePanel": false,
+      "content": {
+        "chapterTitle": "时光流转",
+        "backgroundText": "从 1931 年到 1936 年，沈怀远在苏联度过了数年求学时光。无线电技术在他的手中逐渐从陌生的蜂鸣变成熟悉的语言。而现在，1936 年春天，一场例行实验即将开始。",
+        "textType": "narration",
+        "text": "五年后。"
+      },
+      "nextSceneId": "d1_lab_intro"
+    },
+    "d1_lab_intro": {
+      "id": "d1_lab_intro",
+      "name": "第一日·实验前",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day01_spring_lab.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "记录表里有一组数值不太对。你要先看设备，还是帮我再核一遍？",
+        "portraitAsset": "/assets/characters/char_nadya_neutral.webp"
+      },
+      "choices": [
+        {
+          "id": "D1_C1_A",
+          "text": "提前进入实验室，重新检查线路与线圈",
+          "isCritical": false,
+          "nextSceneId": "d1_after_choice",
+          "effects": {
+            "stats": { "knowledge": 1 },
+            "addFlags": ["d1_prechecked_equipment"]
+          }
+        },
+        {
+          "id": "D1_C1_B",
+          "text": "留在准备室，帮娜佳核对实验记录",
+          "isCritical": false,
+          "nextSceneId": "d1_after_choice",
+          "effects": {
+            "trust": { "nadya": 1 },
+            "addFlags": ["d1_checked_records_with_nadya"]
+          }
+        }
+      ]
+    },
+    "d1_after_choice": {
+      "id": "d1_after_choice",
+      "name": "第一日·实验开始",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "实验开始后不久，仪器面板上的一个数值出现了明显偏离。别洛夫导师还在隔壁房间，尚未注意到异常。你必须尽快做出判断。"
+      },
+      "nextSceneId": "d1_k1_failure"
+    },
+    "d1_k1_failure": {
+      "id": "d1_k1_failure",
+      "name": "第一日·关键选择——故障",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "数据异常已经无法忽视。娜佳看了一眼仪表，眉头皱起。走廊尽头传来别洛夫的脚步声。你必须做出决定。"
+      },
+      "choices": [
+        {
+          "id": "D1_K1_A",
+          "text": "立即停止测试，并向导师说明异常",
+          "isCritical": true,
+          "nextSceneId": "d1_reported_result",
+          "effects": {
+            "stats": { "responsibility": 2, "wellbeing": -1 },
+            "trust": { "belov": 1 },
+            "addFlags": ["d1_reported_fault"]
+          },
+          "confirmationText": "停止测试意味着今天的进度全部中断，导师也会知道你提前发现了问题。确定要立刻报告吗？"
+        },
+        {
+          "id": "D1_K1_B",
+          "text": "与娜佳一起先排查故障，再如实汇报",
+          "isCritical": true,
+          "nextSceneId": "d1_team_repair_result",
+          "effects": {
+            "stats": { "knowledge": 1, "responsibility": 1 },
+            "trust": { "nadya": 1 },
+            "addFlags": ["d1_team_repair"]
+          },
+          "confirmationText": "先排查再汇报，可能争取到一点时间修正问题。但如果导师认为你在拖延，后果也不小。确定要这样做吗？"
+        },
+        {
+          "id": "D1_K1_C",
+          "text": "隐瞒异常，先让演示继续完成",
+          "isCritical": true,
+          "nextSceneId": "d1_concealed_result",
+          "conditions": {
+            "all": [
+              { "type": "statMax", "key": "responsibility", "value": 6 }
+            ]
+          },
+          "effects": {
+            "stats": { "responsibility": -2 },
+            "trust": { "belov": -2 },
+            "addFlags": ["d1_concealed_fault"]
+          },
+          "confirmationText": "隐瞒意味着冒险——如果演示中途出现更大故障，后果将由你一人承担。你确定要让演示继续吗？"
+        }
+      ],
+      "autoSavePoint": "criticalChoice"
+    },
+    "d1_reported_result": {
+      "id": "d1_reported_result",
+      "name": "第一日·如实报告后",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "belov",
+        "speakerName": "别洛夫",
+        "textType": "dialogue",
+        "text": "你做得对。数据不会撒谎，但人可以。今天你选择了诚实，这在科学研究中比任何技巧都重要。",
+        "portraitAsset": "/assets/characters/char_belov_approving.webp"
+      },
+      "nextSceneId": "d1_end"
+    },
+    "d1_team_repair_result": {
+      "id": "d1_team_repair_result",
+      "name": "第一日·团队排查后",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "问题比预想的复杂，但我们至少找到了原因。导师听完我们的说明后，点了点头。他说，知道何时求助，也是一种能力。",
+        "portraitAsset": "/assets/characters/char_nadya_warm.webp"
+      },
+      "nextSceneId": "d1_end"
+    },
+    "d1_concealed_result": {
+      "id": "d1_concealed_result",
+      "name": "第一日·隐瞒后果",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "演示勉强完成了。别洛夫在事后检查数据时发现了偏差——他没有当场质问，但你看得出，他的目光里多了一层审视。"
+      },
+      "nextSceneId": "d1_end"
+    },
+    "d1_end": {
+      "id": "d1_end",
+      "name": "第一日·结束",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "一天结束。实验室的灯光渐暗，走廊尽头的脚步声消失在夜色中。而你心中，已有了一些不同以往的分量。"
+      }
+    }
+  },
+  "endings": {},
+  "settings": {
+    "textSpeeds": {
+      "slow": 80,
+      "normal": 40,
+      "fast": 15
+    },
+    "audioDefaults": {
+      "bgmVolume": 0.7,
+      "ambienceVolume": 0.4,
+      "sfxVolume": 0.8,
+      "voiceVolume": 0.9,
+      "masterVolume": 0.8
+    }
+  }
+}

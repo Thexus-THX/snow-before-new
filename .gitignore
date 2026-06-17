@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.local
+*.log
+.DS_Store
+Thumbs.db
+.playwright-cli/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.ogg
+*.mp3
