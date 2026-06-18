@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import GameViewport from "@/components/common/GameViewport";
 import StatusBar from "@/components/game/StatusBar";
 import SceneArea from "@/components/game/SceneArea";
@@ -7,7 +7,8 @@ import ChoicePanel from "@/components/game/ChoicePanel";
 import HistoryPanel from "@/components/game/HistoryPanel";
 import { useGameStore } from "@/app/stores/gameStore";
 import { validateGameData } from "@/schemas/gameSchema";
-import type { GameData, ChoiceDefinition, HistoryEntry } from "@/schemas/types";
+import { hasValidSave } from "@/engine/saveManager";
+import type { GameData, ChoiceDefinition, HistoryEntry, ResolvedChoice } from "@/schemas/types";
 import gameDataRaw from "@/content/game-data.json";
 
 /**
@@ -20,32 +21,62 @@ import gameDataRaw from "@/content/game-data.json";
  */
 export default function GamePage() {
   const {
-    loadGameData, startNewGame, getCurrentScene, advanceScene,
-    applyChoiceEffect, lockCriticalChoice,
-    createSnapshot, recordHistoryEntry, rollback, getHistory, clearTemporarySnapshot,
-    state, engine,
+    loadGameData, startNewGame, continueGame, getCurrentScene, advanceScene,
+    commitChoice, rollbackToHistoryEntry, getHistory,
+    state, engine, gameData, launchMode,
   } = useGameStore();
 
+  const initializedRef = useRef(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showingChoices, setShowingChoices] = useState(false);
   const [pendingConfirm, setPendingConfirm] = useState<ChoiceDefinition | null>(null);
   const [showHistory, setShowHistory] = useState(false);
-  const [pendingRollbackSnapId] = useState<string | null>(null);
 
   useEffect(() => {
+    // 防止 StrictMode 双重初始化
+    if (initializedRef.current) return;
+
     try {
       const validation = validateGameData(gameDataRaw);
       if (!validation.success) throw new Error(`数据校验失败:\n${validation.error}`);
-      loadGameData(validation.data as GameData);
-      startNewGame();
+      const gd = validation.data as GameData;
+
+      // 加载数据
+      loadGameData(gd);
+
+      // 根据启动意图执行
+      if (launchMode === "new") {
+        // 明确新游戏：清空存档后开始
+        startNewGame();
+      } else if (launchMode === "continue") {
+        // 明确继续：尝试读档，失败则回退到新游戏
+        const result = continueGame();
+        if (!result.success) {
+          console.warn("[GamePage] 继续游戏失败:", result.reason, "— 回退到新游戏");
+          startNewGame();
+        }
+      } else {
+        // 无启动意图（直接访问 /game）：
+        // 优先继续有效存档，没有有效存档才新建
+        if (gd && hasValidSave(gd)) {
+          const result = continueGame();
+          if (!result.success) {
+            startNewGame();
+          }
+        } else {
+          startNewGame();
+        }
+      }
+
+      initializedRef.current = true;
       setLoading(false);
     } catch (e) {
       console.error("[init] 错误:", e);
       setError(e instanceof Error ? e.message : "未知错误");
       setLoading(false);
     }
-  }, [loadGameData, startNewGame]);
+  }, [loadGameData, startNewGame, continueGame, launchMode]);
 
   useEffect(() => {
     setShowingChoices(false);
@@ -53,9 +84,9 @@ export default function GamePage() {
   }, [state?.currentSceneId]);
 
   const currentScene = getCurrentScene();
-  const visibleChoices = state && engine && currentScene
-    ? engine.getVisibleChoices(currentScene.id, state) : [];
-  const hasChoices = visibleChoices.length > 0;
+  const resolvedChoices: ResolvedChoice[] = state && engine && currentScene
+    ? engine.getResolvedChoices(currentScene.id, state) : [];
+  const hasChoices = resolvedChoices.length > 0;
 
   const handleAdvance = useCallback(() => {
     if (!currentScene) return;
@@ -63,33 +94,30 @@ export default function GamePage() {
     if (!hasChoices && currentScene.nextSceneId) advanceScene(currentScene.nextSceneId);
   }, [currentScene, hasChoices, showingChoices, advanceScene]);
 
-  const applyChoiceAndAdvance = useCallback((choice: ChoiceDefinition) => {
-    const visibleEffects = choice.effects ? applyChoiceEffect(choice.effects) : [];
-    recordHistoryEntry({
-      sceneId: currentScene?.id ?? "", type: "choice", text: choice.text,
-      visibleEffects, isCritical: choice.isCritical, isLocked: choice.isCritical,
-    });
-    advanceScene(choice.nextSceneId);
-  }, [applyChoiceEffect, recordHistoryEntry, advanceScene, currentScene]);
-
   const handleSelectChoice = useCallback((choice: ChoiceDefinition) => {
     if (choice.isCritical) { setPendingConfirm(choice); return; }
-    createSnapshot(`choice_${choice.id}`);
-    applyChoiceAndAdvance(choice);
-  }, [createSnapshot, applyChoiceAndAdvance]);
+    // 普通选择：直接通过 commitChoice 原子事务处理
+    const result = commitChoice(choice);
+    if (!result.ok) {
+      console.warn("[GamePage] commitChoice 失败:", result.reason);
+    }
+  }, [commitChoice]);
 
   const handleConfirmCritical = useCallback((choice: ChoiceDefinition) => {
-    applyChoiceAndAdvance(choice);
-    lockCriticalChoice(choice.id);
+    // 关键选择：通过 commitChoice 原子事务处理
+    const result = commitChoice(choice);
+    if (!result.ok) {
+      console.warn("[GamePage] 关键选择提交失败:", result.reason);
+    }
     setPendingConfirm(null);
-  }, [applyChoiceAndAdvance, lockCriticalChoice]);
+  }, [commitChoice]);
 
   const handleRollback = useCallback((entry: HistoryEntry) => {
-    const snaps = useGameStore.getState().snapshots;
-    const list = Object.values(snaps).sort((a, b) => a.createdAt - b.createdAt);
-    const closest = list[list.length - 1];
-    if (closest && rollback(closest.id)) clearTemporarySnapshot(closest.id);
-  }, [rollback, clearTemporarySnapshot]);
+    const result = rollbackToHistoryEntry(entry);
+    if (!result.success) {
+      console.warn("[GamePage] 回滚失败:", result.reason);
+    }
+  }, [rollbackToHistoryEntry]);
 
   // 加载/错误
   if (loading) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-secondary)",fontSize:24}}>正在加载…</div></GameViewport>);
@@ -104,7 +132,7 @@ export default function GamePage() {
   const history = getHistory();
 
   const bottomArea = showingChoices || pendingConfirm ? (
-    <ChoicePanel choices={visibleChoices} onSelect={handleSelectChoice}
+    <ChoicePanel choices={resolvedChoices} onSelect={handleSelectChoice}
       pendingConfirm={pendingConfirm} onConfirm={handleConfirmCritical}
       onCancelConfirm={() => setPendingConfirm(null)} />
   ) : (showDialogue && currentScene.content && (

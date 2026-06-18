@@ -1,6 +1,13 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
+import { useGameStore } from "@/app/stores/gameStore";
+import { useSettingsStore } from "@/app/stores/settingsStore";
+import { validateGameData } from "@/schemas/gameSchema";
+import { hasValidSave } from "@/engine/saveManager";
+import type { GameData } from "@/schemas/types";
+import gameDataRaw from "@/content/game-data.json";
+import { getTitleBgm, ensureTitleBgm } from "@/engine/audioManager";
 
 /** 像素雪花粒子 */
 interface Snowflake {
@@ -102,35 +109,63 @@ function spawnFlake(): Snowflake {
  */
 export default function TitlePage() {
   const navigate = useNavigate();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { setLaunchMode, loadGameData } = useGameStore();
+  const musicVolume = useSettingsStore((s) => s.musicVolume);
+  const isMuted = useSettingsStore((s) => s.isMuted);
+  const masterVolume = useSettingsStore((s) => s.masterVolume);
   const snowCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const smokeCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const lightCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const flakesRef = useRef<Snowflake[]>([]);
   const smokeRef = useRef<SmokeParticle[]>([]);
   const animRef = useRef<number>(0);
-  const smokeTimerRef = useRef<number>(0); // 烟雾脉冲计时器
-  const smokeBurstRef = useRef<number>(0); // 当前脉冲剩余粒子数
+  const smokeTimerRef = useRef<number>(0);
+  const smokeBurstRef = useRef<number>(0);
 
-  // BGM
+  // 检测是否有有效存档
+  const [saveExists, setSaveExists] = useState(false);
   useEffect(() => {
-    const audio = new Audio("/assets/audio/bgm/bgm_00_title.ogg");
-    audio.loop = true;
-    audio.volume = 0.6;
-    audioRef.current = audio;
+    try {
+      const validation = validateGameData(gameDataRaw);
+      if (validation.success) {
+        const gd = validation.data as GameData;
+        loadGameData(gd);
+        setSaveExists(hasValidSave(gd));
+      }
+    } catch {
+      setSaveExists(false);
+    }
+  }, [loadGameData]);
 
-    const playOnInteraction = () => {
-      audio.play().catch(() => {});
-      document.removeEventListener("click", playOnInteraction);
-    };
-    document.addEventListener("click", playOnInteraction);
+  // BGM：使用全局单例，页面加载即尝试播放
+  useEffect(() => {
+    const bgm = ensureTitleBgm();
+    // 尝试自动播放（现代浏览器可能拒绝，静默处理）
+    bgm.play().catch(() => {
+      // 自动播放被浏览器阻止，等待用户首次交互
+      const resume = () => {
+        bgm.play().catch(() => {});
+        document.removeEventListener("click", resume);
+        document.removeEventListener("keydown", resume);
+      };
+      document.addEventListener("click", resume);
+      document.addEventListener("keydown", resume);
+    });
 
+    // 不需要在组件卸载时停止 BGM（全局单例，跨页面保持）
     return () => {
-      audio.pause();
-      audio.src = "";
-      document.removeEventListener("click", playOnInteraction);
+      // 仅在真正离开标题相关页面时处理
+      // 由于使用了全局单例，清理由调用方决定
     };
   }, []);
+
+  // 音量同步：当设置变化时实时更新 BGM 音量
+  useEffect(() => {
+    const bgm = getTitleBgm();
+    if (!bgm) return;
+    const effectiveVolume = isMuted ? 0 : masterVolume * musicVolume;
+    bgm.volume = Math.max(0, Math.min(1, effectiveVolume));
+  }, [musicVolume, isMuted, masterVolume]);
 
   // 初始化雪花
   const initFlakes = useCallback(() => {
@@ -298,23 +333,38 @@ export default function TitlePage() {
     return () => cancelAnimationFrame(animRef.current);
   }, [initFlakes, spawnSmoke]);
 
-  const handleStart = () => {
-    // 停止 BGM 后跳转
-    if (audioRef.current) {
-      audioRef.current.pause();
+  const handleNewGame = () => {
+    // 停止标题 BGM
+    const bgm = getTitleBgm();
+    if (bgm) {
+      bgm.pause();
+      bgm.currentTime = 0;
     }
+    if (saveExists && !window.confirm("已有存档记录，开始新游戏将覆盖现有进度。确定继续吗？")) {
+      return;
+    }
+    setLaunchMode("new");
     navigate("/game");
+  };
+
+  const handleContinue = () => {
+    const bgm = getTitleBgm();
+    if (bgm) {
+      bgm.pause();
+      bgm.currentTime = 0;
+    }
+    setLaunchMode("continue");
+    navigate("/game");
+  };
+
+  const handleSettings = () => {
+    // 不停止 BGM，设置页面可以继续调节音量
+    navigate("/settings");
   };
 
   return (
     <GameViewport>
       <div
-        onClick={() => {
-          // 首次点击触发 BGM
-          if (audioRef.current && audioRef.current.paused) {
-            audioRef.current.play().catch(() => {});
-          }
-        }}
         style={{
           width: "100%",
           height: "100%",
@@ -423,8 +473,12 @@ export default function TitlePage() {
             一个发生在风雪来临之前的故事
           </p>
 
+        {/* 按钮组 */}
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+
+          {/* 开始新游戏 */}
           <button
-            onClick={handleStart}
+            onClick={handleNewGame}
             style={{
               padding: "18px 72px",
               fontSize: 22,
@@ -436,6 +490,7 @@ export default function TitlePage() {
               letterSpacing: 10,
               fontFamily: "var(--font-body)",
               transition: "background var(--transition-fast), border-color var(--transition-fast)",
+              minWidth: 300,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "rgba(60, 48, 32, 0.75)";
@@ -446,8 +501,69 @@ export default function TitlePage() {
               e.currentTarget.style.borderColor = "#5a5040";
             }}
           >
-            开 始 游 戏
+            开 始 新 游 戏
           </button>
+
+          {/* 继续游戏 */}
+          <button
+            onClick={saveExists ? handleContinue : undefined}
+            disabled={!saveExists}
+            style={{
+              padding: "18px 72px",
+              fontSize: 22,
+              border: `1px solid ${saveExists ? "#5a5040" : "#3a3028"}`,
+              borderRadius: "var(--border-radius-md)",
+              background: saveExists ? "rgba(42, 34, 24, 0.55)" : "rgba(28, 22, 16, 0.35)",
+              color: saveExists ? "var(--color-text-primary)" : "var(--color-text-dim)",
+              cursor: saveExists ? "pointer" : "not-allowed",
+              letterSpacing: 10,
+              fontFamily: "var(--font-body)",
+              transition: "background var(--transition-fast), border-color var(--transition-fast)",
+              minWidth: 300,
+              opacity: saveExists ? 1 : 0.5,
+            }}
+            onMouseEnter={(e) => {
+              if (!saveExists) return;
+              e.currentTarget.style.background = "rgba(60, 48, 32, 0.75)";
+              e.currentTarget.style.borderColor = "var(--color-text-amber)";
+            }}
+            onMouseLeave={(e) => {
+              if (!saveExists) return;
+              e.currentTarget.style.background = "rgba(42, 34, 24, 0.55)";
+              e.currentTarget.style.borderColor = "#5a5040";
+            }}
+          >
+            继 续 游 戏
+          </button>
+
+          {/* 设置 */}
+          <button
+            onClick={handleSettings}
+            style={{
+              padding: "14px 60px",
+              fontSize: 18,
+              border: "1px solid #4a4035",
+              borderRadius: "var(--border-radius-md)",
+              background: "rgba(32, 28, 20, 0.45)",
+              color: "var(--color-text-secondary)",
+              cursor: "pointer",
+              letterSpacing: 8,
+              fontFamily: "var(--font-body)",
+              transition: "background var(--transition-fast), border-color var(--transition-fast)",
+              minWidth: 240,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(48, 40, 28, 0.6)";
+              e.currentTarget.style.borderColor = "var(--color-text-secondary)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(32, 28, 20, 0.45)";
+              e.currentTarget.style.borderColor = "#4a4035";
+            }}
+          >
+            设　　置
+          </button>
+        </div>
         </div>
 
         {/* 底部版权/版本 */}
