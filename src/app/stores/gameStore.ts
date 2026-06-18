@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { GameData, GameState, SceneDefinition, HistoryEntry, StateSnapshot, ChoiceDefinition } from "@/schemas/types";
 import { GameEngine } from "@/engine/gameEngine";
-import { loadSave, hasValidSave, buildSaveEnvelope, writeSave } from "@/engine/saveManager";
+import { loadSave, hasValidSave, buildSaveEnvelope, writeSave, clearSave } from "@/engine/saveManager";
 
 /** 游戏启动模式 */
 export type GameLaunchMode = "new" | "continue";
@@ -99,6 +99,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
   startNewGame: () => {
     const { engine, gameData } = get();
     if (!gameData || !engine) return null;
+
+    // P0.1: 清除旧持久化存档
+    const clearResult = clearSave();
+    if (clearResult.status !== "ok") {
+      console.warn("[gameStore] 清除旧存档失败:", clearResult.reason, "— 新游戏将继续");
+    }
+
     const initial = structuredClone(gameData.initialState);
     set({ state: initial, snapshots: {} });
     return engine.getScene(initial.currentSceneId);
@@ -350,9 +357,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
       };
       next.history.push(historyEntry);
     }
-    // 自动存档节点
+    // 自动存档节点 → 统一经过 saveManager（P0.1）
     if (scene.autoSavePoint) {
-      localStorage.setItem("snow-before-v1-save", JSON.stringify(next));
+      const { gameData } = get();
+      if (gameData) {
+        const envelope = buildSaveEnvelope(next, get().snapshots, gameData.meta.version);
+        writeSave(envelope);
+      }
     }
     set({ state: next });
     return scene;
@@ -448,8 +459,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!next.lockedCriticalChoiceIds.includes(choiceId)) {
       next.lockedCriticalChoiceIds.push(choiceId);
     }
-    // 关键选择确认后自动存档
-    localStorage.setItem("snow-before-v1-save", JSON.stringify(next));
+    // 关键选择确认后自动存档 → 统一经过 saveManager（P0.1）
+    const { gameData } = get();
+    if (gameData) {
+      const envelope = buildSaveEnvelope(next, get().snapshots, gameData.meta.version);
+      writeSave(envelope);
+    }
     set({ state: next });
   },
 

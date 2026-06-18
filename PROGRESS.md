@@ -115,6 +115,12 @@
 - 4 个测试文件，35 个测试用例，覆盖 16 个必测场景
 - `npm run check` = test + build
 
+#### 音频管理
+- `audioManager.ts` — 全局 BGM 单例，TitlePage/SettingsPage 共享
+- 页面打开即自动播放（浏览器阻止时 fallback 首次交互）
+- SettingsPage 音量调节实时生效（musicVolume × masterVolume）
+- `visibilitychange` 监听：页面切后台自动暂停，回前台续播
+
 ### ✅ 固定比例布局
 - SceneArea 864px + DialoguePanel 216px = 1080px 严格固定
 - StatusBar 72px 叠加浮层
@@ -125,6 +131,28 @@
 ### ✅ 数值系统完整性
 - 4 项长期数值 + 4 角色信任值 + 5 项行动准备
 - 派生值自动计算 + 倾向值
+
+### ✅ P0.1 存档一致性与新游戏覆盖修复（2026-06-18）
+
+#### saveManager 版本化存档
+- `SaveEnvelope`：schemaVersion + gameId + gameDataVersion + savedAt + state + snapshots
+- Zod 校验 + 场景/章节引用校验
+- `LoadSaveResult` 六态：ok / not-found / migrated / corrupt / incompatible / storage-unavailable
+- 旧裸 GameState 自动迁移为 SaveEnvelope
+
+#### 统一持久化写入通道
+- `_persistState()` 内部函数：所有自动存档必经此通道
+- `advanceScene()` 的 autoSavePoint 存档 → SaveEnvelope（不再是裸 GameState）
+- `lockCriticalChoice()` 的存档 → SaveEnvelope
+- 快照集合随存档完整保留，刷新后可继续精确回滚
+
+#### 新游戏立即清除旧存档
+- `startNewGame()` 首先调用 `clearSave()` 删除旧持久化存档
+- 即使 localStorage 不可用，当前会话仍可正常开始
+
+#### 自动测试
+- Vitest + jsdom，2 个测试文件，18 个测试用例
+- 覆盖：新游戏覆盖、自动存档格式、快照保留、存储异常降级
 
 ---
 
