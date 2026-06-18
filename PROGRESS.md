@@ -115,6 +115,12 @@
 - 4 个测试文件，35 个测试用例，覆盖 16 个必测场景
 - `npm run check` = test + build
 
+#### 音频管理
+- `audioManager.ts` — 全局 BGM 单例，TitlePage/SettingsPage 共享
+- 页面打开即自动播放（浏览器阻止时 fallback 首次交互）
+- SettingsPage 音量调节实时生效（musicVolume × masterVolume）
+- `visibilitychange` 监听：页面切后台自动暂停，回前台续播
+
 ### ✅ 固定比例布局
 - SceneArea 864px + DialoguePanel 216px = 1080px 严格固定
 - StatusBar 72px 叠加浮层
