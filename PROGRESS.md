@@ -91,6 +91,28 @@
 - 派生值自动计算（行动准备 = 5 项之和，社交信任 = 平均 + 修正）
 - 倾向值（归国倾向/留苏倾向）
 
+### ✅ P0.1 存档一致性与新游戏覆盖修复（2026-06-18）
+
+#### saveManager 版本化存档
+- `SaveEnvelope`：schemaVersion + gameId + gameDataVersion + savedAt + state + snapshots
+- Zod 校验 + 场景/章节引用校验
+- `LoadSaveResult` 六态：ok / not-found / migrated / corrupt / incompatible / storage-unavailable
+- 旧裸 GameState 自动迁移为 SaveEnvelope
+
+#### 统一持久化写入通道
+- `_persistState()` 内部函数：所有自动存档必经此通道
+- `advanceScene()` 的 autoSavePoint 存档 → SaveEnvelope（不再是裸 GameState）
+- `lockCriticalChoice()` 的存档 → SaveEnvelope
+- 快照集合随存档完整保留，刷新后可继续精确回滚
+
+#### 新游戏立即清除旧存档
+- `startNewGame()` 首先调用 `clearSave()` 删除旧持久化存档
+- 即使 localStorage 不可用，当前会话仍可正常开始
+
+#### 自动测试
+- Vitest + jsdom，2 个测试文件，18 个测试用例
+- 覆盖：新游戏覆盖、自动存档格式、快照保留、存储异常降级
+
 ---
 
 ## 待实现

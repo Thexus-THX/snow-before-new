@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { GameData, GameState, SceneDefinition, HistoryEntry, StateSnapshot } from "@/schemas/types";
 import { GameEngine } from "@/engine/gameEngine";
+import { loadSave, hasValidSave, buildSaveEnvelope, writeSave, clearSave } from "@/engine/saveManager";
 
 /**
  * gameStore — 玩家端运行时状态
@@ -11,6 +12,7 @@ import { GameEngine } from "@/engine/gameEngine";
  * - state 为当前游戏状态的唯一真实来源
  * - snapshots 存储状态快照（用于回滚，不存 GameState 内）
  * - 禁止直接修改 state，必须通过 action 方法
+ * - 所有持久化存档统一经过 persistState()
  */
 interface GameStore {
   // ---- 数据 ----
@@ -64,6 +66,25 @@ export const useGameStore = create<GameStore>((set, get) => ({
   state: null,
   snapshots: {},
 
+  // ============================================================
+  // 内部统一持久化通道
+  // ============================================================
+
+  /**
+   * 内部函数：统一持久化写入
+   * 所有自动存档必须通过此通道，禁止绕过 saveManager 直接操作 localStorage
+   */
+  _persistState: (nextState: GameState, nextSnapshots?: Record<string, StateSnapshot>) => {
+    const { gameData } = get();
+    if (!gameData) return;
+    const snaps = nextSnapshots ?? get().snapshots;
+    const envelope = buildSaveEnvelope(nextState, snaps, gameData.meta.version);
+    const result = writeSave(envelope);
+    if (result.status !== "ok") {
+      console.warn("[gameStore] 自动存档失败:", result.reason, "— 当前会话不受影响");
+    }
+  },
+
   loadGameData: (data: GameData) => {
     const engine = new GameEngine(data);
     set({ gameData: data, engine, state: null });
@@ -72,21 +93,34 @@ export const useGameStore = create<GameStore>((set, get) => ({
   startNewGame: () => {
     const { engine, gameData } = get();
     if (!gameData || !engine) return null;
+
+    // 1. 清除旧持久化存档
+    const clearResult = clearSave();
+    if (clearResult.status !== "ok") {
+      console.warn("[gameStore] 清除旧存档失败:", clearResult.reason, "— 新游戏将继续");
+    }
+
+    // 2. 清空快照，从 initialState 创建全新内存状态
     const initial = structuredClone(gameData.initialState);
-    set({ state: initial });
+    set({ state: initial, snapshots: {} });
+
     return engine.getScene(initial.currentSceneId);
   },
 
   continueGame: () => {
-    try {
-      const raw = localStorage.getItem("snow-before-v1-save");
-      if (!raw) return false;
-      const saved: GameState = JSON.parse(raw);
-      set({ state: saved });
+    const { gameData } = get();
+    if (!gameData) return false;
+
+    const result = loadSave(gameData);
+    if (result.status === "ok" || result.status === "migrated") {
+      const { state, snapshots } = result.save;
+      set({ state: structuredClone(state), snapshots: structuredClone(snapshots) });
       return true;
-    } catch {
-      return false;
     }
+    if (result.status === "corrupt" || result.status === "incompatible") {
+      console.warn("[gameStore] 存档不可用:", result.reason);
+    }
+    return false;
   },
 
   getCurrentScene: () => {
@@ -121,9 +155,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       };
       next.history.push(historyEntry);
     }
-    // 自动存档节点
+    // 自动存档节点 → 统一经过 saveManager
     if (scene.autoSavePoint) {
-      localStorage.setItem("snow-before-v1-save", JSON.stringify(next));
+      (get() as any)._persistState(next);
     }
     set({ state: next });
     return scene;
@@ -219,8 +253,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!next.lockedCriticalChoiceIds.includes(choiceId)) {
       next.lockedCriticalChoiceIds.push(choiceId);
     }
-    // 关键选择确认后自动存档
-    localStorage.setItem("snow-before-v1-save", JSON.stringify(next));
+    // 关键选择确认后自动存档 → 统一经过 saveManager
+    (get() as any)._persistState(next);
     set({ state: next });
   },
 
