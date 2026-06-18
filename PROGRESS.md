@@ -110,9 +110,14 @@
 - ⬜ 音效 SFX（15 个 UI/事件音效）
 - ⬜ 关键句配音（6 句）
 
-### ⬜ UI 装饰素材
-- ✅ 已有：选择按钮(3态)、对话面板、游戏 Logo、状态面板、顶部栏（共 7 个）
-- ⬜ 缺失：历史面板背景、家书信纸、历史事件框架、季节札记面板、旅程回顾面板、主按钮、次按钮、历史/设置/展开图标（共 11 个）
+### ✅ UI 装饰素材（全部就绪，含假透明修复）
+- ✅ 全部 12 张 UI 素材就绪
+- ✅ 全部 19 张角色立绘就绪
+- ✅ **假透明修复**：`scripts/remove_fake_transparency.py` 处理全部 31 张 RGB 图片
+  - 棋盘格背景 → Alpha=0 真透明 RGBA PNG
+  - 原文件备份为 `.bak.*`，透明版本输出为 `*_transparent.png`
+  - 黑色背景预览图 `*_preview.png` 供验收
+  - 边缘 flood-fill + 去白边处理，保留内部浅色 UI 本体
 
 ### ⬜ 编辑器（/editor）
 - 可视化编辑器整体未实现
@@ -166,7 +171,11 @@ public/
     ├── audio/voice/          # ⬜ 空
     ├── props/                # 8 张道具素材 (.png) ✅
     ├── references/           # 2 张参考图 (.png) ✅
-    └── ui/                   # 7 张 UI 素材 (.png) ⚠️ 缺 11 张
+    ├── ui/                   # 12 张 UI 素材 (.png) ✅（假透明已修复）
+scripts/                       # 工具脚本
+    ├── remove_fake_transparency.py  # 假透明去除脚本
+    ├── scan_characters.py           # 角色立绘扫描
+    └── verify_results.py            # 结果验证
 docs/                         # 设计文档（8 个 .md）
 ```
 
