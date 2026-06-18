@@ -41,6 +41,12 @@ export default function DialoguePanel({
 
   // 文本切换时重置动画
   useEffect(() => {
+    // 先清理旧 timer
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
     setDisplayedText("");
     setIsFinished(false);
     indexRef.current = 0;
@@ -55,8 +61,10 @@ export default function DialoguePanel({
       if (indexRef.current >= fullText.length) {
         setDisplayedText(fullText);
         setIsFinished(true);
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = null;
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
       } else {
         setDisplayedText(fullText.slice(0, indexRef.current + 1));
       }

@@ -8,6 +8,7 @@ import HistoryPanel from "@/components/game/HistoryPanel";
 import { useGameStore } from "@/app/stores/gameStore";
 import { validateGameData } from "@/schemas/gameSchema";
 import type { GameData, ChoiceDefinition, HistoryEntry } from "@/schemas/types";
+import gameDataRaw from "@/content/game-data.json";
 
 /**
  * GamePage — 游戏运行器 · 固定比例布局
@@ -33,21 +34,17 @@ export default function GamePage() {
   const [pendingRollbackSnapId] = useState<string | null>(null);
 
   useEffect(() => {
-    async function init() {
-      try {
-        const res = await fetch("/content/game-data.json");
-        if (!res.ok) throw new Error(`加载失败: HTTP ${res.status}`);
-        const validation = validateGameData(await res.json());
-        if (!validation.success) throw new Error(`数据校验失败:\n${validation.error}`);
-        loadGameData(validation.data as GameData);
-        startNewGame();
-        setLoading(false);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : "未知错误");
-        setLoading(false);
-      }
+    try {
+      const validation = validateGameData(gameDataRaw);
+      if (!validation.success) throw new Error(`数据校验失败:\n${validation.error}`);
+      loadGameData(validation.data as GameData);
+      startNewGame();
+      setLoading(false);
+    } catch (e) {
+      console.error("[init] 错误:", e);
+      setError(e instanceof Error ? e.message : "未知错误");
+      setLoading(false);
     }
-    init();
   }, [loadGameData, startNewGame]);
 
   useEffect(() => {
@@ -96,7 +93,7 @@ export default function GamePage() {
 
   // 加载/错误
   if (loading) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-secondary)",fontSize:24}}>正在加载…</div></GameViewport>);
-  if (error) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-change-negative)",fontSize:18,padding:64}}><pre>{error}</pre></div></GameViewport>);
+  if (error) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-change-negative)",fontSize:16,padding:64,gap:16}}><p style={{fontSize:22,color:"var(--color-text-amber)"}}>数据加载失败</p><pre style={{whiteSpace:"pre-wrap",maxWidth:800,lineHeight:1.6}}>{error}</pre></div></GameViewport>);
   if (!state || !engine || !currentScene) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-dim)",fontSize:24}}>无场景数据</div></GameViewport>);
 
   const chapter = engine.getChapter(state.chapterId);

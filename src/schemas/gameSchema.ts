@@ -201,12 +201,10 @@ const sceneSchema = z.object({
   showDialoguePanel: z.boolean().optional(),
   elements: z.array(canvasElementSchema).optional(),
   content: sceneContentSchema.optional(),
-  choices: z.array(choiceSchema).optional(),
   nextSceneId: z.string().optional(),
-  autoSavePoint: z
-    .enum(["chapterStart", "criticalChoice", "chapterEnd", "beforeEnding"])
-    .optional(),
+  choices: z.array(choiceSchema).optional(),
   conditions: conditionGroupSchema.optional(),
+  autoSavePoint: z.enum(["chapterStart", "criticalChoice", "chapterEnd", "beforeEnding"]).optional(),
 });
 
 // ---- 角色 Schema ----
