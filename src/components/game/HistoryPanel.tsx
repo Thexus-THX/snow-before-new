@@ -1,12 +1,14 @@
 import type { HistoryEntry } from "@/schemas/types";
+import { useGameStore } from "@/app/stores/gameStore";
 
 /**
  * HistoryPanel — 历史记录面板
  *
  * - 从右侧滑入的半透明面板
  * - 显示显性数值变化（不显示隐藏数值）
- * - 普通选择条目显示「可回退」按钮
+ * - 普通选择条目显示「可回退」按钮（由 store.canRollbackEntry 判定）
  * - 关键选择/锁定条目不可回退
+ * - 不可跨越已确认关键选择回滚
  * - 回退时恢复完整快照并截断历史
  */
 interface HistoryPanelProps {
@@ -23,8 +25,7 @@ const typeLabel: Record<string, string> = {
 };
 
 export default function HistoryPanel({ history, onRollback, onClose }: HistoryPanelProps) {
-  const canRollback = (entry: HistoryEntry) =>
-    entry.type === "choice" && !entry.isCritical && !entry.isLocked;
+  const canRollbackEntry = useGameStore((s) => s.canRollbackEntry);
 
   return (
     <div
@@ -141,6 +142,11 @@ export default function HistoryPanel({ history, onRollback, onClose }: HistoryPa
                     不可回退
                   </span>
                 )}
+                {entry.type === "choice" && !entry.isCritical && !entry.isLocked && !canRollbackEntry(entry).canRollback && (
+                  <span style={{ fontSize: 11, color: "var(--color-text-dim)" }}>
+                    {canRollbackEntry(entry).reason}
+                  </span>
+                )}
               </div>
 
               {/* 发言者 */}
@@ -191,7 +197,7 @@ export default function HistoryPanel({ history, onRollback, onClose }: HistoryPa
               )}
 
               {/* 回退按钮 */}
-              {canRollback(entry) && (
+              {canRollbackEntry(entry).canRollback && (
                 <button
                   onClick={() => onRollback(entry)}
                   style={{

@@ -229,7 +229,7 @@ const chapterSchema = z.object({
 });
 
 // ---- 游戏状态 Schema ----
-const gameStateSchema = z.object({
+export const gameStateSchema = z.object({
   currentSceneId: z.string(),
   chapterId: z.string(),
   stats: z.object({

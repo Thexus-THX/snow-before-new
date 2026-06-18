@@ -1,15 +1,20 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import type { SceneContent } from "@/schemas/types";
+import { useSettingsStore } from "@/app/stores/settingsStore";
+import { useGameStore } from "@/app/stores/gameStore";
 
 /**
  * DialoguePanel — 底部 216px 对话区（含打字机动画）
  *
- * - 文本逐字显示，速度因 textType 而异
+ * - 文本逐字显示，速度受 settingsStore.textSpeed 控制
+ * - 实际毫秒值来自 gameData.settings.textSpeeds
  * - 对话：amber 色 speakerName
  * - 旁白：无 speaker，浅色文字
  * - 内心独白：speaker + 斜体
  * - 点击中途 → 立即显示全文
  * - 点击全文后 → 调用 onClickAdvance 推进
+ * - 设置变化后在下一段文字立即生效
+ * - 组件卸载或文本切换时清理计时器
  */
 interface DialoguePanelProps {
   content: SceneContent;
@@ -17,22 +22,23 @@ interface DialoguePanelProps {
   canAdvance: boolean;
 }
 
-/** 不同文本类型的打字速度（ms/字符） */
-const speedMap: Record<string, number> = {
-  narration: 55,
-  dialogue: 40,
-  innerThought: 35,
-};
+/** 默认打字速度（ms/字符），当 gameData 未加载时使用 */
+const DEFAULT_SPEED_MS = 40;
 
 export default function DialoguePanel({
   content,
   onClickAdvance,
   canAdvance,
 }: DialoguePanelProps) {
+  const textSpeed = useSettingsStore((s) => s.textSpeed);
+  const gameData = useGameStore((s) => s.gameData);
+
   const textType = content.textType ?? "narration";
   const showSpeaker = textType !== "narration" && content.speakerName;
   const fullText = content.text ?? "";
-  const speed = speedMap[textType] ?? 40;
+
+  // 从 gameData 读取实际毫秒值，未加载时使用默认值
+  const speedMs = gameData?.settings?.textSpeeds?.[textSpeed] ?? DEFAULT_SPEED_MS;
 
   const [displayedText, setDisplayedText] = useState("");
   const [isFinished, setIsFinished] = useState(false);
@@ -68,7 +74,7 @@ export default function DialoguePanel({
       } else {
         setDisplayedText(fullText.slice(0, indexRef.current + 1));
       }
-    }, speed);
+    }, speedMs);
 
     return () => {
       if (timerRef.current) {
@@ -76,7 +82,7 @@ export default function DialoguePanel({
         timerRef.current = null;
       }
     };
-  }, [fullText, speed]);
+  }, [fullText, speedMs]);
 
   // 点击处理
   const handleClick = useCallback(() => {
