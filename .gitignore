@@ -5,9 +5,11 @@ dist/
 .DS_Store
 Thumbs.db
 .playwright-cli/
-*.png
-*.jpg
-*.jpeg
-*.webp
-*.ogg
-*.mp3
+
+# 忽略构建产物中的媒体文件，但保留 public/assets/ 下的源素材
+dist/*.png
+dist/*.jpg
+dist/*.jpeg
+dist/*.webp
+dist/*.ogg
+dist/*.mp3

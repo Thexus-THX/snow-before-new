@@ -171,16 +171,38 @@ export default function TitlePage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "url(/assets/backgrounds/bg_day08_winter_station.webp) center/cover no-repeat #0d1520",
+          background: "url(/assets/backgrounds/bg_title_winter_station.webp) center/cover no-repeat #0d1520",
           position: "relative",
         }}
       >
+        {/* 背景图缺失时的占位提示 */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "2px dashed rgba(120,100,80,0.3)",
+            margin: 24,
+            borderRadius: 4,
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        >
+          <p style={{ color: "rgba(180,160,140,0.4)", fontSize: 14, letterSpacing: 2 }}>
+            /assets/backgrounds/bg_title_winter_station.webp
+          </p>
+        </div>
+
         {/* 暗色遮罩 */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             background: "linear-gradient(180deg, rgba(10,8,6,0.35) 0%, rgba(10,8,6,0.55) 40%, rgba(10,8,6,0.7) 100%)",
+            zIndex: 0,
           }}
         />
 
