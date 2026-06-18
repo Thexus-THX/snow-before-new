@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSettingsStore } from "@/app/stores/settingsStore";
+import { getTitleBgm } from "@/engine/audioManager";
 
 /**
  * SettingsPage — 设置页面
- * 阶段 1 占位：基本音量 / 速度设置框架
+ *
+ * 音量调节实时生效于全局 BGM 实例。
  */
 export default function SettingsPage() {
   const navigate = useNavigate();
@@ -21,6 +24,14 @@ export default function SettingsPage() {
     toggleMute,
     setTextSpeed,
   } = useSettingsStore();
+
+  // 实时同步音量到全局 BGM
+  useEffect(() => {
+    const bgm = getTitleBgm();
+    if (!bgm) return;
+    const effectiveVolume = isMuted ? 0 : masterVolume * musicVolume;
+    bgm.volume = Math.max(0, Math.min(1, effectiveVolume));
+  }, [musicVolume, isMuted, masterVolume]);
 
   const sliderStyle: React.CSSProperties = {
     width: 200,

@@ -2,10 +2,12 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
 import { useGameStore } from "@/app/stores/gameStore";
+import { useSettingsStore } from "@/app/stores/settingsStore";
 import { validateGameData } from "@/schemas/gameSchema";
 import { hasValidSave } from "@/engine/saveManager";
 import type { GameData } from "@/schemas/types";
 import gameDataRaw from "@/content/game-data.json";
+import { getTitleBgm, ensureTitleBgm } from "@/engine/audioManager";
 
 /** 像素雪花粒子 */
 interface Snowflake {
@@ -108,7 +110,9 @@ function spawnFlake(): Snowflake {
 export default function TitlePage() {
   const navigate = useNavigate();
   const { setLaunchMode, loadGameData } = useGameStore();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const musicVolume = useSettingsStore((s) => s.musicVolume);
+  const isMuted = useSettingsStore((s) => s.isMuted);
+  const masterVolume = useSettingsStore((s) => s.masterVolume);
   const snowCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const smokeCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const lightCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -125,7 +129,6 @@ export default function TitlePage() {
       const validation = validateGameData(gameDataRaw);
       if (validation.success) {
         const gd = validation.data as GameData;
-        // 先加载数据（如果尚未加载），以便 hasValidSave 能检查引用
         loadGameData(gd);
         setSaveExists(hasValidSave(gd));
       }
@@ -134,25 +137,35 @@ export default function TitlePage() {
     }
   }, [loadGameData]);
 
-  // BGM
+  // BGM：使用全局单例，页面加载即尝试播放
   useEffect(() => {
-    const audio = new Audio("/assets/audio/bgm/bgm_00_title.ogg");
-    audio.loop = true;
-    audio.volume = 0.6;
-    audioRef.current = audio;
+    const bgm = ensureTitleBgm();
+    // 尝试自动播放（现代浏览器可能拒绝，静默处理）
+    bgm.play().catch(() => {
+      // 自动播放被浏览器阻止，等待用户首次交互
+      const resume = () => {
+        bgm.play().catch(() => {});
+        document.removeEventListener("click", resume);
+        document.removeEventListener("keydown", resume);
+      };
+      document.addEventListener("click", resume);
+      document.addEventListener("keydown", resume);
+    });
 
-    const playOnInteraction = () => {
-      audio.play().catch(() => {});
-      document.removeEventListener("click", playOnInteraction);
-    };
-    document.addEventListener("click", playOnInteraction);
-
+    // 不需要在组件卸载时停止 BGM（全局单例，跨页面保持）
     return () => {
-      audio.pause();
-      audio.src = "";
-      document.removeEventListener("click", playOnInteraction);
+      // 仅在真正离开标题相关页面时处理
+      // 由于使用了全局单例，清理由调用方决定
     };
   }, []);
+
+  // 音量同步：当设置变化时实时更新 BGM 音量
+  useEffect(() => {
+    const bgm = getTitleBgm();
+    if (!bgm) return;
+    const effectiveVolume = isMuted ? 0 : masterVolume * musicVolume;
+    bgm.volume = Math.max(0, Math.min(1, effectiveVolume));
+  }, [musicVolume, isMuted, masterVolume]);
 
   // 初始化雪花
   const initFlakes = useCallback(() => {
@@ -321,8 +334,11 @@ export default function TitlePage() {
   }, [initFlakes, spawnSmoke]);
 
   const handleNewGame = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
+    // 停止标题 BGM
+    const bgm = getTitleBgm();
+    if (bgm) {
+      bgm.pause();
+      bgm.currentTime = 0;
     }
     if (saveExists && !window.confirm("已有存档记录，开始新游戏将覆盖现有进度。确定继续吗？")) {
       return;
@@ -332,26 +348,23 @@ export default function TitlePage() {
   };
 
   const handleContinue = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
+    const bgm = getTitleBgm();
+    if (bgm) {
+      bgm.pause();
+      bgm.currentTime = 0;
     }
     setLaunchMode("continue");
     navigate("/game");
   };
 
   const handleSettings = () => {
+    // 不停止 BGM，设置页面可以继续调节音量
     navigate("/settings");
   };
 
   return (
     <GameViewport>
       <div
-        onClick={() => {
-          // 首次点击触发 BGM
-          if (audioRef.current && audioRef.current.paused) {
-            audioRef.current.play().catch(() => {});
-          }
-        }}
         style={{
           width: "100%",
           height: "100%",
