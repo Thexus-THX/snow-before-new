@@ -62,9 +62,9 @@ describe("gameStore 存档一致性", () => {
       // 开始新游戏
       useGameStore.getState().startNewGame();
 
-      // 再次尝试 continueGame 应失败
+      // 再次尝试 continueGame 应失败（P0 返回 { success, reason }）
       const result = useGameStore.getState().continueGame();
-      expect(result).toBe(false);
+      expect(result.success).toBe(false);
     });
 
     it("clearSave 失败不影响新游戏开始", () => {
@@ -134,8 +134,8 @@ describe("gameStore 存档一致性", () => {
       // 模拟刷新：重新加载
       useGameStore.getState().reset();
       useGameStore.getState().loadGameData(gd);
-      const ok = useGameStore.getState().continueGame();
-      expect(ok).toBe(true);
+      const result = useGameStore.getState().continueGame();
+      expect(result.success).toBe(true);
 
       // 快照仍在
       const snaps = useGameStore.getState().getSnapshots();

@@ -8,6 +8,8 @@ import type {
   ConditionGroup,
   Condition,
   ChoiceDefinition,
+  ResolvedChoice,
+  ChoiceAvailability,
 } from "@/schemas/types";
 
 /**
@@ -153,22 +155,115 @@ export class GameEngine {
 
   // ---- 选项可见性 ----
 
-  /** 获取场景中玩家可见且满足条件的选项 */
+  /** 获取场景中玩家可见且满足条件的选项（保留兼容） */
   getVisibleChoices(sceneId: string, state: GameState): ChoiceDefinition[] {
+    const resolved = this.getResolvedChoices(sceneId, state);
+    return resolved
+      .filter((r) => r.availability === "available")
+      .map((r) => r.choice);
+  }
+
+  /**
+   * 获取场景中解析后的选项（三态：available / locked / hidden）
+   *
+   * 规则：
+   * - 条件满足：available
+   * - 条件不满足且 visibleWhenLocked === true：locked
+   * - 条件不满足且未要求锁定可见：hidden
+   *
+   * choiceGroupId 去重规则：
+   * 1. 同一 groupId 只返回一个版本
+   * 2. 优先返回条件满足的（available）版本
+   * 3. 若无满足版本但有 visibleWhenLocked 版本，只返回一个 locked 版本
+   * 4. 结果按场景 choices 原始顺序排列，保证稳定
+   */
+  getResolvedChoices(sceneId: string, state: GameState): ResolvedChoice[] {
     const scene = this.getScene(sceneId);
     if (!scene?.choices) return [];
 
-    return scene.choices.filter((choice) => {
-      // 场景级条件
-      if (scene.conditions && !this.evaluateConditionGroup(scene.conditions, state)) {
-        return false;
+    // 场景级条件不满足时，所有选项都不可用
+    const sceneConditionsMet = !scene.conditions || this.evaluateConditionGroup(scene.conditions, state);
+
+    // Step 1: 为每个选项计算可用性
+    const allResolved: ResolvedChoice[] = scene.choices.map((choice) => {
+      const choiceConditionsMet = !choice.conditions || this.evaluateConditionGroup(choice.conditions, state);
+      const isAvailable = sceneConditionsMet && choiceConditionsMet;
+
+      let availability: ChoiceAvailability;
+      let lockedHint: string | undefined;
+
+      if (isAvailable) {
+        availability = "available";
+      } else if (choice.visibleWhenLocked) {
+        availability = "locked";
+        lockedHint = choice.lockedHint ?? "当前条件未满足";
+      } else {
+        availability = "hidden";
       }
-      // 选项级条件
-      if (choice.conditions && !this.evaluateConditionGroup(choice.conditions, state)) {
-        return false;
-      }
-      return true;
+
+      return { choice, availability, lockedHint };
     });
+
+    // Step 2: 处理 choiceGroupId 去重
+    // 收集所有有 groupId 的选项
+    const groupMap = new Map<string, ResolvedChoice[]>();
+    const noGroupChoices: ResolvedChoice[] = [];
+
+    for (const resolved of allResolved) {
+      if (resolved.choice.choiceGroupId) {
+        const group = groupMap.get(resolved.choice.choiceGroupId) ?? [];
+        group.push(resolved);
+        groupMap.set(resolved.choice.choiceGroupId, group);
+      } else {
+        noGroupChoices.push(resolved);
+      }
+    }
+
+    // Step 3: 每组只选一个代表
+    const groupedResults: ResolvedChoice[] = [];
+    for (const [, group] of groupMap) {
+      // 优先选 available
+      const available = group.find((r) => r.availability === "available");
+      if (available) {
+        groupedResults.push(available);
+
+        // 开发环境：检测同组是否有多个 available（数据错误）
+        if (import.meta.env.DEV) {
+          const multiAvailable = group.filter((r) => r.availability === "available");
+          if (multiAvailable.length > 1) {
+            console.warn(
+              `[GameEngine] choiceGroupId "${multiAvailable[0].choice.choiceGroupId}" 有 ${multiAvailable.length} 个同时满足的版本，仅保留第一个`,
+              multiAvailable.map((r) => r.choice.id),
+            );
+          }
+        }
+        continue;
+      }
+
+      // 其次选 locked（visibleWhenLocked）
+      const locked = group.find((r) => r.availability === "locked");
+      if (locked) {
+        groupedResults.push(locked);
+        continue;
+      }
+
+      // 全是 hidden，不返回任何选项
+    }
+
+    // Step 4: 合并并按原始顺序排序
+    // 构建原始顺序映射
+    const orderMap = new Map<string, number>();
+    scene.choices.forEach((c, i) => orderMap.set(c.id, i));
+
+    const allResults = [...noGroupChoices, ...groupedResults]
+      .filter((r) => r.availability !== "hidden")
+      .sort((a, b) => {
+        const orderA = orderMap.get(a.choice.id) ?? 999;
+        const orderB = orderMap.get(b.choice.id) ?? 999;
+        return orderA - orderB;
+      });
+
+    return allResults;
   }
 
   // ---- 原始数据访问（编辑器用） ----

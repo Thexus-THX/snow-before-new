@@ -1,14 +1,15 @@
-import type { ChoiceDefinition } from "@/schemas/types";
+import type { ChoiceDefinition, ResolvedChoice } from "@/schemas/types";
 
 /**
  * ChoicePanel — 选项渲染区
  *
- * - 普通选项：正常显示，点击直接生效
+ * - 普通选项（available）：正常显示，点击直接生效
  * - 关键选项：带【关键选择】标记，需二次确认
- * - 锁定选项：条件未满足时显示/隐藏（由父组件过滤）
+ * - 锁定选项（locked）：灰色显示、不可点击、显示 lockedHint
+ * - 隐藏选项（hidden）：不渲染（由 GameEngine.getResolvedChoices 过滤）
  */
 interface ChoicePanelProps {
-  choices: ChoiceDefinition[];
+  choices: ResolvedChoice[];
   onSelect: (choice: ChoiceDefinition) => void;
   pendingConfirm?: ChoiceDefinition | null;
   onConfirm: (choice: ChoiceDefinition) => void;
@@ -105,50 +106,76 @@ export default function ChoicePanel({
         flexShrink: 0,
       }}
     >
-      {choices.map((choice) => (
-        <button
-          key={choice.id}
-          onClick={() => onSelect(choice)}
-          style={{
-            width: "100%",
-            padding: "10px 24px",
-            background: choice.isCritical
-              ? "var(--color-choice-critical)"
-              : "var(--color-choice-bg)",
-            color: "var(--color-text-primary)",
-            fontSize: "var(--font-size-choice)",
-            textAlign: "left",
-            lineHeight: "var(--line-height-dialogue)",
-            border: choice.isCritical
-              ? "1px solid #5a3020"
-              : "1px solid var(--color-choice-border)",
-            borderRadius: "var(--border-radius-md)",
-            cursor: "pointer",
-            transition: "background var(--transition-fast)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "var(--color-choice-hover)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = choice.isCritical
-              ? "var(--color-choice-critical)"
-              : "var(--color-choice-bg)";
-          }}
-        >
-          {choice.text}
-          {choice.isCritical && (
-            <span
-              style={{
-                color: "var(--color-change-negative)",
-                fontSize: "var(--font-size-small)",
-                marginLeft: 12,
-              }}
-            >
-              【关键选择】
-            </span>
-          )}
-        </button>
-      ))}
+      {choices.map((resolved) => {
+        const { choice, availability, lockedHint } = resolved;
+        const isLocked = availability === "locked";
+
+        return (
+          <button
+            key={choice.id}
+            onClick={isLocked ? undefined : () => onSelect(choice)}
+            disabled={isLocked}
+            style={{
+              width: "100%",
+              padding: "10px 24px",
+              background: isLocked
+                ? "rgba(30, 25, 18, 0.5)"
+                : choice.isCritical
+                  ? "var(--color-choice-critical)"
+                  : "var(--color-choice-bg)",
+              color: isLocked ? "var(--color-text-dim)" : "var(--color-text-primary)",
+              fontSize: "var(--font-size-choice)",
+              textAlign: "left",
+              lineHeight: "var(--line-height-dialogue)",
+              border: isLocked
+                ? "1px solid #2a2218"
+                : choice.isCritical
+                  ? "1px solid #5a3020"
+                  : "1px solid var(--color-choice-border)",
+              borderRadius: "var(--border-radius-md)",
+              cursor: isLocked ? "not-allowed" : "pointer",
+              opacity: isLocked ? 0.6 : 1,
+              transition: "background var(--transition-fast)",
+              position: "relative" as const,
+            }}
+            onMouseEnter={(e) => {
+              if (isLocked) return;
+              e.currentTarget.style.background = "var(--color-choice-hover)";
+            }}
+            onMouseLeave={(e) => {
+              if (isLocked) return;
+              e.currentTarget.style.background = choice.isCritical
+                ? "var(--color-choice-critical)"
+                : "var(--color-choice-bg)";
+            }}
+          >
+            {choice.text}
+            {choice.isCritical && (
+              <span
+                style={{
+                  color: isLocked ? "var(--color-text-dim)" : "var(--color-change-negative)",
+                  fontSize: "var(--font-size-small)",
+                  marginLeft: 12,
+                }}
+              >
+                【关键选择】
+              </span>
+            )}
+            {isLocked && lockedHint && (
+              <span
+                style={{
+                  color: "var(--color-text-dim)",
+                  fontSize: "var(--font-size-small)",
+                  marginLeft: 12,
+                  fontStyle: "italic",
+                }}
+              >
+                {lockedHint}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }

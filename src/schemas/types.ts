@@ -245,6 +245,16 @@ export interface ChoiceDefinition {
   narrativeFeedback?: string; // 选择后的叙事反馈
 }
 
+/** 选项可用性三态 */
+export type ChoiceAvailability = "available" | "locked" | "hidden";
+
+/** 解析后的选项（含可用性状态） */
+export interface ResolvedChoice {
+  choice: ChoiceDefinition;
+  availability: ChoiceAvailability;
+  lockedHint?: string; // 锁定原因（叙事化，不暴露数值阈值）
+}
+
 // ---- 效果 ----
 
 export interface EffectDefinition {
