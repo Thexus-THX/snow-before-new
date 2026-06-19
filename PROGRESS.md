@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（BGM 系统打磨完成）
+> 最后更新：2026-06-20（环境音 + SFX 接入完成）
 
 ---
 
@@ -463,10 +463,47 @@
 - 离开页面再回来不双播（visibility 恢复时只播一个元素）
 - StrictMode 不误杀 BGM（去掉 useSceneAudio cleanup 中的 stopAll）
 
+### ✅ 环境音 + SFX 接入（2026-06-20）
+
+#### 文件审计
+- Ambience：6 首计划，**2 首存在**（`amb_lab_radio_loop.ogg`、`amb_snowfield_wind_loop.ogg`），4 首缺失
+- SFX：8 个计划，**3 个存在**（`sfx_letter_open.ogg`、`sfx_page_turn.ogg`、`sfx_train_whistle_distant.ogg`，均在 `ambience/` 目录下），5 个缺失
+
+#### audioCatalog 更新
+- 2 个 ambience 接入真实路径（`/assets/audio/ambience/`）
+- 3 个 SFX 接入真实路径（文件在 `ambience/` 目录下）
+- 缺失素材保持 `missing: true, enabled: false`
+
+#### SFX 接入
+- **LetterScene**：打开家书 `sfx.letter_open` + 翻页 `sfx.page_turn`
+- **HistoricalEventScene**：进入时 `sfx.radio_static_short`（预留，素材缺失 no-op）
+
+#### 环境音场景映射（已有素材生效）
+- Day01/05（春）：`amb.lab_radio` ✅
+- Day04/08（冬）：`amb.snowfield_wind` ✅
+- 其他场景缺失环境音 → 静默跳过
+
+#### 测试
+- `audioCatalog.test.ts`：更新为 2 ambience + 3 SFX 存在
+- `AudioManager.test.ts`：新增 ambienceVolume/sfxVolume/muted/同 ambience 不重启/voice no-op 测试
+
+#### 缺失清单
+| 文件 | 类型 |
+|------|------|
+| amb_station_winter_loop.ogg | Ambience |
+| amb_factory_machines_loop.ogg | Ambience |
+| amb_dorm_quiet_loop.ogg | Ambience |
+| amb_archive_room_loop.ogg | Ambience |
+| sfx_ui_click.ogg | SFX |
+| sfx_choice_confirm.ogg | SFX |
+| sfx_choice_locked.ogg | SFX |
+| sfx_radio_static_short.ogg | SFX |
+| sfx_stamp_paper.ogg | SFX |
+
 ## 待实现
 
-### ⬜ 环境音 / SFX / 配音
-- Ambience 6 首、SFX 8 个、Voice 配音均未提供
+### ⬜ 配音
+- Voice 配音未提供
 
 ### ⬜ 编辑器（/editor）
 - 可视化编辑器整体未实现

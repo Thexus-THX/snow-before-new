@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import SpecialSceneShell from "./SpecialSceneShell";
 import type { HistoricalEventSceneProps } from "./sceneRendererTypes";
+import { audioManager } from "@/audio/AudioManager";
 
 /**
  * HistoricalEventScene — 历史事件展示页
@@ -20,6 +22,11 @@ import type { HistoricalEventSceneProps } from "./sceneRendererTypes";
 export default function HistoricalEventScene(props: HistoricalEventSceneProps) {
   const { scene, onAdvance } = props;
   const evt = scene.content?.historicalEvent;
+
+  // 进入时播放无线电静电 SFX（素材缺失则 no-op）
+  useEffect(() => {
+    audioManager.playSfx("sfx.radio_static_short");
+  }, [scene.id]);
 
   const canAdvance = !!scene.nextSceneId;
 

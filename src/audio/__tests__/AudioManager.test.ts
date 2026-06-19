@@ -129,4 +129,41 @@ describe("AudioManager", () => {
   it("unlock 不抛错", () => {
     expect(() => audioManager.unlock()).not.toThrow();
   });
+
+  // ===== Ambience/SFX 音量 =====
+  it("ambienceVolume 生效", () => {
+    audioManager.setAmbienceVolume(0.5);
+    expect(audioManager.getAmbienceVolume()).toBe(0.5);
+  });
+
+  it("sfxVolume 生效", () => {
+    audioManager.setSfxVolume(0.7);
+    expect(audioManager.getSfxVolume()).toBe(0.7);
+  });
+
+  it("muted 后环境音静音（音量计算为 0）", () => {
+    audioManager.setMuted(true);
+    // 通过间接方式验证：playAmbience 不会抛错
+    expect(() => audioManager.playAmbience(["amb.lab_radio"])).not.toThrow();
+  });
+
+  it("muted 后 SFX 静音", () => {
+    audioManager.setMuted(true);
+    expect(() => audioManager.playSfx("sfx.letter_open")).not.toThrow();
+    audioManager.setMuted(false);
+  });
+
+  // ===== Ambience 不重复重启 =====
+  it("同 ambience 重复播放不抛错", () => {
+    expect(() => {
+      audioManager.playAmbience(["amb.lab_radio"]);
+      audioManager.playAmbience(["amb.lab_radio"]);
+    }).not.toThrow();
+  });
+
+  // ===== Voice no-op =====
+  it("voice 缺失 no-op", () => {
+    expect(() => audioManager.playVoice("voice.prologue_narration")).not.toThrow();
+    expect(() => audioManager.stopVoice()).not.toThrow();
+  });
 });

@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import SpecialSceneShell from "./SpecialSceneShell";
 import type { LetterSceneProps } from "./sceneRendererTypes";
+import { audioManager } from "@/audio/AudioManager";
 
 /**
  * LetterScene — 家书阅读场景
@@ -24,10 +25,16 @@ export default function LetterScene(props: LetterSceneProps) {
 
   // 页码（从 0 开始）
   const [currentPage, setCurrentPage] = useState(0);
+  const openedRef = useRef(false);
 
-  // 进入新信件时页码重置
+  // 进入新信件时页码重置 + 播放拆信 SFX
   useEffect(() => {
     setCurrentPage(0);
+    if (!openedRef.current) {
+      openedRef.current = true;
+      audioManager.playSfx("sfx.letter_open");
+    }
+    return () => { openedRef.current = false; };
   }, [scene.id]);
 
   const canAdvance = !!scene.nextSceneId;
@@ -36,12 +43,14 @@ export default function LetterScene(props: LetterSceneProps) {
     if (!letter) return;
     if (currentPage < letter.pages.length - 1) {
       setCurrentPage((p) => p + 1);
+      audioManager.playSfx("sfx.page_turn");
     }
   }, [letter, currentPage]);
 
   const goPrev = useCallback(() => {
     if (currentPage > 0) {
       setCurrentPage((p) => p - 1);
+      audioManager.playSfx("sfx.page_turn");
     }
   }, [currentPage]);
 

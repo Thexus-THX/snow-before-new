@@ -193,27 +193,31 @@ export const BGM_CATALOG: BgmDefinition[] = [
 ];
 
 // ============================================================
-// Ambience / SFX / Voice（均未提供）
+// Ambience / SFX / Voice
 // ============================================================
 
+const AMB_BASE = "/assets/audio/ambience";
+
 export const OTHER_CATALOG: AudioTrack[] = [
-  // Ambience
+  // Ambience（4 缺失，2 存在）
   { id: "amb.station_winter", type: "ambience", path: null, loop: true, defaultVolume: 0.35, enabled: false, missing: true, description: "冬日车站环境音（待提供）" },
-  { id: "amb.lab_radio", type: "ambience", path: null, loop: true, defaultVolume: 0.35, enabled: false, missing: true, description: "实验室无线电环境音（待提供）" },
+  { id: "amb.lab_radio", type: "ambience", path: `${AMB_BASE}/amb_lab_radio_loop.ogg`, loop: true, defaultVolume: 0.35, enabled: true, missing: false, description: "实验室无线电环境音" },
   { id: "amb.factory_machines", type: "ambience", path: null, loop: true, defaultVolume: 0.35, enabled: false, missing: true, description: "工厂机器环境音（待提供）" },
-  { id: "amb.snowfield_wind", type: "ambience", path: null, loop: true, defaultVolume: 0.35, enabled: false, missing: true, description: "雪地风声环境音（待提供）" },
+  { id: "amb.snowfield_wind", type: "ambience", path: `${AMB_BASE}/amb_snowfield_wind_loop.ogg`, loop: true, defaultVolume: 0.40, enabled: true, missing: false, description: "雪地风声环境音" },
   { id: "amb.dorm_quiet", type: "ambience", path: null, loop: true, defaultVolume: 0.30, enabled: false, missing: true, description: "宿舍安静环境音（待提供）" },
   { id: "amb.archive_room", type: "ambience", path: null, loop: true, defaultVolume: 0.30, enabled: false, missing: true, description: "档案室环境音（待提供）" },
-  // SFX
+
+  // SFX（5 缺失，3 存在，文件在 ambience/ 目录下）
   { id: "sfx.ui_click", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "UI 点击音效（待提供）" },
   { id: "sfx.choice_confirm", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "关键选择确认音效（待提供）" },
   { id: "sfx.choice_locked", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "锁定选项音效（待提供）" },
-  { id: "sfx.letter_open", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "拆信音效（待提供）" },
-  { id: "sfx.page_turn", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "翻页音效（待提供）" },
+  { id: "sfx.letter_open", type: "sfx", path: `${AMB_BASE}/sfx_letter_open.ogg`, loop: false, defaultVolume: 0.65, enabled: true, missing: false, description: "拆信音效" },
+  { id: "sfx.page_turn", type: "sfx", path: `${AMB_BASE}/sfx_page_turn.ogg`, loop: false, defaultVolume: 0.55, enabled: true, missing: false, description: "翻页音效" },
   { id: "sfx.radio_static_short", type: "sfx", path: null, loop: false, defaultVolume: 0.50, enabled: false, missing: true, description: "短无线电静电音效（待提供）" },
-  { id: "sfx.train_whistle_distant", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "远处火车汽笛（待提供）" },
+  { id: "sfx.train_whistle_distant", type: "sfx", path: `${AMB_BASE}/sfx_train_whistle_distant.ogg`, loop: false, defaultVolume: 0.60, enabled: true, missing: false, description: "远处火车汽笛" },
   { id: "sfx.stamp_paper", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "盖章音效（待提供）" },
-  // Voice
+
+  // Voice（预留）
   { id: "voice.prologue_narration", type: "voice", path: null, loop: false, defaultVolume: 0.80, enabled: false, missing: true, description: "序章旁白配音（预留）" },
 ];
 
