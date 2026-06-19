@@ -59,10 +59,10 @@ export default function ChoicePanel({
             onClick={() => onConfirm(pendingConfirm)}
             style={{
               padding: "12px 48px",
-              background: "var(--color-choice-critical)",
+              background: "url(/assets/ui/ui_choice_critical_transparent.png) center/100% 100% no-repeat",
               color: "var(--color-text-primary)",
               fontSize: "var(--font-size-choice)",
-              border: "1px solid #5a3020",
+              border: "none",
               borderRadius: "var(--border-radius-md)",
               cursor: "pointer",
             }}
@@ -73,10 +73,10 @@ export default function ChoicePanel({
             onClick={onCancelConfirm}
             style={{
               padding: "12px 48px",
-              background: "var(--color-choice-bg)",
+              background: "url(/assets/ui/ui_choice_normal_transparent.png) center/100% 100% no-repeat",
               color: "var(--color-text-secondary)",
               fontSize: "var(--font-size-choice)",
-              border: "1px solid var(--color-choice-border)",
+              border: "none",
               borderRadius: "var(--border-radius-md)",
               cursor: "pointer",
             }}
@@ -115,38 +115,33 @@ export default function ChoicePanel({
             key={choice.id}
             onClick={isLocked ? undefined : () => onSelect(choice)}
             disabled={isLocked}
+            className={`choice-btn${choice.isCritical ? " choice-btn-critical" : ""}${isLocked ? " choice-btn-locked" : ""}`}
             style={{
               width: "100%",
               padding: "10px 24px",
               background: isLocked
-                ? "rgba(30, 25, 18, 0.5)"
+                ? "url(/assets/ui/ui_choice_locked_transparent.png) center/100% 100% no-repeat"
                 : choice.isCritical
-                  ? "var(--color-choice-critical)"
-                  : "var(--color-choice-bg)",
+                  ? "url(/assets/ui/ui_choice_critical_transparent.png) center/100% 100% no-repeat"
+                  : "url(/assets/ui/ui_choice_normal_transparent.png) center/100% 100% no-repeat",
               color: isLocked ? "var(--color-text-dim)" : "var(--color-text-primary)",
               fontSize: "var(--font-size-choice)",
               textAlign: "left",
               lineHeight: "var(--line-height-dialogue)",
-              border: isLocked
-                ? "1px solid #2a2218"
-                : choice.isCritical
-                  ? "1px solid #5a3020"
-                  : "1px solid var(--color-choice-border)",
+              border: "none",
               borderRadius: "var(--border-radius-md)",
               cursor: isLocked ? "not-allowed" : "pointer",
               opacity: isLocked ? 0.6 : 1,
-              transition: "background var(--transition-fast)",
+              transition: "filter var(--transition-fast)",
               position: "relative" as const,
             }}
             onMouseEnter={(e) => {
               if (isLocked) return;
-              e.currentTarget.style.background = "var(--color-choice-hover)";
+              e.currentTarget.style.filter = "brightness(1.15)";
             }}
             onMouseLeave={(e) => {
               if (isLocked) return;
-              e.currentTarget.style.background = choice.isCritical
-                ? "var(--color-choice-critical)"
-                : "var(--color-choice-bg)";
+              e.currentTarget.style.filter = "none";
             }}
           >
             {choice.text}

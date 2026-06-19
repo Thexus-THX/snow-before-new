@@ -241,6 +241,14 @@
 - 设置页底部："阶段 1 · 项目骨架"→"雪落之前 · 设置"
 - 对话面板："点击跳过"→"点击显示全文"
 
+#### UI 素材全面接入（2026-06-19）
+- **Panel 素材**：DialoguePanel/HistoryPanel/StatusBar/SeasonJournalScene/HistoricalEventScene 全部接入对应 `_transparent.png` 素材替代纯色背景
+- **按钮素材**：TitlePage 按钮接入 `ui_button_primary/secondary_transparent.png`，ChoicePanel 选项按钮接入 `ui_choice_normal/critical/locked_transparent.png`，hover 改为 `filter: brightness()` 效果
+- **Icon 素材**：履历按钮接入 `ui_icon_history.png`，设置按钮接入 `ui_icon_settings.png`
+- **角色立绘**：全部 `.webp` 路径替换为 `_transparent.png` RGBA 透明版本
+- 执行 `remove_fake_transparency.py` 处理 37 个素材文件（25 UI + 12 角色立绘）
+- 严格遵循 `docs/UI_ASSET_MAPPING.md` / `LAYOUT_SYSTEM.md` / `COMPONENT_SYSTEM.md` 规范
+
 #### 新增测试
 - `src/content/__tests__/gameDataIntegrity.test.ts`：15 个测试用例
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证

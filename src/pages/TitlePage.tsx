@@ -483,9 +483,9 @@ export default function TitlePage() {
             style={{
               padding: "18px 72px",
               fontSize: 22,
-              border: "1px solid #5a5040",
+              border: "none",
               borderRadius: "var(--border-radius-md)",
-              background: "rgba(42, 34, 24, 0.55)",
+              background: "url(/assets/ui/ui_button_primary_transparent.png) center/100% 100% no-repeat",
               color: "var(--color-text-primary)",
               cursor: "pointer",
               letterSpacing: 10,
@@ -496,7 +496,7 @@ export default function TitlePage() {
             开 始 新 游 戏
           </button>
 
-          {/* 继续游戏 */}
+          {/* 继续旅程 */}
           <button
             onClick={saveExists ? handleContinue : undefined}
             disabled={!saveExists}
@@ -504,9 +504,11 @@ export default function TitlePage() {
             style={{
               padding: "18px 72px",
               fontSize: 22,
-              border: `1px solid ${saveExists ? "#5a5040" : "#3a3028"}`,
+              border: "none",
               borderRadius: "var(--border-radius-md)",
-              background: saveExists ? "rgba(42, 34, 24, 0.55)" : "rgba(28, 22, 16, 0.35)",
+              background: saveExists
+                ? "url(/assets/ui/ui_button_secondary_transparent.png) center/100% 100% no-repeat"
+                : "rgba(28, 22, 16, 0.35)",
               color: saveExists ? "var(--color-text-primary)" : "var(--color-text-dim)",
               cursor: saveExists ? "pointer" : "not-allowed",
               letterSpacing: 10,
@@ -525,16 +527,21 @@ export default function TitlePage() {
             style={{
               padding: "14px 60px",
               fontSize: 18,
-              border: "1px solid #4a4035",
+              border: "none",
               borderRadius: "var(--border-radius-md)",
-              background: "rgba(32, 28, 20, 0.45)",
+              background: "url(/assets/ui/ui_button_secondary_transparent.png) center/100% 100% no-repeat",
               color: "var(--color-text-secondary)",
               cursor: "pointer",
               letterSpacing: 8,
               fontFamily: "var(--font-body)",
               minWidth: 240,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
             }}
           >
+            <img src="/assets/ui/ui_icon_settings.png" alt="" style={{ width: 20, height: 20, opacity: 0.7 }} />
             设　　置
           </button>
         </div>

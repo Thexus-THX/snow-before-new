@@ -73,16 +73,14 @@ textarea {
 
 /* ---- 标题页按钮 hover 发光 ---- */
 .title-btn {
-  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+  transition: filter 150ms ease, box-shadow 150ms ease, opacity 150ms ease;
 }
 .title-btn:hover:not(.title-btn-disabled) {
-  background: rgba(60, 48, 32, 0.75) !important;
-  border-color: var(--color-text-amber) !important;
-  box-shadow: 0 0 16px rgba(212, 168, 67, 0.15);
+  filter: brightness(1.25);
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.2);
 }
 .title-btn-disabled:hover {
-  background: inherit !important;
-  border-color: inherit !important;
+  filter: none !important;
   box-shadow: none !important;
 }
 

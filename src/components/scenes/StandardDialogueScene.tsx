@@ -126,7 +126,7 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
           <button
             onClick={onToggleHistory}
             style={{
-              padding: "0 24px",
+              padding: "0 20px",
               background: "rgba(10,8,6,0.92)",
               borderBottom: "2px solid #3a2818",
               borderLeft: "1px solid #3a2818",
@@ -135,6 +135,9 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
               cursor: "pointer",
               letterSpacing: 2,
               flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--color-text-amber)";
@@ -143,6 +146,7 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
               e.currentTarget.style.color = "var(--color-text-secondary)";
             }}
           >
+            <img src="/assets/ui/ui_icon_history.png" alt="" style={{ width: 18, height: 18, opacity: 0.7 }} />
             履历
           </button>
         </div>

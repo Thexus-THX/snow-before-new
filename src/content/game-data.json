@@ -19,11 +19,11 @@
       "fullName": "沈怀远",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_shen_huaiyuan_neutral.webp",
-        "focused": "/assets/characters/char_shen_huaiyuan_focused.webp",
-        "tired": "/assets/characters/char_shen_huaiyuan_tired.webp",
-        "hesitant": "/assets/characters/char_shen_huaiyuan_hesitant.webp",
-        "determined": "/assets/characters/char_shen_huaiyuan_determined.webp"
+        "neutral": "/assets/characters/.png",
+        "focused": "/assets/characters/.png",
+        "tired": "/assets/characters/.png",
+        "hesitant": "/assets/characters/.png",
+        "determined": "/assets/characters/.png"
       }
     },
     "chen": {
@@ -32,10 +32,10 @@
       "shortName": "绍衡",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_chen_shaoheng_neutral.webp",
-        "friendly": "/assets/characters/char_chen_shaoheng_friendly.webp",
-        "tense": "/assets/characters/char_chen_shaoheng_tense.webp",
-        "resolved": "/assets/characters/char_chen_shaoheng_resolved.webp"
+        "neutral": "/assets/characters/.png",
+        "friendly": "/assets/characters/.png",
+        "tense": "/assets/characters/.png",
+        "resolved": "/assets/characters/.png"
       }
     },
     "nadya": {
@@ -44,10 +44,10 @@
       "fullName": "娜杰日达·索科洛娃",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_nadya_neutral.webp",
-        "warm": "/assets/characters/char_nadya_warm.webp",
-        "concerned": "/assets/characters/char_nadya_concerned.webp",
-        "farewell": "/assets/characters/char_nadya_farewell.webp"
+        "neutral": "/assets/characters/.png",
+        "warm": "/assets/characters/.png",
+        "concerned": "/assets/characters/.png",
+        "farewell": "/assets/characters/.png"
       }
     },
     "belov": {
@@ -56,9 +56,9 @@
       "fullName": "亚历山大·别洛夫",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_belov_neutral.webp",
-        "approving": "/assets/characters/char_belov_approving.webp",
-        "disappointed": "/assets/characters/char_belov_disappointed.webp"
+        "neutral": "/assets/characters/.png",
+        "approving": "/assets/characters/.png",
+        "disappointed": "/assets/characters/.png"
       }
     },
     "ivan": {
@@ -67,9 +67,9 @@
       "fullName": "伊万·科瓦廖夫",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_ivan_neutral.webp",
-        "skeptical": "/assets/characters/char_ivan_skeptical.webp",
-        "approving": "/assets/characters/char_ivan_approving.webp"
+        "neutral": "/assets/characters/.png",
+        "skeptical": "/assets/characters/.png",
+        "approving": "/assets/characters/.png"
       }
     }
   },
@@ -506,7 +506,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "记录表里有一组数值不太对。你是先去看设备，还是和我把记录再核一遍？",
-        "portraitAsset": "/assets/characters/char_nadya_neutral.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "choices": [
         {
@@ -653,7 +653,7 @@
         "speakerName": "别洛夫",
         "textType": "dialogue",
         "text": "你做得对。数据不会撒谎，人却会。今天你选择了诚实，这在研究中比任何技巧都重要。",
-        "portraitAsset": "/assets/characters/char_belov_approving.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "nextSceneId": "d1_end"
     },
@@ -670,7 +670,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "问题比预想的复杂，但我们至少找到了原因。导师听完说明后点了点头。他说，知道何时求助，也是一种能力。",
-        "portraitAsset": "/assets/characters/char_nadya_warm.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "nextSceneId": "d1_end"
     },
@@ -885,7 +885,7 @@
         "speakerName": "伊万",
         "textType": "dialogue",
         "text": "你是个认真的年轻人。工厂里许多人只盯着产量，你却还记得机器将被谁使用。我尊重这一点。",
-        "portraitAsset": "/assets/characters/char_ivan_approving.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "nextSceneId": "d2_end"
     },
@@ -902,7 +902,7 @@
         "speakerName": "伊万",
         "textType": "dialogue",
         "text": "你比很多工程师都聪明。不是因为你找到了完美办法，而是因为你知道什么时候不能只追求完美。",
-        "portraitAsset": "/assets/characters/char_ivan_approving.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "nextSceneId": "d2_end"
     },
@@ -1169,7 +1169,7 @@
         "speakerName": "陈绍衡",
         "textType": "dialogue",
         "text": "你家里来信了？……怀远，你有没有想过，我们在这里学的这些，最后到底是为了什么？",
-        "portraitAsset": "/assets/characters/char_chen_shaoheng_friendly.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "nextSceneId": "d3_end"
     },
@@ -1308,7 +1308,7 @@
         "speakerName": "别洛夫",
         "textType": "dialogue",
         "text": "怀远，你在测试中表现出的判断力，已经超出了我对一个学生的期待。我想邀请你加入一个长期研究项目。它需要数年时间，但成果会影响未来的通信技术。",
-        "portraitAsset": "/assets/characters/char_belov_approving.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "choices": [
         {
@@ -1440,7 +1440,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "展示就在明天。技术讲解还来得及再改一遍，设备演示也可以再排一次。你想先顾哪边？",
-        "portraitAsset": "/assets/characters/char_nadya_warm.webp"
+        "portraitAsset": "/assets/characters/.png"
       },
       "choices": [
         {
