@@ -71,6 +71,21 @@ textarea {
   color: inherit;
 }
 
+/* ---- 标题页按钮 hover 发光 ---- */
+.title-btn {
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+.title-btn:hover:not(.title-btn-disabled) {
+  background: rgba(60, 48, 32, 0.75) !important;
+  border-color: var(--color-text-amber) !important;
+  box-shadow: 0 0 16px rgba(212, 168, 67, 0.15);
+}
+.title-btn-disabled:hover {
+  background: inherit !important;
+  border-color: inherit !important;
+  box-shadow: none !important;
+}
+
 /* ---- 推进提示脉冲动画 ---- */
 @keyframes pulse {
   0%, 100% { opacity: 0.3; }

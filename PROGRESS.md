@@ -226,8 +226,10 @@
 #### Viewport 缩放修复
 - `GameViewport` 改用 `translate(offsetX, offsetY) scale()` 实现窗口缩放时内容始终居中完整展示
 - `TitlePage` 背景图 `cover` → `100% 100%` 拉伸适配，修复烟雾/灯光 Canvas 与背景图偏移
+- `SettingsPage` 包裹 `GameViewport`，修复设置页面不随窗口缩放问题
 - 移除创作说明/时间说明/旅程回顾页中与 `SpecialSceneShell` 底部提示重复的"点击继续"
 - 创作说明页字体放大（标题 42px，正文 24px）
+- 标题页按钮 hover 改用 CSS `:hover` 替代 JS `onMouseEnter`，解决响应延迟，增加发光效果
 
 #### 新增测试
 - `src/content/__tests__/gameDataIntegrity.test.ts`：15 个测试用例

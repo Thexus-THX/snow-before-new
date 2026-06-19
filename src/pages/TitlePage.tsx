@@ -479,6 +479,7 @@ export default function TitlePage() {
           {/* 开始新游戏 */}
           <button
             onClick={handleNewGame}
+            className="title-btn"
             style={{
               padding: "18px 72px",
               fontSize: 22,
@@ -489,16 +490,7 @@ export default function TitlePage() {
               cursor: "pointer",
               letterSpacing: 10,
               fontFamily: "var(--font-body)",
-              transition: "background var(--transition-fast), border-color var(--transition-fast)",
               minWidth: 300,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(60, 48, 32, 0.75)";
-              e.currentTarget.style.borderColor = "var(--color-text-amber)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(42, 34, 24, 0.55)";
-              e.currentTarget.style.borderColor = "#5a5040";
             }}
           >
             开 始 新 游 戏
@@ -508,6 +500,7 @@ export default function TitlePage() {
           <button
             onClick={saveExists ? handleContinue : undefined}
             disabled={!saveExists}
+            className={`title-btn${!saveExists ? " title-btn-disabled" : ""}`}
             style={{
               padding: "18px 72px",
               fontSize: 22,
@@ -518,19 +511,8 @@ export default function TitlePage() {
               cursor: saveExists ? "pointer" : "not-allowed",
               letterSpacing: 10,
               fontFamily: "var(--font-body)",
-              transition: "background var(--transition-fast), border-color var(--transition-fast)",
               minWidth: 300,
               opacity: saveExists ? 1 : 0.5,
-            }}
-            onMouseEnter={(e) => {
-              if (!saveExists) return;
-              e.currentTarget.style.background = "rgba(60, 48, 32, 0.75)";
-              e.currentTarget.style.borderColor = "var(--color-text-amber)";
-            }}
-            onMouseLeave={(e) => {
-              if (!saveExists) return;
-              e.currentTarget.style.background = "rgba(42, 34, 24, 0.55)";
-              e.currentTarget.style.borderColor = "#5a5040";
             }}
           >
             继 续 游 戏
@@ -539,6 +521,7 @@ export default function TitlePage() {
           {/* 设置 */}
           <button
             onClick={handleSettings}
+            className="title-btn"
             style={{
               padding: "14px 60px",
               fontSize: 18,
@@ -549,16 +532,7 @@ export default function TitlePage() {
               cursor: "pointer",
               letterSpacing: 8,
               fontFamily: "var(--font-body)",
-              transition: "background var(--transition-fast), border-color var(--transition-fast)",
               minWidth: 240,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(48, 40, 28, 0.6)";
-              e.currentTarget.style.borderColor = "var(--color-text-secondary)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(32, 28, 20, 0.45)";
-              e.currentTarget.style.borderColor = "#4a4035";
             }}
           >
             设　　置

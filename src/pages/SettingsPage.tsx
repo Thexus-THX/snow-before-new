@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import GameViewport from "@/components/common/GameViewport";
 import { useSettingsStore } from "@/app/stores/settingsStore";
 import { getTitleBgm } from "@/engine/audioManager";
 
@@ -39,6 +40,7 @@ export default function SettingsPage() {
   };
 
   return (
+    <GameViewport>
     <div
       style={{
         width: 1920,
@@ -185,5 +187,6 @@ export default function SettingsPage() {
         阶段 1 · 项目骨架
       </p>
     </div>
+    </GameViewport>
   );
 }
