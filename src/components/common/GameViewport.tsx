@@ -8,6 +8,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
  * 2. 计算 scale = min(windowW/1920, windowH/1080)
  * 3. 通过 CSS transform: scale() 渲染子元素
  * 4. 子元素使用 1920×1080 逻辑坐标编写
+ * 5. Debug 模式时通过 data-scale 属性暴露缩放比例
  */
 interface GameViewportProps {
   children?: ReactNode;
@@ -37,6 +38,7 @@ export default function GameViewport({ children }: GameViewportProps) {
     <div
       ref={containerRef}
       className="game-viewport"
+      data-scale={`${(scale * 100).toFixed(1)}%`}
       style={{
         transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`,
       }}

@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-19（STEP 01 CSS UI 可用化修复）
+> 最后更新：2026-06-19（STEP 02 UI Skin Layer & Layout Hardening）
 
 ---
 
@@ -339,6 +339,42 @@
 - 未新增任何素材文件
 - 未修改剧情 JSON
 - 未修改音频系统
+
+### ✅ STEP 02 UI Skin Layer & Layout Hardening（2026-06-19）
+
+#### UI Design Tokens 整理
+- `src/constants/ui.ts` 扩展为完整 Design Tokens：
+  - `UI_Z_INDEX`：background/scene/panel/overlay/modal/debug 六层
+  - `UI_SPACING`：xs/sm/md/lg/xl/xxl/panelH/panelV/buttonGap
+  - `UI_BORDER_RADIUS`：none/sm/md/lg
+  - `UI_FONT_SIZE`：tiny/small/status/hint/choice/dialogue/button/title
+  - `UI_PANEL_OPACITY`：dialogue/choice/button/buttonHover/locked
+  - `UI_BUTTON_STATE`：normalBg/hoverBg/criticalBg/disabledBg + 边框色
+  - `UI_SAFE_AREA`：top/bottom/h
+  - `NINE_SLICE_VARS`：borderImage/borderSlice/borderWidth/panelTexture
+
+#### CSS 皮肤强化
+- `.dialoguePanel`：渐变背景 + 扫描线伪元素 + 纸张噪点 radial-gradient
+- `.choicePanel`：独立 CSS 类（1920×216），渐变背景 + 扫描线
+- `.choiceButton`：固定 height 72px，档案纸质感背景，hover 左侧圆点指示器
+- `.primaryButton`：金属质感渐变 + 顶部高光线 + 内阴影
+- `.secondaryButton`：半透明磨砂质感
+- 视觉方向：档案纸/旧机构文件/工业金属边框/低饱和克制风格
+
+#### 九宫格接口
+- CSS 变量：`--ui-border-image` / `--ui-border-slice` / `--ui-border-width` / `--ui-panel-texture`
+- `.hasNineSliceFrame` 类：无素材时降级为普通边框
+- `.hasPaperTexture` 类：`::after` 伪元素承载纹理
+
+#### Debug 增强
+- `GameViewport` 通过 `data-scale` 暴露缩放比例
+- `main.tsx` 入口处根据 URL/localStorage 注入 `.uiDebug` 到 `<html>`
+- Debug 标签：ChoicePanel 尺寸、ChoiceButton 尺寸、GameViewport scale
+- hover 时按钮 outline 加粗
+
+#### 测试
+- 16 文件 / 157 测试全部通过
+- 构建 1.50s
 
 ## 待实现
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证

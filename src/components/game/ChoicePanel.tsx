@@ -26,21 +26,8 @@ export default function ChoicePanel({
   // 如果正在等待二次确认，显示确认对话框
   if (pendingConfirm) {
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "var(--dialogue-height)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 64px",
-          background: "var(--color-bg-dialogue)",
-          borderTop: "1px solid #3a2a18",
-          gap: 24,
-          flexShrink: 0,
-        }}
-      >
+      <div className="choicePanel" style={{ alignItems: "center", gap: 24 }}>
+
         {/* 确认提示文案 */}
         <p
           style={{
@@ -90,22 +77,7 @@ export default function ChoicePanel({
 
   // 正常选项列表
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "var(--dialogue-height)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        padding: "0 48px",
-        background: "var(--color-bg-dialogue)",
-        borderTop: "1px solid #3a2a18",
-        gap: 10,
-        overflowY: "auto",
-        flexShrink: 0,
-      }}
-    >
+    <div className="choicePanel">
       {choices.map((resolved) => {
         const { choice, availability, lockedHint } = resolved;
         const isLocked = availability === "locked";

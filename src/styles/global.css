@@ -85,7 +85,7 @@ textarea {
 }
 
 /* ============================================================ */
-/* STEP 01：核心 UI 组件类（CSS 控制尺寸，不依赖图片）           */
+/* STEP 02：核心 UI 组件类（档案纸质感 + 工业金属边框）          */
 /* ============================================================ */
 
 /* ---- 通用面板 ---- */
@@ -93,6 +93,83 @@ textarea {
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* ---- 九宫格 / 纹理预留 CSS 变量 ---- */
+:root {
+  --ui-border-image: none;
+  --ui-border-slice: 24;
+  --ui-border-width: 24px;
+  --ui-panel-texture: none;
+}
+
+/* 九宫格边框类（默认不启用） */
+.hasNineSliceFrame {
+  border-style: solid;
+  border-width: var(--ui-border-width);
+  border-image-source: var(--ui-border-image);
+  border-image-slice: var(--ui-border-slice);
+  border-image-width: var(--ui-border-width);
+  border-image-repeat: stretch;
+  border-image-outset: 0;
+}
+/* 无素材时降级为普通边框 */
+.hasNineSliceFrame:not([style*="border-image-source"]) {
+  border-image-source: none;
+}
+
+/* 纸张纹理类（默认不启用） */
+.hasPaperTexture {
+  position: relative;
+}
+.hasPaperTexture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: var(--ui-panel-texture);
+  z-index: 0;
+}
+
+/* ---- 选择面板 ---- */
+.choicePanel {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1920px;
+  height: 216px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 48px;
+  gap: 10px;
+  flex-shrink: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(38, 34, 28, 0.96),
+      rgba(20, 18, 15, 0.98)
+    );
+  border-top: 2px solid rgba(168, 138, 72, 0.55);
+  box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.4);
+}
+.choicePanel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.04) 0,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 4px
+    );
 }
 
 /* ---- 对话框面板 ---- */
@@ -105,24 +182,40 @@ textarea {
   box-sizing: border-box;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(42, 38, 30, 0.94), rgba(22, 20, 17, 0.98));
-  border-top: 2px solid rgba(188, 151, 82, 0.75);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.45);
+    linear-gradient(180deg,
+      rgba(42, 38, 30, 0.94),
+      rgba(22, 20, 17, 0.98)
+    );
+  border-top: 2px solid rgba(168, 138, 72, 0.55);
+  box-shadow:
+    0 -8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 .dialoguePanel::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0.1;
   background-image:
     repeating-linear-gradient(
       0deg,
-      rgba(255, 255, 255, 0.05) 0,
-      rgba(255, 255, 255, 0.05) 1px,
+      rgba(255, 255, 255, 0.04) 0,
+      rgba(255, 255, 255, 0.04) 1px,
       transparent 1px,
       transparent 4px
     );
+}
+/* 纸张噪点叠加 */
+.dialoguePanel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255,255,240,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(200,180,140,0.04) 0%, transparent 40%);
 }
 
 .dialoguePanel__name {
@@ -137,7 +230,7 @@ textarea {
   font-size: 24px;
   line-height: 1;
   color: #e7d3a2;
-  border-left: 4px solid rgba(188, 151, 82, 0.9);
+  border-left: 4px solid rgba(168, 138, 72, 0.85);
 }
 
 .dialoguePanel__text {
@@ -146,7 +239,7 @@ textarea {
   right: 96px;
   top: 82px;
   bottom: 42px;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1.55;
   color: #f1ead7;
   overflow: hidden;
@@ -156,29 +249,57 @@ textarea {
   position: absolute;
   right: 96px;
   bottom: 20px;
-  font-size: 18px;
-  color: rgba(241, 234, 215, 0.66);
+  font-size: 16px;
+  color: rgba(241, 234, 215, 0.55);
 }
 
 /* ---- 选择按钮 ---- */
 .choiceButton {
   width: 100%;
-  min-height: 72px;
+  height: 72px;
   padding: 0 48px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
-  border: 1px solid rgba(188, 151, 82, 0.52);
-  background: rgba(35, 31, 25, 0.88);
+  flex-shrink: 0;
+  border: 1px solid rgba(168, 138, 72, 0.42);
+  background:
+    linear-gradient(180deg,
+      rgba(42, 36, 28, 0.92),
+      rgba(30, 26, 20, 0.94)
+    );
   color: #f1ead7;
-  font-size: var(--font-size-choice);
+  font-size: 22px;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: background 150ms ease, border-color 150ms ease;
+  transition: background 150ms ease, border-color 150ms ease, transform 80ms ease;
+}
+.choiceButton::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: rgba(168, 138, 72, 0.5);
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+.choiceButton:hover::before {
+  opacity: 1;
 }
 .choiceButton:hover:not(:disabled) {
-  background: rgba(70, 57, 38, 0.95);
-  border-color: rgba(219, 179, 98, 0.9);
+  background:
+    linear-gradient(180deg,
+      rgba(65, 52, 34, 0.96),
+      rgba(45, 36, 24, 0.96)
+    );
+  border-color: rgba(200, 165, 80, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .choiceButton:active:not(:disabled) {
   transform: translateY(1px);
@@ -196,19 +317,39 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(188, 151, 82, 0.75);
+  border: 1px solid rgba(168, 138, 72, 0.6);
   cursor: pointer;
   user-select: none;
-  background: linear-gradient(180deg, #7d5c2f, #3e2d1d);
+  background:
+    linear-gradient(180deg,
+      rgba(110, 82, 45, 0.92),
+      rgba(55, 40, 25, 0.96)
+    );
   color: #f7efd9;
   font-size: 22px;
   letter-spacing: 10px;
   font-family: var(--font-body);
-  transition: filter 150ms ease, box-shadow 150ms ease;
+  transition: filter 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.primaryButton::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 4px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
 }
 .primaryButton:hover:not(:disabled) {
   filter: brightness(1.12);
-  box-shadow: 0 0 20px rgba(212, 168, 67, 0.2);
+  border-color: rgba(200, 165, 80, 0.8);
+  box-shadow:
+    0 2px 16px rgba(180, 140, 60, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .primaryButton:disabled {
   opacity: 0.45;
@@ -223,58 +364,152 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(188, 151, 82, 0.45);
+  border: 1px solid rgba(168, 138, 72, 0.35);
   cursor: pointer;
   user-select: none;
-  background: rgba(232, 218, 184, 0.12);
+  background:
+    linear-gradient(180deg,
+      rgba(50, 44, 34, 0.55),
+      rgba(28, 24, 18, 0.65)
+    );
   color: #e9ddbd;
   font-size: 22px;
   letter-spacing: 10px;
   font-family: var(--font-body);
-  transition: filter 150ms ease, box-shadow 150ms ease;
+  transition: filter 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 .secondaryButton:hover:not(:disabled) {
   filter: brightness(1.15);
-  box-shadow: 0 0 16px rgba(212, 168, 67, 0.12);
+  border-color: rgba(180, 145, 70, 0.55);
+  box-shadow:
+    0 2px 12px rgba(160, 120, 50, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 .secondaryButton:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
 
-/* ---- 九宫格预留（未来接入素材时启用） ---- */
-.uiPanel--nineSlice {
-  /* border-image-source: var(--ui-border-image); */
-  /* border-image-slice: 24 fill; */
-  /* border-image-width: 24px; */
-  /* border-image-repeat: stretch; */
+/* ============================================================ */
+/* UI Debug 模式（增强版）                                       */
+/* ============================================================ */
+
+/* Debug 容器 */
+.uiDebug .game-viewport::after {
+  content: "GameViewport scale: " attr(data-scale);
+  position: fixed;
+  right: 8px;
+  top: 8px;
+  font-size: 12px;
+  color: rgba(80, 200, 255, 0.9);
+  background: rgba(0, 0, 0, 0.75);
+  padding: 4px 8px;
+  border-radius: 2px;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: monospace;
 }
 
-/* ============================================================ */
-/* UI Debug 模式                                                */
-/* ============================================================ */
 .uiDebug .dialoguePanel {
   outline: 2px solid rgba(255, 80, 80, 0.7);
 }
-.uiDebug .dialoguePanel::after {
+.uiDebug .dialoguePanel::before {
   content: "DialoguePanel 1920×216";
   position: absolute;
   left: 4px;
   top: 4px;
   font-size: 12px;
   color: rgba(255, 80, 80, 0.9);
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   padding: 2px 6px;
   border-radius: 2px;
   z-index: 999;
   pointer-events: none;
+  font-family: monospace;
+  opacity: 1 !important;
+  background-image: none !important;
 }
+
+.uiDebug .choicePanel {
+  outline: 2px solid rgba(255, 200, 80, 0.7);
+}
+.uiDebug .choicePanel::after {
+  content: "ChoicePanel 1920×216";
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  font-size: 12px;
+  color: rgba(255, 200, 80, 0.9);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 2px;
+  z-index: 999;
+  pointer-events: none;
+  font-family: monospace;
+}
+
 .uiDebug .choiceButton {
   outline: 1px solid rgba(80, 255, 80, 0.6);
 }
-.uiDebug .primaryButton,
+.uiDebug .choiceButton:hover {
+  outline: 2px solid rgba(80, 255, 80, 0.9);
+}
+.uiDebug .choiceButton::after {
+  content: "Choice 1920×72";
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 11px;
+  color: rgba(80, 255, 80, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1px 4px;
+  border-radius: 2px;
+  z-index: 999;
+  pointer-events: none;
+  font-family: monospace;
+}
+
+.uiDebug .primaryButton {
+  outline: 1px solid rgba(80, 160, 255, 0.6);
+}
+.uiDebug .primaryButton:hover {
+  outline: 2px solid rgba(80, 160, 255, 0.9);
+}
+.uiDebug .primaryButton::after {
+  content: "Primary 300×64";
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-size: 10px;
+  color: rgba(80, 160, 255, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1px 3px;
+  border-radius: 2px;
+  z-index: 999;
+  pointer-events: none;
+  font-family: monospace;
+}
+
 .uiDebug .secondaryButton {
   outline: 1px solid rgba(80, 160, 255, 0.6);
+}
+.uiDebug .secondaryButton:hover {
+  outline: 2px solid rgba(80, 160, 255, 0.9);
+}
+.uiDebug .secondaryButton::after {
+  content: "Secondary 300×64";
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-size: 10px;
+  color: rgba(80, 160, 255, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1px 3px;
+  border-radius: 2px;
+  z-index: 999;
+  pointer-events: none;
+  font-family: monospace;
 }
 
 /* ---- 推进提示脉冲动画 ---- */
