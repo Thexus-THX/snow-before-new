@@ -5,7 +5,7 @@ import { useGameStore } from "@/app/stores/gameStore";
 import { validateGameData } from "@/schemas/gameSchema";
 import { hasValidSave } from "@/engine/saveManager";
 import { buildHistoryEntryFromScene } from "@/engine/sceneHistory";
-import { stopTitleBgm } from "@/engine/audioManager";
+import { destroyTitleBgm } from "@/engine/audioManager";
 import type { GameData, ChoiceDefinition, HistoryEntry, ResolvedChoice } from "@/schemas/types";
 import gameDataRaw from "@/content/game-data.json";
 
@@ -41,8 +41,8 @@ export default function GamePage() {
     // 防止 StrictMode 双重初始化
     if (initializedRef.current) return;
 
-    // 进入游戏时停止标题 BGM
-    stopTitleBgm();
+    // 进入游戏时销毁标题 BGM 实例
+    destroyTitleBgm();
 
     try {
       const validation = validateGameData(gameDataRaw);
