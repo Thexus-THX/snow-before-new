@@ -184,7 +184,7 @@ export default function SettingsPage() {
       </button>
 
       <p style={{ fontSize: 14, color: "#6a6050", marginTop: 32 }}>
-        阶段 1 · 项目骨架
+        雪落之前 · 设置
       </p>
     </div>
     </GameViewport>

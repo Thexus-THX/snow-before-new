@@ -231,6 +231,16 @@
 - 创作说明页字体放大（标题 42px，正文 24px）
 - 标题页按钮 hover 改用 CSS `:hover` 替代 JS `onMouseEnter`，解决响应延迟，增加发光效果
 
+#### 玩家面向文本优化（v1.1）
+- 基于 `docs/snow_before_player_text_optimized_v1_1.md` 批量优化 89 处场景文本
+- 叙事口吻统一：旁白改为第三人称限知视角（沈怀远 / 他）
+- 家书三封文本润色，增强时代感与家庭书信克制语气
+- 结局段落优化，减少过度直白词汇
+- 选项确认提示优化，部分锁定提示更叙事化
+- 标题页按钮："继续游戏"→"继续旅程"，副标题更新，确认弹窗文案优化
+- 设置页底部："阶段 1 · 项目骨架"→"雪落之前 · 设置"
+- 对话面板："点击跳过"→"点击显示全文"
+
 #### 新增测试
 - `src/content/__tests__/gameDataIntegrity.test.ts`：15 个测试用例
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证

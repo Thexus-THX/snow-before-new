@@ -177,7 +177,7 @@ export default function DialoguePanel({
             fontSize: "var(--font-size-small)",
           }}
         >
-          点击跳过
+          点击显示全文
         </span>
       )}
 

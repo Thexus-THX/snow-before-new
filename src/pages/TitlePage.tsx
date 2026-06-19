@@ -340,7 +340,7 @@ export default function TitlePage() {
       bgm.pause();
       bgm.currentTime = 0;
     }
-    if (saveExists && !window.confirm("已有存档记录，开始新游戏将覆盖现有进度。确定继续吗？")) {
+    if (saveExists && !window.confirm("已有旅程记录。开始新游戏将覆盖当前进度，是否继续？")) {
       return;
     }
     setLaunchMode("new");
@@ -470,7 +470,7 @@ export default function TitlePage() {
               letterSpacing: 6,
             }}
           >
-            一个发生在风雪来临之前的故事
+            风雪到来以前，他们仍在选择归途
           </p>
 
         {/* 按钮组 */}
@@ -515,7 +515,7 @@ export default function TitlePage() {
               opacity: saveExists ? 1 : 0.5,
             }}
           >
-            继 续 游 戏
+            继 续 旅 程
           </button>
 
           {/* 设置 */}

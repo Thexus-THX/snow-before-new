@@ -101,7 +101,9 @@
     "flags": [],
     "lockedCriticalChoiceIds": [],
     "history": [],
-    "visitedSceneIds": ["note_creative_opening"]
+    "visitedSceneIds": [
+      "note_creative_opening"
+    ]
   },
   "chapters": [
     {
@@ -240,7 +242,7 @@
           "lineHeight": 1.8,
           "align": "center",
           "color": "#d4c8a8",
-          "text": "本作取材于李强等二十世纪二三十年代留苏先辈的真实经历，并在史料基础上进行了艺术化重构。你将以一名虚构留学生的身份，走过求学、抉择与归途，感受一代青年在时代洪流中的理想、牵挂与担当。\n\n游戏中的人物、事件及时间线为综合创作，不对应单一历史人物。"
+          "text": "本作取材于李强等二十世纪二三十年代留苏先辈的真实经历，并在史料基础上进行综合与艺术化重构。\n\n你将以一名虚构留学生沈怀远的身份，走过求学、抉择与归途，感受一代青年在时代洪流中的理想、牵挂与担当。\n\n游戏中的人物、事件及时间线为综合创作，不对应单一真实人物。"
         }
       ],
       "nextSceneId": "note_time_structure"
@@ -307,7 +309,7 @@
           "lineHeight": 1.8,
           "align": "center",
           "color": "#d4c8a8",
-          "text": "接下来的八个游戏日，并非连续的八天。每一日代表一个季节，也代表留学岁月中的一个重要片段。两度春夏秋冬，将共同构成这段跨越两年的求学旅程。"
+          "text": "接下来的八个游戏日，并非连续的八天。\n\n每一日代表一个季节，也代表留学岁月中一个无法绕开的片段。\n\n两度春夏秋冬，将共同构成这段跨越两年的求学与归途。"
         },
         {
           "id": "time_seasons",
@@ -340,7 +342,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "1931 年末，一列火车缓缓驶入苏联境内的一座陌生城市。车窗外是陌生的雪原，而沈怀远唯一熟悉的，是行李箱夹层里母亲塞进的那封家书。"
+        "text": "1931 年末，一列火车缓缓驶入苏联境内。车窗外是连绵的雪原与陌生的站台。沈怀远抱紧行李箱，箱底夹层里，母亲临行前塞进的那封家书，是他此刻唯一熟悉的东西。"
       },
       "nextSceneId": "prologue_choice"
     },
@@ -356,7 +358,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "月台上人来人往，搬运工推着行李车从身边经过，陌生的语言在耳边交织。你站在异国的车站里，手中攥着行李箱的把手。母亲的信还在夹层里，不远处，几个同学正在互相攀谈，而一台无线电设备被人搁在长椅上，发出微弱的电流声。"
+        "text": "月台上人声交错，搬运工推着行李车从身旁经过。陌生的俄语、煤烟与冷风一同涌来。沈怀远站在人群之间，手指扣紧行李箱把手。母亲的信还在夹层里；不远处，几名中国同学正低声交谈；长椅旁，一台无线电设备发出细微的电流声。"
       },
       "choices": [
         {
@@ -365,8 +367,12 @@
           "isCritical": false,
           "nextSceneId": "prologue_letter_result",
           "effects": {
-            "stats": { "homesickness": 1 },
-            "addFlags": ["intro_letter_first"]
+            "stats": {
+              "homesickness": 1
+            },
+            "addFlags": [
+              "intro_letter_first"
+            ]
           }
         },
         {
@@ -375,8 +381,12 @@
           "isCritical": false,
           "nextSceneId": "prologue_radio_result",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "addFlags": ["intro_radio_first"]
+            "stats": {
+              "knowledge": 1
+            },
+            "addFlags": [
+              "intro_radio_first"
+            ]
           }
         },
         {
@@ -385,8 +395,12 @@
           "isCritical": false,
           "nextSceneId": "prologue_people_result",
           "effects": {
-            "trust": { "nadya": 1 },
-            "addFlags": ["intro_people_first"]
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "intro_people_first"
+            ]
           }
         }
       ]
@@ -403,7 +417,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "你拆开信封。母亲的字迹工整而克制，只说家中一切尚可，让你安心学习。兰英在末尾附了两行字，问异乡是否常下雪。纸上的墨迹有些晕开，不知道是旅途的潮气，还是别的什么。"
+        "text": "沈怀远拆开信封。母亲的字迹工整而克制，只说家中一切尚可，要他安心求学。兰英在末尾添了两行小字，问异乡是不是常下雪。纸上的墨迹微微晕开，不知是旅途潮气，还是有人写信时停笔太久。"
       },
       "nextSceneId": "prologue_time_skip"
     },
@@ -419,7 +433,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "你走向那张长椅，俯身观察那台无线电设备。它的面板上刻着陌生的俄文标识，旋钮的阻尼感却让你觉得熟悉——和在书本上读到的一样。手指触到冰冷的金属外壳时，你忽然意识到，这将是未来数年你最亲密的伙伴。"
+        "text": "他走向长椅，俯身观察那台无线电设备。面板上的俄文标识仍显陌生，旋钮转动时的阻尼却与书中描述相合。手指触到冰冷的金属外壳时，沈怀远忽然意识到，未来数年里，他最常相伴的也许正是这种低低的电流声。"
       },
       "nextSceneId": "prologue_time_skip"
     },
@@ -435,7 +449,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "你朝那几个正在攀谈的同学走去。其中一位金发姑娘转过头来，用略带口音的中文打了声招呼。她说她叫娜佳，也是来学习无线电的。她的笑容里没有陌生感，只有一种奇怪的笃定——仿佛早已知道你们会在这里相遇。"
+        "text": "他朝那几名同学走去。人群中，一位金发姑娘转过头来，用略带口音的中文向他问好。她说自己叫娜佳，也在学习无线电。她的笑容并不热烈，却有一种令人安心的笃定，像是早已知道他们会在这片雪地相遇。"
       },
       "nextSceneId": "prologue_time_skip"
     },
@@ -449,7 +463,7 @@
       "showDialoguePanel": false,
       "content": {
         "chapterTitle": "时光流转",
-        "backgroundText": "从 1931 年到 1936 年，沈怀远在苏联度过了数年求学时光。无线电技术在他的手中逐渐从陌生的蜂鸣变成熟悉的语言。而现在，1936 年春天，一场例行实验即将开始。",
+        "backgroundText": "从 1931 年到 1936 年，沈怀远在苏联度过了数年求学时光。无线电技术在他手中，渐渐从陌生的蜂鸣变成可以辨认的语言。而现在，1936 年春天，一场例行实验即将开始。",
         "textType": "narration",
         "text": "五年后。"
       },
@@ -468,13 +482,13 @@
           "date": "民国二十年冬",
           "salutation": "阿远：",
           "pages": [
-            "你走以后，家中冷清了许多。兰英每日放学回来，总要到你房里坐一会儿，翻翻你留下的书。她问我，哥哥那边是不是也下雪。我说是，雪比咱们这里还大。\n\n你父亲近来差事还算稳当，每日早出晚归，话不多，但偶尔会提起你小时候拆收音机的事。他说那孩子从小就坐得住，出去是能学到真东西的。",
-            "你在外求学，最要紧的是保重身体。学本事要稳，不要贪快。家里盼你有出息，也盼你平安。兰英说，等哥哥回来，要让哥哥看看她新写的字。\n\n信封里夹了一张兰英描的红梅，她说给你放在枕头底下。纸薄，心意不薄。"
+            "你走以后，家中清静了许多。兰英每日放学回来，总要到你房里坐一会儿，翻翻你留下的书。她问我，哥哥那边是不是也下雪。我说是，雪大约比咱们这里还深。\n\n你父亲近来差事尚稳，每日早出晚归，话仍不多。偶尔提起你小时候拆收音机的事，他只说，那孩子从小坐得住，到了外头，是能学到真东西的。",
+            "你在外求学，最要紧的是保重身体。学本事要稳，不要贪快。家里盼你有出息，也盼你平安。\n\n信封里夹了兰英描的一枝红梅。她说给你放在书里也好，枕边也好。纸薄，心意不薄。"
           ],
-          "postscript": "兰英问，那边的雪是不是一夜之间就能下到膝盖那么深。",
+          "postscript": "兰英问，那边的雪是不是一夜之间就能没过膝盖。",
           "signature": "母亲 字",
           "paperAsset": "/assets/ui/ui_letter_paper.png",
-          "historyPlainText": "收到母亲来信：家中一切尚可，父亲差事稳当，兰英想念哥哥。母亲嘱咐保重身体，学本事要稳。"
+          "historyPlainText": "收到母亲来信：家中一切尚可，父亲差事尚稳，兰英想念哥哥。母亲嘱咐保重身体，学本事要稳。"
         }
       },
       "nextSceneId": "d1_lab_intro"
@@ -491,7 +505,7 @@
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "记录表里有一组数值不太对。你要先看设备，还是帮我再核一遍？",
+        "text": "记录表里有一组数值不太对。你是先去看设备，还是和我把记录再核一遍？",
         "portraitAsset": "/assets/characters/char_nadya_neutral.webp"
       },
       "choices": [
@@ -501,8 +515,12 @@
           "isCritical": false,
           "nextSceneId": "d1_after_choice",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "addFlags": ["d1_prechecked_equipment"]
+            "stats": {
+              "knowledge": 1
+            },
+            "addFlags": [
+              "d1_prechecked_equipment"
+            ]
           }
         },
         {
@@ -511,8 +529,12 @@
           "isCritical": false,
           "nextSceneId": "d1_after_choice",
           "effects": {
-            "trust": { "nadya": 1 },
-            "addFlags": ["d1_checked_records_with_nadya"]
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d1_checked_records_with_nadya"
+            ]
           }
         }
       ]
@@ -529,7 +551,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "实验开始后不久，仪器面板上的一个数值出现了明显偏离。别洛夫导师还在隔壁房间，尚未注意到异常。你必须尽快做出判断。"
+        "text": "实验开始不久，仪器面板上的读数出现了明显偏离。别洛夫导师还在隔壁房间，尚未注意到异常。沈怀远必须在进度、责任与风险之间，尽快做出判断。"
       },
       "nextSceneId": "d1_k1_failure"
     },
@@ -545,7 +567,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "数据异常已经无法忽视。娜佳看了一眼仪表，眉头皱起。走廊尽头传来别洛夫的脚步声。你必须做出决定。"
+        "text": "数据异常已经无法忽视。娜佳看了一眼仪表，眉头微蹙。走廊尽头传来别洛夫的脚步声。时间只够沈怀远做出一个决定。"
       },
       "choices": [
         {
@@ -554,9 +576,16 @@
           "isCritical": true,
           "nextSceneId": "d1_reported_result",
           "effects": {
-            "stats": { "responsibility": 2, "wellbeing": -1 },
-            "trust": { "belov": 1 },
-            "addFlags": ["d1_reported_fault"]
+            "stats": {
+              "responsibility": 2,
+              "wellbeing": -1
+            },
+            "trust": {
+              "belov": 1
+            },
+            "addFlags": [
+              "d1_reported_fault"
+            ]
           },
           "confirmationText": "停止测试意味着今天的进度全部中断，导师也会知道你提前发现了问题。确定要立刻报告吗？"
         },
@@ -566,9 +595,16 @@
           "isCritical": true,
           "nextSceneId": "d1_team_repair_result",
           "effects": {
-            "stats": { "knowledge": 1, "responsibility": 1 },
-            "trust": { "nadya": 1 },
-            "addFlags": ["d1_team_repair"]
+            "stats": {
+              "knowledge": 1,
+              "responsibility": 1
+            },
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d1_team_repair"
+            ]
           },
           "confirmationText": "先排查再汇报，可能争取到一点时间修正问题。但如果导师认为你在拖延，后果也不小。确定要这样做吗？"
         },
@@ -579,15 +615,25 @@
           "nextSceneId": "d1_concealed_result",
           "conditions": {
             "all": [
-              { "type": "statMax", "key": "responsibility", "value": 3 }
+              {
+                "type": "statMax",
+                "key": "responsibility",
+                "value": 3
+              }
             ]
           },
           "visibleWhenLocked": true,
           "lockedHint": "你的担当不允许你这样做。",
           "effects": {
-            "stats": { "responsibility": -2 },
-            "trust": { "belov": -2 },
-            "addFlags": ["d1_concealed_fault"]
+            "stats": {
+              "responsibility": -2
+            },
+            "trust": {
+              "belov": -2
+            },
+            "addFlags": [
+              "d1_concealed_fault"
+            ]
           },
           "confirmationText": "隐瞒意味着冒险——如果演示中途出现更大故障，后果将由你一人承担。你确定要让演示继续吗？"
         }
@@ -606,7 +652,7 @@
         "speakerId": "belov",
         "speakerName": "别洛夫",
         "textType": "dialogue",
-        "text": "你做得对。数据不会撒谎，但人可以。今天你选择了诚实，这在科学研究中比任何技巧都重要。",
+        "text": "你做得对。数据不会撒谎，人却会。今天你选择了诚实，这在研究中比任何技巧都重要。",
         "portraitAsset": "/assets/characters/char_belov_approving.webp"
       },
       "nextSceneId": "d1_end"
@@ -623,7 +669,7 @@
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "问题比预想的复杂，但我们至少找到了原因。导师听完我们的说明后，点了点头。他说，知道何时求助，也是一种能力。",
+        "text": "问题比预想的复杂，但我们至少找到了原因。导师听完说明后点了点头。他说，知道何时求助，也是一种能力。",
         "portraitAsset": "/assets/characters/char_nadya_warm.webp"
       },
       "nextSceneId": "d1_end"
@@ -640,7 +686,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "演示勉强完成了。别洛夫在事后检查数据时发现了偏差——他没有当场质问，但你看得出，他的目光里多了一层审视。"
+        "text": "演示勉强完成了。别洛夫事后检查数据时发现了偏差。他没有当场质问，只是沉默地合上记录本。沈怀远看得出，那目光里多了一层审视。"
       },
       "nextSceneId": "d1_end"
     },
@@ -656,11 +702,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "一天结束。实验室的灯光渐暗，走廊尽头的脚步声消失在夜色中。而你心中，已有了一些不同以往的分量。"
+        "text": "一天结束。实验室的灯光逐一熄灭，走廊尽头的脚步声消失在夜色中。沈怀远收起记录表，心里却多了一份从前没有的分量。"
       },
       "nextSceneId": "journal_day01_spring_1936"
     },
-
     "journal_day01_spring_1936": {
       "id": "journal_day01_spring_1936",
       "name": "季节札记·1936春",
@@ -685,7 +730,6 @@
       },
       "nextSceneId": "d2_factory_intro"
     },
-
     "d2_factory_intro": {
       "id": "d2_factory_intro",
       "name": "第二日·工厂初到",
@@ -698,7 +742,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "离开安静的实验室后，沈怀远第一次走进莫斯科近郊的无线电设备工厂。装配线的轰鸣声填满了整个车间，工人们在机器之间穿梭。伊万师傅站在生产线末端，朝他招了招手。"
+        "text": "离开安静的实验室后，沈怀远第一次走进莫斯科近郊的无线电设备工厂。装配线的轰鸣填满车间，工人们在机床与零件之间穿梭。伊万师傅站在生产线末端，抬手示意他过去。"
       },
       "nextSceneId": "d2_c1_factory"
     },
@@ -714,7 +758,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "伊万指着装配线上的一排半成品，又看了一眼手中的检测记录。娜佳在旁边翻着维修日志，抬头看了你一眼。"
+        "text": "伊万指着装配线上的一排半成品，又看了一眼手中的检测记录。娜佳在旁翻着维修日志，抬头等他决定从哪里入手。"
       },
       "choices": [
         {
@@ -723,9 +767,15 @@
           "isCritical": false,
           "nextSceneId": "d2_k1_quality",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "trust": { "ivan": 1 },
-            "addFlags": ["d2_walked_line_with_ivan"]
+            "stats": {
+              "knowledge": 1
+            },
+            "trust": {
+              "ivan": 1
+            },
+            "addFlags": [
+              "d2_walked_line_with_ivan"
+            ]
           }
         },
         {
@@ -734,9 +784,15 @@
           "isCritical": false,
           "nextSceneId": "d2_k1_quality",
           "effects": {
-            "stats": { "responsibility": 1 },
-            "trust": { "nadya": 1 },
-            "addFlags": ["d2_checked_maintenance_logs"]
+            "stats": {
+              "responsibility": 1
+            },
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d2_checked_maintenance_logs"
+            ]
           }
         }
       ]
@@ -753,7 +809,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "一批无线电设备在最终检测中出现了不稳定的信号波动。交付期限就在明天，厂方希望按期出货。伊万的表情很严肃。你必须做出决定。"
+        "text": "一批无线电设备在最终检测中出现了信号波动。交付期限就在明天，厂方希望按期出货。伊万的表情很沉。沈怀远知道，眼前的问题不只是技术误差。"
       },
       "choices": [
         {
@@ -762,9 +818,17 @@
           "isCritical": true,
           "nextSceneId": "d2_full_reinspect_result",
           "effects": {
-            "stats": { "knowledge": 1, "responsibility": 2, "wellbeing": -1 },
-            "trust": { "ivan": 2 },
-            "addFlags": ["d2_full_reinspection"]
+            "stats": {
+              "knowledge": 1,
+              "responsibility": 2,
+              "wellbeing": -1
+            },
+            "trust": {
+              "ivan": 2
+            },
+            "addFlags": [
+              "d2_full_reinspection"
+            ]
           },
           "confirmationText": "全面返检意味着延迟交付，厂方会非常不满。但放任缺陷产品出厂，后果可能更严重。确定要坚持吗？"
         },
@@ -774,9 +838,16 @@
           "isCritical": true,
           "nextSceneId": "d2_risk_based_result",
           "effects": {
-            "stats": { "knowledge": 1, "responsibility": 1 },
-            "trust": { "ivan": 1 },
-            "addFlags": ["d2_risk_based_inspection"]
+            "stats": {
+              "knowledge": 1,
+              "responsibility": 1
+            },
+            "trust": {
+              "ivan": 1
+            },
+            "addFlags": [
+              "d2_risk_based_inspection"
+            ]
           },
           "confirmationText": "折中方案可以平衡质量与进度，但可能有遗漏。确定按这个方案执行吗？"
         },
@@ -786,11 +857,17 @@
           "isCritical": true,
           "nextSceneId": "d2_ignored_result",
           "effects": {
-            "stats": { "responsibility": -2 },
-            "trust": { "ivan": -2 },
-            "addFlags": ["d2_ignored_quality_risk"]
+            "stats": {
+              "responsibility": -2
+            },
+            "trust": {
+              "ivan": -2
+            },
+            "addFlags": [
+              "d2_ignored_quality_risk"
+            ]
           },
-          "confirmationText": "按期交付不会得罪任何人，但如果设备在战场上出了问题……你确定不再追查吗？"
+          "confirmationText": "按期交付不会得罪任何人。但如果设备在真正需要时失灵，你也无法假装没有见过这些数据。确定不再追查吗？"
         }
       ],
       "autoSavePoint": "criticalChoice"
@@ -807,7 +884,7 @@
         "speakerId": "ivan",
         "speakerName": "伊万",
         "textType": "dialogue",
-        "text": "你是个认真的年轻人。在这个工厂里，大多数人只在乎产量，但你在乎的是机器能不能活下来。我尊重这一点。",
+        "text": "你是个认真的年轻人。工厂里许多人只盯着产量，你却还记得机器将被谁使用。我尊重这一点。",
         "portraitAsset": "/assets/characters/char_ivan_approving.webp"
       },
       "nextSceneId": "d2_end"
@@ -824,7 +901,7 @@
         "speakerId": "ivan",
         "speakerName": "伊万",
         "textType": "dialogue",
-        "text": "你比我见过的很多工程师都聪明。不是因为你找到了完美方案，而是你知道什么时候不能追求完美。",
+        "text": "你比很多工程师都聪明。不是因为你找到了完美办法，而是因为你知道什么时候不能只追求完美。",
         "portraitAsset": "/assets/characters/char_ivan_approving.webp"
       },
       "nextSceneId": "d2_end"
@@ -841,7 +918,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "设备按期出厂了。伊万没有再多说什么，但他把检测记录翻过去的那一下，比任何责备都更让你难以忘记。"
+        "text": "设备按期出厂了。伊万没有再多说，只把检测记录翻了过去。那一下很轻，却比任何责备都更让沈怀远难以忘记。"
       },
       "nextSceneId": "d2_end"
     },
@@ -857,11 +934,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "工厂的机器声渐渐平息。离开时，你在门口回头看了一眼——那些冰冷的金属部件，原来也承载着人的判断与代价。"
+        "text": "工厂的机器声渐渐平息。离开时，沈怀远在门口回头看了一眼。那些冰冷的金属部件，原来也承载着人的判断与代价。"
       },
       "nextSceneId": "journal_day02_summer_1936"
     },
-
     "journal_day02_summer_1936": {
       "id": "journal_day02_summer_1936",
       "name": "季节札记·1936夏",
@@ -886,7 +962,6 @@
       },
       "nextSceneId": "d3_location_choice"
     },
-
     "d3_location_choice": {
       "id": "d3_location_choice",
       "name": "第三日·地点选择",
@@ -899,7 +974,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "一封迟到的家书穿过漫长路途，终于到了你的手中。信封的边角已经磨损，母亲的笔迹却依然工整。你今天还有时间去一个地方——邮局，还是图书馆？"
+        "text": "一封迟到的家书穿过漫长路途，终于到了沈怀远手中。信封边角已经磨损，母亲的笔迹却仍然工整。今天他还能去一个地方——邮局，还是图书馆？"
       },
       "choices": [
         {
@@ -908,8 +983,12 @@
           "isCritical": false,
           "nextSceneId": "d3_c2_action",
           "effects": {
-            "stats": { "homesickness": 1 },
-            "addFlags": ["d3_visited_postoffice"]
+            "stats": {
+              "homesickness": 1
+            },
+            "addFlags": [
+              "d3_visited_postoffice"
+            ]
           }
         },
         {
@@ -918,8 +997,12 @@
           "isCritical": false,
           "nextSceneId": "d3_c2_action",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "addFlags": ["d3_visited_library"]
+            "stats": {
+              "knowledge": 1
+            },
+            "addFlags": [
+              "d3_visited_library"
+            ]
           }
         }
       ]
@@ -936,7 +1019,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "宿舍里，你摊开母亲的信。父亲收入减少，兰英的学费需要再设法。母亲仍劝你安心学习，不必急着回来，但字缝里的压力已经无法完全遮住。"
+        "text": "宿舍里，沈怀远摊开母亲的信。父亲收入减少，兰英的学费还要再设法。母亲仍劝他安心学习，不必急着回来，可字缝里的压力已经遮不住了。"
       },
       "choices": [
         {
@@ -945,9 +1028,15 @@
           "isCritical": false,
           "nextSceneId": "letter_1936_autumn_family",
           "effects": {
-            "preparationItems": { "funds": -1 },
-            "stats": { "homesickness": 1 },
-            "addFlags": ["family_sent_remittance"]
+            "preparationItems": {
+              "funds": -1
+            },
+            "stats": {
+              "homesickness": 1
+            },
+            "addFlags": [
+              "family_sent_remittance"
+            ]
           }
         },
         {
@@ -956,9 +1045,15 @@
           "isCritical": false,
           "nextSceneId": "letter_1936_autumn_family",
           "effects": {
-            "preparationItems": { "funds": 1 },
-            "stats": { "knowledge": 1 },
-            "addFlags": ["family_saved_funds"]
+            "preparationItems": {
+              "funds": 1
+            },
+            "stats": {
+              "knowledge": 1
+            },
+            "addFlags": [
+              "family_saved_funds"
+            ]
           }
         },
         {
@@ -967,8 +1062,12 @@
           "isCritical": false,
           "nextSceneId": "letter_1936_autumn_family",
           "effects": {
-            "trust": { "chen": 1 },
-            "addFlags": ["family_asked_chen_remittance"]
+            "trust": {
+              "chen": 1
+            },
+            "addFlags": [
+              "family_asked_chen_remittance"
+            ]
           }
         }
       ]
@@ -986,12 +1085,12 @@
           "date": "民国二十五年秋",
           "salutation": "阿远：",
           "pages": [
-            "信到时，不知你那里是否已经转冷。家中一切尚可，你不必挂心。\n\n你父亲近来账房差事少了些，仍旧每日早出晚归；兰英的学费我们会想办法，她也说等哥哥回来，要让哥哥看看她新写的字。",
+            "信到时，不知你那里是否已经转冷。家中一切尚可，你不必挂心。\n\n你父亲近来账房差事少了些，仍旧每日早出晚归。兰英的学费我们会想办法，她也说，等哥哥回来，要让哥哥看看她新写的字。",
             "镇上近来消息杂，米价也起落不定，街口常有人议论北方的事。你在外求学，最要紧是保重身体，把该学的本事学稳。\n\n家里盼你有出息，也盼你平安。"
           ],
           "signature": "母亲 字",
           "paperAsset": "/assets/ui/ui_letter_paper.png",
-          "historyPlainText": "母亲来信：父亲收入减少，兰英学费需设法。镇上来往消息杂，米价起落不定。母亲嘱咐保重身体、学稳本事。"
+          "historyPlainText": "母亲来信：父亲收入减少，兰英学费需设法。镇上消息杂，米价起落不定。母亲嘱咐保重身体、学稳本事。"
         }
       },
       "nextSceneId": "d3_c3_reply"
@@ -1008,7 +1107,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "你拿起笔，准备给家里回一封信。母亲问你的近况，兰英问异乡是否常下雪。有些话可以说，有些话不太容易说。"
+        "text": "沈怀远拿起笔，准备给家里回信。母亲问他的近况，兰英问异乡是否常下雪。有些话可以说，有些话却不容易落到纸上。"
       },
       "choices": [
         {
@@ -1017,8 +1116,12 @@
           "isCritical": false,
           "nextSceneId": "d3_chen_night",
           "effects": {
-            "stats": { "wellbeing": 1 },
-            "addFlags": ["family_replied_reassurance"]
+            "stats": {
+              "wellbeing": 1
+            },
+            "addFlags": [
+              "family_replied_reassurance"
+            ]
           }
         },
         {
@@ -1027,8 +1130,13 @@
           "isCritical": false,
           "nextSceneId": "d3_chen_night",
           "effects": {
-            "stats": { "responsibility": 1, "homesickness": 1 },
-            "addFlags": ["family_encouraged_lanying"]
+            "stats": {
+              "responsibility": 1,
+              "homesickness": 1
+            },
+            "addFlags": [
+              "family_encouraged_lanying"
+            ]
           }
         },
         {
@@ -1037,8 +1145,13 @@
           "isCritical": false,
           "nextSceneId": "d3_chen_night",
           "effects": {
-            "stats": { "wellbeing": 1, "homesickness": 1 },
-            "addFlags": ["family_replied_honestly_1936"]
+            "stats": {
+              "wellbeing": 1,
+              "homesickness": 1
+            },
+            "addFlags": [
+              "family_replied_honestly_1936"
+            ]
           }
         }
       ]
@@ -1072,11 +1185,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "秋夜渐深，窗外的莫斯科已染上凉意。你把写好的回信放在桌上，心中某个模糊的念头开始成形——有些牵挂不是催人立刻回头，而是让人开始思考，远行究竟为了什么。"
+        "text": "秋夜渐深，窗外的莫斯科已有凉意。沈怀远把写好的回信放在桌上，心中某个模糊的念头开始成形——有些牵挂不是催人立刻回头，而是让人想清楚，远行究竟为了什么。"
       },
       "nextSceneId": "journal_day03_autumn_1936"
     },
-
     "journal_day03_autumn_1936": {
       "id": "journal_day03_autumn_1936",
       "name": "季节札记·1936秋",
@@ -1101,7 +1213,6 @@
       },
       "nextSceneId": "d4_field_intro"
     },
-
     "d4_field_intro": {
       "id": "d4_field_intro",
       "name": "第四日·雪地测试",
@@ -1114,7 +1225,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "冬季无线电测试被安排在莫斯科郊外的临时站点。风雪比预想中更大，低温让设备失去了稳定，也让每个人的判断更难隐藏。"
+        "text": "冬季无线电测试被安排在莫斯科郊外的临时站点。风雪比预想中更大，低温让设备变得不稳定，也让每个人的判断更难隐藏。"
       },
       "nextSceneId": "d4_c1_field"
     },
@@ -1130,7 +1241,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "信号异常点出现在远处。风雪越下越紧，娜佳在临时站里重新计算数据，而伊万教过的现场排查方法也在你脑海中浮现。"
+        "text": "信号异常点出现在远处。风雪越下越紧，娜佳在临时站里重新计算数据，伊万教过的现场排查方法也在沈怀远脑海中浮现。"
       },
       "choices": [
         {
@@ -1139,8 +1250,13 @@
           "isCritical": false,
           "nextSceneId": "d4_k1_invitation",
           "effects": {
-            "stats": { "knowledge": 1, "wellbeing": -1 },
-            "addFlags": ["d4_persisted_in_snow"]
+            "stats": {
+              "knowledge": 1,
+              "wellbeing": -1
+            },
+            "addFlags": [
+              "d4_persisted_in_snow"
+            ]
           }
         },
         {
@@ -1149,9 +1265,15 @@
           "isCritical": false,
           "nextSceneId": "d4_k1_invitation",
           "effects": {
-            "stats": { "wellbeing": 1 },
-            "trust": { "nadya": 1 },
-            "addFlags": ["d4_accepted_nadya_help"]
+            "stats": {
+              "wellbeing": 1
+            },
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d4_accepted_nadya_help"
+            ]
           }
         },
         {
@@ -1160,9 +1282,15 @@
           "isCritical": false,
           "nextSceneId": "d4_k1_invitation",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "trust": { "ivan": 1 },
-            "addFlags": ["d4_used_ivan_method"]
+            "stats": {
+              "knowledge": 1
+            },
+            "trust": {
+              "ivan": 1
+            },
+            "addFlags": [
+              "d4_used_ivan_method"
+            ]
           }
         }
       ]
@@ -1179,7 +1307,7 @@
         "speakerId": "belov",
         "speakerName": "别洛夫",
         "textType": "dialogue",
-        "text": "怀远，你在测试中表现出的判断力，已经超出了我对一个学生的期待。我想邀请你加入一个长期研究项目。这个项目需要数年时间，但成果将对通信技术产生深远影响。",
+        "text": "怀远，你在测试中表现出的判断力，已经超出了我对一个学生的期待。我想邀请你加入一个长期研究项目。它需要数年时间，但成果会影响未来的通信技术。",
         "portraitAsset": "/assets/characters/char_belov_approving.webp"
       },
       "choices": [
@@ -1189,12 +1317,18 @@
           "isCritical": true,
           "nextSceneId": "d4_end",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "trust": { "belov": 2 },
+            "stats": {
+              "knowledge": 1
+            },
+            "trust": {
+              "belov": 2
+            },
             "stayTendency": 1,
-            "addFlags": ["accepted_long_project"]
+            "addFlags": [
+              "accepted_long_project"
+            ]
           },
-          "confirmationText": "接受这个邀请，意味着你将在苏联再停留数年。你的研究前途将更加明确，但回国的路也会更远。确定要接受吗？"
+          "confirmationText": "接受邀请，意味着你将在苏联再停留数年。研究前途会更加明确，回国的路也会更远。确定要接受吗？"
         },
         {
           "id": "D4_K1_B",
@@ -1202,11 +1336,18 @@
           "isCritical": true,
           "nextSceneId": "d4_end",
           "effects": {
-            "stats": { "responsibility": 1, "homesickness": 1 },
-            "trust": { "belov": 1 },
-            "addFlags": ["deferred_long_project"]
+            "stats": {
+              "responsibility": 1,
+              "homesickness": 1
+            },
+            "trust": {
+              "belov": 1
+            },
+            "addFlags": [
+              "deferred_long_project"
+            ]
           },
-          "confirmationText": "婉拒会让导师失望，但坦诚自己的牵挂也许是一种更成熟的态度。确定要这样说吗？"
+          "confirmationText": "迟疑会让导师失望，但坦诚自己的牵挂，也许是一种更成熟的回答。确定要这样说吗？"
         },
         {
           "id": "D4_K1_C",
@@ -1214,9 +1355,16 @@
           "isCritical": true,
           "nextSceneId": "d4_end",
           "effects": {
-            "stats": { "knowledge": 1, "responsibility": 1 },
-            "trust": { "belov": 1 },
-            "addFlags": ["asked_about_returning_knowledge"]
+            "stats": {
+              "knowledge": 1,
+              "responsibility": 1
+            },
+            "trust": {
+              "belov": 1
+            },
+            "addFlags": [
+              "asked_about_returning_knowledge"
+            ]
           },
           "confirmationText": "这个问题可能会让导师察觉到你的去意。但如果不问，你也许永远不会知道答案。确定要问吗？"
         }
@@ -1235,11 +1383,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "风雪渐息。离开测试站时，你回头看了一眼——那里已经为你留下了一个位置。但你是否会选择留下，答案还需要时间来给出。"
+        "text": "风雪渐息。离开测试站时，沈怀远回头望了一眼。那里已经为他留下一个位置。可他是否会选择留下，答案还要交给更长的时间。"
       },
       "nextSceneId": "journal_day04_winter_1936"
     },
-
     "journal_day04_winter_1936": {
       "id": "journal_day04_winter_1936",
       "name": "季节札记·1936冬",
@@ -1264,7 +1411,6 @@
       },
       "nextSceneId": "d5_showcase_intro"
     },
-
     "d5_showcase_intro": {
       "id": "d5_showcase_intro",
       "name": "第五日·成果展示",
@@ -1277,7 +1423,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "研究终于迎来了阶段性展示。沈怀远的前途从未如此清晰——导师进一步明确了长期机会，而展示的内容将决定外界如何评价他的工作。"
+        "text": "研究迎来了阶段性展示。沈怀远的前途从未如此清晰——导师进一步明确长期机会，而这次展示，也将决定外界如何看待他的工作。"
       },
       "nextSceneId": "d5_c1_showcase"
     },
@@ -1293,7 +1439,7 @@
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "展示就在明天。你的技术讲解还来得及再改一遍，或者我们可以一起把设备演示排练一下。你觉得呢？",
+        "text": "展示就在明天。技术讲解还来得及再改一遍，设备演示也可以再排一次。你想先顾哪边？",
         "portraitAsset": "/assets/characters/char_nadya_warm.webp"
       },
       "choices": [
@@ -1303,8 +1449,13 @@
           "isCritical": false,
           "nextSceneId": "d5_c2_tech_use",
           "effects": {
-            "stats": { "knowledge": 1, "wellbeing": -1 },
-            "addFlags": ["d5_refined_explanation"]
+            "stats": {
+              "knowledge": 1,
+              "wellbeing": -1
+            },
+            "addFlags": [
+              "d5_refined_explanation"
+            ]
           }
         },
         {
@@ -1313,9 +1464,15 @@
           "isCritical": false,
           "nextSceneId": "d5_c2_tech_use",
           "effects": {
-            "trust": { "nadya": 1 },
-            "stats": { "wellbeing": 1 },
-            "addFlags": ["d5_rehearsed_with_nadya"]
+            "trust": {
+              "nadya": 1
+            },
+            "stats": {
+              "wellbeing": 1
+            },
+            "addFlags": [
+              "d5_rehearsed_with_nadya"
+            ]
           }
         }
       ]
@@ -1332,7 +1489,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "展示结束后，一位参观者问了一个问题：这项通信技术，最终将为谁服务？陈绍衡在旁边微微皱眉，伊万放下了手中的工具。这个问题比技术本身更难回答。"
+        "text": "展示结束后，一位参观者问道：这项通信技术，最终将为谁服务？陈绍衡在旁微微皱眉，伊万放下手中的工具。这个问题，比技术本身更难回答。"
       },
       "choices": [
         {
@@ -1341,8 +1498,12 @@
           "isCritical": false,
           "nextSceneId": "d5_end",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "addFlags": ["d5_focused_on_excellence"]
+            "stats": {
+              "knowledge": 1
+            },
+            "addFlags": [
+              "d5_focused_on_excellence"
+            ]
           }
         },
         {
@@ -1351,9 +1512,15 @@
           "isCritical": false,
           "nextSceneId": "d5_end",
           "effects": {
-            "stats": { "responsibility": 1 },
-            "trust": { "ivan": 1 },
-            "addFlags": ["d5_emphasized_civil_use"]
+            "stats": {
+              "responsibility": 1
+            },
+            "trust": {
+              "ivan": 1
+            },
+            "addFlags": [
+              "d5_emphasized_civil_use"
+            ]
           }
         },
         {
@@ -1362,9 +1529,15 @@
           "isCritical": false,
           "nextSceneId": "d5_end",
           "effects": {
-            "stats": { "responsibility": 1 },
-            "trust": { "chen": 1 },
-            "addFlags": ["d5_questioned_technology_use"]
+            "stats": {
+              "responsibility": 1
+            },
+            "trust": {
+              "chen": 1
+            },
+            "addFlags": [
+              "d5_questioned_technology_use"
+            ]
           }
         }
       ]
@@ -1381,11 +1554,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "前途最明亮的一刻，同时出现第一丝不安。陈绍衡与你的看法开始出现微妙的差别。展示厅的灯光熄灭时，你注意到桌上有一封尚未拆开的国内来信。"
+        "text": "前途最明亮的一刻，第一丝不安也随之出现。陈绍衡与他的看法开始出现微妙差别。展示厅的灯光熄灭时，沈怀远注意到桌上有一封尚未拆开的国内来信。"
       },
       "nextSceneId": "journal_day05_spring_1937"
     },
-
     "journal_day05_spring_1937": {
       "id": "journal_day05_spring_1937",
       "name": "季节札记·1937春",
@@ -1410,7 +1582,6 @@
       },
       "nextSceneId": "d6_news_intro"
     },
-
     "d6_news_intro": {
       "id": "d6_news_intro",
       "name": "第六日·消息传来",
@@ -1423,7 +1594,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "零碎消息先从电波和报纸的边角出现。实验室的指示灯仍一明一灭，但空气中的气氛已经变了。更多来源彼此印证之后，日常的研究生活被时代打断。"
+        "text": "零碎消息最先从电波和报纸边角传来。实验室的指示灯仍一明一灭，空气中的气氛却已经变了。更多来源彼此印证之后，日常研究生活被时代打断。"
       },
       "nextSceneId": "d6_c1_source"
     },
@@ -1439,7 +1610,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "消息还不太清晰。实验室的无线电设备能收到零碎信号，而陈绍衡那里应该有最新的报纸。你决定先从哪里确认？"
+        "text": "消息尚未完全清晰。实验室的无线电设备能收到零碎信号，陈绍衡那里或许有最新报纸。沈怀远必须先确认，哪些消息是真的。"
       },
       "choices": [
         {
@@ -1448,9 +1619,15 @@
           "isCritical": false,
           "nextSceneId": "event_1937_lugouqiao",
           "effects": {
-            "stats": { "knowledge": 1 },
-            "trust": { "nadya": 1 },
-            "addFlags": ["d6_heard_news_by_radio"]
+            "stats": {
+              "knowledge": 1
+            },
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d6_heard_news_by_radio"
+            ]
           }
         },
         {
@@ -1459,9 +1636,15 @@
           "isCritical": false,
           "nextSceneId": "event_1937_lugouqiao",
           "effects": {
-            "trust": { "chen": 1 },
-            "stats": { "homesickness": 1 },
-            "addFlags": ["d6_confirmed_news_with_chen"]
+            "trust": {
+              "chen": 1
+            },
+            "stats": {
+              "homesickness": 1
+            },
+            "addFlags": [
+              "d6_confirmed_news_with_chen"
+            ]
           }
         }
       ]
@@ -1480,7 +1663,7 @@
           "title": "卢沟桥事变",
           "imageAsset": "/assets/props/prop_newspaper_lugouqiao_1937.png",
           "paragraphs": [
-            "1937年7月7日夜，日军在北平西南卢沟桥附近进行军事演习，并借口士兵失踪要求进入宛平城搜查，遭到中国守军拒绝。",
+            "1937 年 7 月 7 日夜，日军在北平西南卢沟桥附近进行军事演习，并借口士兵失踪要求进入宛平城搜查，遭到中国守军拒绝。",
             "随后冲突扩大，卢沟桥事变成为全面抗战爆发的重要标志。消息经由报纸、电报与口耳相传逐渐传至海外，也改变了许多留学生对未来去向的判断。"
           ],
           "gameplayNotice": "此后，归国路线、通信联络与技术资料处理将变得更加紧迫。",
@@ -1501,7 +1684,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "卢沟桥事变的消息已经确认。陈绍衡要求尽快判断下一步行动，导师强调冲动会让多年研究落空，娜佳第一次意识到「回去」可能意味着永别。"
+        "text": "卢沟桥事变的消息已经确认。陈绍衡催他尽快判断下一步行动，导师提醒冲动会让多年研究落空，娜佳第一次意识到，“回去”也许意味着很长的分别。"
       },
       "choices": [
         {
@@ -1510,11 +1693,20 @@
           "isCritical": true,
           "nextSceneId": "d6_end",
           "effects": {
-            "preparationItems": { "route": 1 },
-            "stats": { "responsibility": 1, "homesickness": 1 },
-            "trust": { "chen": 1 },
+            "preparationItems": {
+              "route": 1
+            },
+            "stats": {
+              "responsibility": 1,
+              "homesickness": 1
+            },
+            "trust": {
+              "chen": 1
+            },
             "returnTendency": 1,
-            "addFlags": ["started_return_route"]
+            "addFlags": [
+              "started_return_route"
+            ]
           },
           "confirmationText": "打听路线意味着你真的在考虑回去。这一步走出去，就不能假装什么都没发生。确定要开始吗？"
         },
@@ -1524,9 +1716,16 @@
           "isCritical": true,
           "nextSceneId": "d6_end",
           "effects": {
-            "preparationItems": { "technicalMaterials": 1 },
-            "stats": { "knowledge": 1, "responsibility": 1 },
-            "addFlags": ["started_organizing_materials"]
+            "preparationItems": {
+              "technicalMaterials": 1
+            },
+            "stats": {
+              "knowledge": 1,
+              "responsibility": 1
+            },
+            "addFlags": [
+              "started_organizing_materials"
+            ]
           },
           "confirmationText": "无论回去还是留下，整理好的资料都是有用的。但这需要时间，而你不知道时间还有多少。确定先做这件事吗？"
         },
@@ -1536,11 +1735,19 @@
           "isCritical": true,
           "nextSceneId": "d6_end",
           "effects": {
-            "preparationItems": { "contact": 1 },
-            "trust": { "chen": 1 },
-            "stats": { "responsibility": 1 },
+            "preparationItems": {
+              "contact": 1
+            },
+            "trust": {
+              "chen": 1
+            },
+            "stats": {
+              "responsibility": 1
+            },
             "returnTendency": 1,
-            "addFlags": ["started_building_contacts"]
+            "addFlags": [
+              "started_building_contacts"
+            ]
           },
           "confirmationText": "找到可靠的人，比独自行动更安全。但你要确保找到的是对的人。确定吗？"
         },
@@ -1550,10 +1757,17 @@
           "isCritical": true,
           "nextSceneId": "d6_end",
           "effects": {
-            "stats": { "knowledge": 1, "wellbeing": 1 },
-            "trust": { "belov": 1 },
+            "stats": {
+              "knowledge": 1,
+              "wellbeing": 1
+            },
+            "trust": {
+              "belov": 1
+            },
             "stayTendency": 1,
-            "addFlags": ["continued_project_after_news"]
+            "addFlags": [
+              "continued_project_after_news"
+            ]
           },
           "confirmationText": "暂时留下不是逃避，而是在行动之前先看清局势。但局势不会等你。确定要观望吗？"
         }
@@ -1572,11 +1786,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "实验室的指示灯仍一明一灭。可从这一夜起，每一道电波，似乎都指向了故乡。"
+        "text": "实验室的指示灯仍一明一灭。可从这一夜起，每一道电波似乎都指向了故乡。"
       },
       "nextSceneId": "journal_day06_summer_1937"
     },
-
     "journal_day06_summer_1937": {
       "id": "journal_day06_summer_1937",
       "name": "季节札记·1937夏",
@@ -1601,7 +1814,6 @@
       },
       "nextSceneId": "d7_preparation_intro"
     },
-
     "d7_preparation_intro": {
       "id": "d7_preparation_intro",
       "name": "第七日·筹备开始",
@@ -1614,7 +1826,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "战事与天气都在收紧。归国不再是一句愿望，而是路线、票证、经费、资料与信任构成的现实问题。白天推进筹备，晚上真正的分歧即将爆发。"
+        "text": "战事与天气都在收紧。归国不再是一句愿望，而是路线、票证、经费、资料与信任构成的现实问题。白天推进筹备，夜里真正的分歧也将浮出水面。"
       },
       "nextSceneId": "d7_c1_priority"
     },
@@ -1630,7 +1842,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "时间有限。你只能优先处理一件事——与陈绍衡确认路线、通过学校补齐票证、与娜佳整理资料、或是节省开支准备经费。"
+        "text": "时间有限。沈怀远只能优先处理一件事：与陈绍衡确认路线，通过学校补齐票证，与娜佳整理资料，或节省开支准备经费。"
       },
       "choices": [
         {
@@ -1639,9 +1851,15 @@
           "isCritical": false,
           "nextSceneId": "d7_k1_materials",
           "effects": {
-            "preparationItems": { "route": 1 },
-            "trust": { "chen": 1 },
-            "addFlags": ["d7_confirmed_route_with_chen"]
+            "preparationItems": {
+              "route": 1
+            },
+            "trust": {
+              "chen": 1
+            },
+            "addFlags": [
+              "d7_confirmed_route_with_chen"
+            ]
           }
         },
         {
@@ -1650,9 +1868,15 @@
           "isCritical": false,
           "nextSceneId": "d7_k1_materials",
           "effects": {
-            "preparationItems": { "documents": 1 },
-            "trust": { "belov": 1 },
-            "addFlags": ["d7_prepared_documents"]
+            "preparationItems": {
+              "documents": 1
+            },
+            "trust": {
+              "belov": 1
+            },
+            "addFlags": [
+              "d7_prepared_documents"
+            ]
           }
         },
         {
@@ -1661,9 +1885,15 @@
           "isCritical": false,
           "nextSceneId": "d7_k1_materials",
           "effects": {
-            "preparationItems": { "technicalMaterials": 1 },
-            "trust": { "nadya": 1 },
-            "addFlags": ["d7_organized_materials_with_nadya"]
+            "preparationItems": {
+              "technicalMaterials": 1
+            },
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d7_organized_materials_with_nadya"
+            ]
           }
         },
         {
@@ -1672,9 +1902,15 @@
           "isCritical": false,
           "nextSceneId": "d7_k1_materials",
           "effects": {
-            "preparationItems": { "funds": 1 },
-            "stats": { "wellbeing": -1 },
-            "addFlags": ["d7_saved_travel_funds"]
+            "preparationItems": {
+              "funds": 1
+            },
+            "stats": {
+              "wellbeing": -1
+            },
+            "addFlags": [
+              "d7_saved_travel_funds"
+            ]
           }
         }
       ]
@@ -1691,7 +1927,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "晚上，你和陈绍衡爆发了真正的路线分歧。你们的目标仍然接近，但判断不同——是否应该立刻回去、是否先完成研究、是否带走尚未获准外传的资料。与此同时，桌上的研究笔记提醒你：有些资料，还没有得到离境许可。"
+        "text": "夜里，沈怀远与陈绍衡爆发了真正的路线分歧。两人的目标仍然接近，判断却不再相同：是否立刻回去，是否先完成研究，是否带走尚未获准外传的资料。桌上的研究笔记提醒他，有些成果并不只属于个人。"
       },
       "choices": [
         {
@@ -1701,16 +1937,29 @@
           "nextSceneId": "d7_end",
           "conditions": {
             "all": [
-              { "type": "trustMin", "key": "belov", "value": 7 }
+              {
+                "type": "trustMin",
+                "key": "belov",
+                "value": 7
+              }
             ]
           },
           "effects": {
-            "stats": { "responsibility": 2 },
-            "trust": { "belov": 2 },
-            "preparationItems": { "documents": 1 },
-            "addFlags": ["told_belov_return_plan"]
+            "stats": {
+              "responsibility": 2
+            },
+            "trust": {
+              "belov": 2
+            },
+            "preparationItems": {
+              "documents": 1
+            },
+            "addFlags": [
+              "told_belov_return_plan"
+            ]
           },
-          "confirmationText": "坦诚意味着信任，但也意味着你的归国计划不再是秘密。只有在导师真正可靠时，这一步才是安全的。确定吗？"
+          "confirmationText": "坦诚意味着信任，但也意味着你的归国计划不再是秘密。只有在导师真正可靠时，这一步才是安全的。确定吗？",
+          "lockedHint": "需要别洛夫信任达到 7。"
         },
         {
           "id": "D7_K1_B",
@@ -1718,9 +1967,15 @@
           "isCritical": true,
           "nextSceneId": "d7_end",
           "effects": {
-            "preparationItems": { "technicalMaterials": 1 },
-            "stats": { "responsibility": 1 },
-            "addFlags": ["kept_only_public_notes"]
+            "preparationItems": {
+              "technicalMaterials": 1
+            },
+            "stats": {
+              "responsibility": 1
+            },
+            "addFlags": [
+              "kept_only_public_notes"
+            ]
           },
           "confirmationText": "选择合规，意味着你放弃了一部分研究成果。但你会带着干净的手离开。确定吗？"
         },
@@ -1730,12 +1985,20 @@
           "isCritical": true,
           "nextSceneId": "d7_end",
           "effects": {
-            "preparationItems": { "technicalMaterials": 2 },
-            "stats": { "responsibility": -2 },
-            "trust": { "belov": -2 },
-            "addFlags": ["took_restricted_materials"]
+            "preparationItems": {
+              "technicalMaterials": 2
+            },
+            "stats": {
+              "responsibility": -2
+            },
+            "trust": {
+              "belov": -2
+            },
+            "addFlags": [
+              "took_restricted_materials"
+            ]
           },
-          "confirmationText": "这是最危险的选择。一旦被发现，你将失去导师的信任，甚至可能面临更严重的后果。确定要冒这个险吗？"
+          "confirmationText": "这是最危险的选择。一旦被发现，你将失去导师的信任，甚至面临更严重的后果。确定要冒这个险吗？"
         },
         {
           "id": "D7_K1_D",
@@ -1743,10 +2006,15 @@
           "isCritical": true,
           "nextSceneId": "d7_end",
           "effects": {
-            "stats": { "wellbeing": 1, "homesickness": 1 },
-            "addFlags": ["left_materials_behind"]
+            "stats": {
+              "wellbeing": 1,
+              "homesickness": 1
+            },
+            "addFlags": [
+              "left_materials_behind"
+            ]
           },
-          "confirmationText": "放弃多年研究的成果，不是容易的决定。但人比资料更重要。确定要这样做吗？"
+          "confirmationText": "放弃多年研究成果并不容易。但人比资料更重要。确定要这样做吗？"
         }
       ],
       "autoSavePoint": "criticalChoice"
@@ -1763,11 +2031,10 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "风暴前夜。行动与关系同时收紧，但你至少已经做出了关于资料的选择。剩下的时间，只够告别和出发。"
+        "text": "风暴前夜，行动与关系同时收紧。沈怀远至少已经做出了关于资料的选择。剩下的时间，只够告别与出发。"
       },
       "nextSceneId": "journal_day07_autumn_1937"
     },
-
     "journal_day07_autumn_1937": {
       "id": "journal_day07_autumn_1937",
       "name": "季节札记·1937秋",
@@ -1792,7 +2059,6 @@
       },
       "nextSceneId": "d8_final_intro"
     },
-
     "d8_final_intro": {
       "id": "d8_final_intro",
       "name": "第八日·风雪车站",
@@ -1805,7 +2071,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "风雪比预想中更早到来。路线可能中断，研究仍待交接，未说出口的话也只剩下有限时间。这是最后的准备日——你必须决定，在离开（或留下）之前，最后做一件事。"
+        "text": "风雪比预想中来得更早。路线可能中断，研究仍待交接，未说出口的话也只剩有限时间。这是最后的准备日。在离开或留下之前，沈怀远只能再处理一件事。"
       },
       "nextSceneId": "d8_c1_priority"
     },
@@ -1821,7 +2087,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "在做出最终决定之前，你还有时间处理最后一件事。导师的研究交接、与陈绍衡的路线确认、与娜佳的告别、或是整理行李——你只能选一样。"
+        "text": "在做出最终决定前，他还有时间处理最后一件事。导师的研究交接、与陈绍衡的路线确认、与娜佳的告别、行李与票证的整理——他只能选一样。"
       },
       "choices": [
         {
@@ -1830,9 +2096,15 @@
           "isCritical": false,
           "nextSceneId": "letter_1937_winter_family",
           "effects": {
-            "trust": { "belov": 1 },
-            "preparationItems": { "documents": 1 },
-            "addFlags": ["d8_finished_handover"]
+            "trust": {
+              "belov": 1
+            },
+            "preparationItems": {
+              "documents": 1
+            },
+            "addFlags": [
+              "d8_finished_handover"
+            ]
           }
         },
         {
@@ -1841,9 +2113,15 @@
           "isCritical": false,
           "nextSceneId": "letter_1937_winter_family",
           "effects": {
-            "preparationItems": { "route": 1 },
-            "trust": { "chen": 1 },
-            "addFlags": ["d8_met_chen_before_departure"]
+            "preparationItems": {
+              "route": 1
+            },
+            "trust": {
+              "chen": 1
+            },
+            "addFlags": [
+              "d8_met_chen_before_departure"
+            ]
           }
         },
         {
@@ -1852,9 +2130,15 @@
           "isCritical": false,
           "nextSceneId": "letter_1937_winter_family",
           "effects": {
-            "trust": { "nadya": 1 },
-            "stats": { "wellbeing": 1 },
-            "addFlags": ["d8_met_nadya_before_decision"]
+            "trust": {
+              "nadya": 1
+            },
+            "stats": {
+              "wellbeing": 1
+            },
+            "addFlags": [
+              "d8_met_nadya_before_decision"
+            ]
           }
         },
         {
@@ -1863,8 +2147,12 @@
           "isCritical": false,
           "nextSceneId": "letter_1937_winter_family",
           "effects": {
-            "preparationItems": { "funds": 1 },
-            "addFlags": ["d8_final_packing"]
+            "preparationItems": {
+              "funds": 1
+            },
+            "addFlags": [
+              "d8_final_packing"
+            ]
           }
         }
       ]
@@ -1905,19 +2193,24 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "第三封家书静静地躺在桌上。母亲的字迹依旧工整，但通信与交通已经开始不稳定。父亲没有直接催你回国，只是提醒你对自己的选择负责。兰英的附笔不再像当年那样稚嫩。你拿起笔——这次，你打算怎么回应？"
+        "text": "第三封家书静静躺在桌上。母亲的字迹依旧工整，通信与交通却已不再稳定。父亲没有催他回国，只提醒他对自己的选择负责。兰英的附笔也不似当年稚嫩。沈怀远拿起笔——这一次，他打算怎样回应？"
       },
       "choices": [
         {
           "id": "D8_K1_A",
-          "text": "决定坦诚写下自己的处境与选择",
+          "text": "坦诚写下自己的处境与选择",
           "isCritical": true,
           "nextSceneId": "journal_day08_winter_1937",
           "effects": {
-            "stats": { "responsibility": 2, "homesickness": 1 },
-            "addFlags": ["family_will_write_honestly"]
+            "stats": {
+              "responsibility": 2,
+              "homesickness": 1
+            },
+            "addFlags": [
+              "family_will_write_honestly"
+            ]
           },
-          "confirmationText": "坦诚意味着家人将知道你可能面对的风险。他们会担心，但他们也会理解。确定要如实写吗？"
+          "confirmationText": "坦诚意味着家人会知道你可能面对的风险。他们会担心，但也会理解。确定要如实写吗？"
         },
         {
           "id": "D8_K1_B",
@@ -1925,10 +2218,15 @@
           "isCritical": true,
           "nextSceneId": "journal_day08_winter_1937",
           "effects": {
-            "stats": { "wellbeing": 1, "responsibility": -1 },
-            "addFlags": ["family_will_reassure_only"]
+            "stats": {
+              "wellbeing": 1,
+              "responsibility": -1
+            },
+            "addFlags": [
+              "family_will_reassure_only"
+            ]
           },
-          "confirmationText": "报平安能让他们安心，但你也知道这不是全部的真相。确定吗？"
+          "confirmationText": "报平安能让他们安心，但你也知道这不是全部真相。确定吗？"
         },
         {
           "id": "D8_K1_C",
@@ -1936,10 +2234,15 @@
           "isCritical": true,
           "nextSceneId": "journal_day08_winter_1937",
           "effects": {
-            "stats": { "responsibility": -1, "wellbeing": -1 },
-            "addFlags": ["family_no_final_reply"]
+            "stats": {
+              "responsibility": -1,
+              "wellbeing": -1
+            },
+            "addFlags": [
+              "family_no_final_reply"
+            ]
           },
-          "confirmationText": "不写回信也许是最务实的选择，但家人会继续等待一封永远收不到的信。确定吗？"
+          "confirmationText": "不写回信也许是最务实的选择，但家人会继续等待一封不会抵达的信。确定吗？"
         }
       ],
       "autoSavePoint": "criticalChoice"
@@ -1981,7 +2284,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "一切准备都已就绪——或尚未就绪。风雪中的车站就在眼前。你站在月台上，知道接下来的选择将决定此后数年、乃至一生的道路。先看看你的方向，再做最后的决定。"
+        "text": "一切准备都已就绪，或尚未就绪。风雪中的车站就在眼前。沈怀远站在月台上，知道接下来的选择将决定此后数年，乃至更久远的道路。先看清方向，再做最后的决定。"
       },
       "choices": [
         {
@@ -2010,7 +2313,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "归国的路不止一条，但每条都有代价。你的准备越充分，可选的路就越多。"
+        "text": "归国的路不止一条，每条都有代价。准备越充分，路就越稳；准备越仓促，能带走的东西就越少。"
       },
       "choices": [
         {
@@ -2020,20 +2323,53 @@
           "nextSceneId": "ending_electric_wave",
           "conditions": {
             "all": [
-              { "type": "prepMin", "key": "route", "value": 2 },
-              { "type": "prepMin", "key": "documents", "value": 1 },
-              { "type": "prepMin", "key": "technicalMaterials", "value": 1 },
-              { "type": "prepMin", "key": "contact", "value": 1 },
-              { "type": "statMin", "key": "knowledge", "value": 6 },
-              { "type": "statMin", "key": "responsibility", "value": 6 },
-              { "type": "statMin", "key": "wellbeing", "value": 3 },
-              { "type": "notFlag", "value": "took_restricted_materials" }
+              {
+                "type": "prepMin",
+                "key": "route",
+                "value": 2
+              },
+              {
+                "type": "prepMin",
+                "key": "documents",
+                "value": 1
+              },
+              {
+                "type": "prepMin",
+                "key": "technicalMaterials",
+                "value": 1
+              },
+              {
+                "type": "prepMin",
+                "key": "contact",
+                "value": 1
+              },
+              {
+                "type": "statMin",
+                "key": "knowledge",
+                "value": 6
+              },
+              {
+                "type": "statMin",
+                "key": "responsibility",
+                "value": 6
+              },
+              {
+                "type": "statMin",
+                "key": "wellbeing",
+                "value": 3
+              },
+              {
+                "type": "notFlag",
+                "value": "took_restricted_materials"
+              }
             ]
           },
           "visibleWhenLocked": true,
           "lockedHint": "需要确认的路线、票证、整理好的技术资料、可靠联系人和充足的知识与担当，且没有私自带走受限制资料。",
           "effects": {
-            "addFlags": ["ending_electric_wave_prepared"]
+            "addFlags": [
+              "ending_electric_wave_prepared"
+            ]
           },
           "confirmationText": "这是最完整的归国方式。你将以最充分的准备踏上归途。确定吗？"
         },
@@ -2044,14 +2380,23 @@
           "nextSceneId": "ending_electric_wave",
           "conditions": {
             "all": [
-              { "type": "reliableCountMin", "value": 1 },
-              { "type": "prepMin", "key": "route", "value": 1 }
+              {
+                "type": "reliableCountMin",
+                "value": 1
+              },
+              {
+                "type": "prepMin",
+                "key": "route",
+                "value": 1
+              }
             ]
           },
           "visibleWhenLocked": true,
-          "lockedHint": "需要至少一位可靠同伴的帮助，以及基本的路线信息。",
+          "lockedHint": "需要至少一位可靠同伴的帮助，以及基本路线信息。",
           "effects": {
-            "addFlags": ["ending_electric_wave_supported"]
+            "addFlags": [
+              "ending_electric_wave_supported"
+            ]
           },
           "confirmationText": "有同伴的帮助，归国的路会稳妥得多。确定要依赖他们的支持吗？"
         },
@@ -2061,9 +2406,11 @@
           "isCritical": true,
           "nextSceneId": "ending_electric_wave",
           "effects": {
-            "addFlags": ["ending_electric_wave_hasty"]
+            "addFlags": [
+              "ending_electric_wave_hasty"
+            ]
           },
-          "confirmationText": "你准备不足，但时间不等人。放弃一部分东西，先踏上归途。确定吗？"
+          "confirmationText": "准备并不充分，但时间不等人。放弃一部分东西，先踏上归途。确定吗？"
         }
       ],
       "autoSavePoint": "beforeEnding"
@@ -2080,7 +2427,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "留下不是逃避。你可以继续完成研究，设法把成果送回国内，或者等待更好的时机。"
+        "text": "留下并不等于逃避。沈怀远可以继续完成研究，设法把公开成果送回国内，也可以等待更安全的时机。"
       },
       "choices": [
         {
@@ -2090,16 +2437,33 @@
           "nextSceneId": "ending_foreign_lamp",
           "conditions": {
             "all": [
-              { "type": "statMin", "key": "knowledge", "value": 6 },
-              { "type": "statMin", "key": "responsibility", "value": 6 },
-              { "type": "prepMin", "key": "technicalMaterials", "value": 1 },
-              { "type": "reliableCountMin", "value": 2 }
+              {
+                "type": "statMin",
+                "key": "knowledge",
+                "value": 6
+              },
+              {
+                "type": "statMin",
+                "key": "responsibility",
+                "value": 6
+              },
+              {
+                "type": "prepMin",
+                "key": "technicalMaterials",
+                "value": 1
+              },
+              {
+                "type": "reliableCountMin",
+                "value": 2
+              }
             ]
           },
           "visibleWhenLocked": true,
           "lockedHint": "需要足够的知识、担当、技术资料积累，以及至少两位可靠同伴的支持。",
           "effects": {
-            "addFlags": ["ending_foreign_lamp_support"]
+            "addFlags": [
+              "ending_foreign_lamp_support"
+            ]
           },
           "confirmationText": "留下并支援国内——你将以另一种方式兑现自己的责任。确定吗？"
         },
@@ -2109,9 +2473,11 @@
           "isCritical": true,
           "nextSceneId": "ending_foreign_lamp",
           "effects": {
-            "addFlags": ["ending_foreign_lamp_research"]
+            "addFlags": [
+              "ending_foreign_lamp_research"
+            ]
           },
-          "confirmationText": "研究是你最擅长的事。把它完成，未来也许还有别的可能。确定吗？"
+          "confirmationText": "研究是你最熟悉的道路。把它完成，未来也许还有别的可能。确定吗？"
         },
         {
           "id": "FINAL_STAY_DELAY",
@@ -2119,9 +2485,11 @@
           "isCritical": true,
           "nextSceneId": "ending_foreign_lamp",
           "effects": {
-            "addFlags": ["ending_foreign_lamp_delay"]
+            "addFlags": [
+              "ending_foreign_lamp_delay"
+            ]
           },
-          "confirmationText": "等待可能意味着错过，但也可能意味着更好的时机。确定要等吗？"
+          "confirmationText": "等待可能意味着错过，也可能意味着更稳妥的时机。确定要等吗？"
         }
       ],
       "autoSavePoint": "beforeEnding"
@@ -2139,8 +2507,9 @@
         "ending": {
           "title": "《电波归途》",
           "paragraphs": [
-            "1938 年尾声中，沈怀远抵达了新的起点。他带回的不是传奇式万能成果，而是可被使用的技术经验、笔记、方法与一种更成熟的责任理解。",
-            "列车驶过漫长的雪原，窗外的风景从陌生重新变回熟悉。那些年在异国学得的本事，如今终于有了用武之地。",
+            "1938 年尾声，沈怀远抵达新的起点。",
+            "他带回的并非传奇式的万能成果，而是可以被使用的技术经验、笔记、方法，以及一种更成熟的责任理解。",
+            "列车驶过漫长雪原，窗外的风景从陌生重新变得熟悉。那些年在异国学得的本事，终于不再只属于实验室。",
             "有些选择发生在一日之内，有些选择，要经过四季才能看清。"
           ],
           "voiceAsset": "/assets/audio/voice/voice_ending_return.ogg",
@@ -2161,9 +2530,9 @@
         "ending": {
           "title": "《异乡长灯》",
           "paragraphs": [
-            "沈怀远选择留下完成研究。时光流转，他取得了令人尊敬的技术成就和稳定的生活，但时代没有停下来等待他。",
-            "研究室的灯终年未熄。在某些深夜，他仍会望向窗外的风雪，想起那条未竟的归途——它从未真正远去。",
-            "异乡的灯终年未熄，而那场未竟的归途，也从未真正远去。"
+            "沈怀远选择留下完成研究。时光流转，他取得了令人尊敬的技术成就，也拥有了相对安稳的生活。可时代没有停下来等他。",
+            "研究室的灯终年未熄。在某些深夜，他仍会望向窗外的风雪，想起那条未竟的归途。",
+            "异乡的灯照亮了他的学问，也照见了他心中始终没有远去的故乡。"
           ],
           "voiceAsset": "/assets/audio/voice/voice_ending_stay.ogg",
           "bgm": "/assets/audio/bgm/bgm_08_ending_stay.ogg"
@@ -2182,7 +2551,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "旅程结束。感谢你陪伴沈怀远走过这段跨越风雪与岁月的旅程。",
+        "text": "旅程结束。感谢你陪伴沈怀远走过这段跨越风雪与岁月的旅程。\n\n那些选择、犹豫和告别，最终汇成了一条只属于你的路径。\n\n雪落之前，有人归去，有人留下。\n但每一个选择，都曾是风雪中真实的一步。",
         "chapterTitle": "旅程回顾"
       },
       "elements": [
@@ -2232,7 +2601,7 @@
           "lineHeight": 1.8,
           "align": "center",
           "color": "#d4c8a8",
-          "text": "旅程结束。感谢你陪伴沈怀远走过这段跨越风雪与岁月的旅程。\n\n那些选择、犹豫和告别，最终汇成了一条只属于你的路径。\n\n雪落之前，有人归去，有人留下。\n但每一个选择，都曾是风雪中真实的一步。"
+          "text": "旅程结束。\n\n感谢你陪伴沈怀远走过这段跨越风雪与岁月的求学之路。\n\n那些选择、犹豫、帮助与告别，最终汇成了一条只属于你的路径。\n\n雪落之前，有人踏上归途，有人守着长灯。\n\n但每一个选择，都曾是风雪中真实的一步。"
         }
       ],
       "nextSceneId": "thank_you"
@@ -2300,7 +2669,7 @@
           "lineHeight": 2,
           "align": "center",
           "color": "#c8bc98",
-          "text": "本作取材于李强等二十世纪二三十年代留苏先辈的真实经历，并在史料基础上进行了艺术化重构。\n\n感谢你的游玩。\n\n雪落之前 · V1"
+          "text": "本作取材于李强等二十世纪二三十年代留苏先辈的真实经历，并在史料基础上进行综合与艺术化重构。\n\n感谢你的游玩。\n\n雪落之前 · V1"
         },
         {
           "id": "thanks_hint",
