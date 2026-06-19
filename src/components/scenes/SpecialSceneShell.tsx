@@ -23,6 +23,10 @@ interface SpecialSceneShellProps {
   canAdvance: boolean;
   /** 插槽内容 */
   children?: ReactNode;
+  /** 是否隐藏暗色叠加层（用于信纸等纯内容展示） */
+  hideOverlay?: boolean;
+  /** 禁用点击背景推进（用于需要内部按钮操作的场景） */
+  disableClickAdvance?: boolean;
 }
 
 export default function SpecialSceneShell({
@@ -31,17 +35,19 @@ export default function SpecialSceneShell({
   onAdvance,
   canAdvance,
   children,
+  hideOverlay = false,
+  disableClickAdvance = false,
 }: SpecialSceneShellProps) {
   const { tryAdvance } = useAdvanceGuard(scene.id, onAdvance);
 
   const handleClick = useCallback((e: React.MouseEvent) => {
-    if (!canAdvance) return;
+    if (!canAdvance || disableClickAdvance) return;
     // 排除交互元素：按钮、链接、输入框等不应触发推进
     const target = e.target as HTMLElement;
     const interactive = target.closest("button, a, input, textarea, select, [role='button']");
     if (interactive) return;
     tryAdvance();
-  }, [canAdvance, tryAdvance]);
+  }, [canAdvance, tryAdvance, disableClickAdvance]);
 
   // 键盘推进：Enter / Space
   useEffect(() => {
@@ -96,15 +102,17 @@ export default function SpecialSceneShell({
       )}
 
       {/* 半透明暗色叠加层 */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "rgba(10,8,6,0.25)",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
+      {!hideOverlay && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(10,8,6,0.25)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+      )}
 
       {/* 内容插槽 */}
       <div

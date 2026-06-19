@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
 import SceneRenderer from "@/components/scenes/SceneRenderer";
 import { useGameStore } from "@/app/stores/gameStore";
@@ -25,6 +26,7 @@ import gameDataRaw from "@/content/game-data.json";
  * - topStatusHeight: 72 (叠加在场景上，不占独立空间)
  */
 export default function GamePage() {
+  const navigate = useNavigate();
   const {
     loadGameData, startNewGame, continueGame, getCurrentScene, advanceScene,
     commitChoice, rollbackToHistoryEntry, getHistory, recordHistoryEntry,
@@ -108,6 +110,12 @@ export default function GamePage() {
     // 需要有效的 nextSceneId 才能推进
     if (!nextSceneId) return;
 
+    // 特殊目标：返回标题页
+    if (nextSceneId === "__title__") {
+      navigate("/");
+      return;
+    }
+
     // 特殊场景（非 standardDialogue）：离开前记录历史
     if (currentScene.template !== "standardDialogue") {
       const historyEntry = buildHistoryEntryFromScene(currentScene);
@@ -117,7 +125,7 @@ export default function GamePage() {
     }
 
     advanceScene(nextSceneId);
-  }, [currentScene, hasChoices, showingChoices, advanceScene, recordHistoryEntry]);
+  }, [currentScene, hasChoices, showingChoices, advanceScene, recordHistoryEntry, navigate]);
 
   const handleSelectChoice = useCallback((choice: ChoiceDefinition) => {
     if (choice.isCritical) { setPendingConfirm(choice); return; }

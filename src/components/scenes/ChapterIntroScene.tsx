@@ -93,11 +93,11 @@ export default function ChapterIntroScene(props: ChapterIntroSceneProps) {
         {/* 落款/补充文字 */}
         {footerText && (
           <p style={{
-            color: "var(--color-text-dim)",
+            color: "var(--color-text-secondary)",
             fontSize: "var(--font-size-status)",
             marginTop: "var(--space-lg)",
             letterSpacing: 2,
-            opacity: 0.6,
+            opacity: 0.85,
           }}>
             {footerText}
           </p>

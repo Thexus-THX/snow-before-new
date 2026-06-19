@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（环境音 + SFX 接入完成）
+> 最后更新：2026-06-20（序章素材 + 家书/致谢打磨）
 
 ---
 
@@ -499,6 +499,33 @@
 | sfx_choice_locked.ogg | SFX |
 | sfx_radio_static_short.ogg | SFX |
 | sfx_stamp_paper.ogg | SFX |
+
+### ✅ 序章素材 + 家书/致谢打磨（2026-06-20）
+
+#### 序章三分支背景图
+- `props_letter_paper_1931.png` → `prologue_letter_result`
+- `props_radio_telegram_1931.png` → `prologue_radio_result`
+- `props_station_crowd_1931.png` → `prologue_people_result`
+
+#### 角色立绘
+- 全部改为 `.png` 格式（去除 `_transparent` 后缀）
+
+#### 家书信纸
+- 恢复 `ui_letter_paper.png`，信纸底图正常显示
+- 暗色遮罩移除（`hideOverlay`）
+- 禁止点击空白跳过（`disableClickAdvance`）
+
+#### 时光流转页
+- 标题"时光流转" + 落款"—— 五年后 ——"调亮
+
+#### 致谢页
+- 文字放大（标题 52px，正文 26px，提示 20px）
+- 点击返回标题页（`__title__` → `navigate("/")`）
+- 结局 BGM 持续播放到致谢页，返回标题页才切换
+
+#### BGM 修复
+- `useSceneAudio`：无 BGM 场景不停止当前 BGM
+- `crossfadeBgm` 同 ID 跳过
 
 ## 待实现
 

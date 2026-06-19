@@ -80,6 +80,8 @@ export default function LetterScene(props: LetterSceneProps) {
       sceneName={scene.name}
       onAdvance={() => scene.nextSceneId && onAdvance(scene.nextSceneId)}
       canAdvance={canAdvance}
+      hideOverlay
+      disableClickAdvance
     >
       <div className="letter-container" style={{
         position: "relative",

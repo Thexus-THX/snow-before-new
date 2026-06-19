@@ -37,9 +37,8 @@ export function useSceneAudio(scene: SceneDefinition | undefined): void {
 
       if (newBgmId) {
         audioManager.crossfadeBgm(newBgmId);
-      } else {
-        audioManager.stopBgm();
       }
+      // 新场景无 BGM 时不停止，让当前 BGM 继续播放（如结局→致谢）
 
       // 切换环境音
       if (config.ambience && config.ambience.length > 0) {

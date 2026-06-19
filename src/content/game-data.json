@@ -19,11 +19,11 @@
       "fullName": "沈怀远",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_shen_huaiyuan_neutral_transparent.png",
-        "focused": "/assets/characters/char_shen_huaiyuan_focused_transparent.png",
-        "tired": "/assets/characters/char_shen_huaiyuan_tired_transparent.png",
-        "hesitant": "/assets/characters/char_shen_huaiyuan_hesitant_transparent.png",
-        "determined": "/assets/characters/char_shen_huaiyuan_determined_transparent.png"
+        "neutral": "/assets/characters/char_shen_huaiyuan_neutral.png",
+        "focused": "/assets/characters/char_shen_huaiyuan_focused.png",
+        "tired": "/assets/characters/char_shen_huaiyuan_tired.png",
+        "hesitant": "/assets/characters/char_shen_huaiyuan_hesitant.png",
+        "determined": "/assets/characters/char_shen_huaiyuan_determined.png"
       }
     },
     "chen": {
@@ -32,10 +32,10 @@
       "shortName": "绍衡",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_chen_shaoheng_neutral_transparent.png",
-        "friendly": "/assets/characters/char_chen_shaoheng_friendly_transparent.png",
-        "tense": "/assets/characters/char_chen_shaoheng_tense_transparent.png",
-        "resolved": "/assets/characters/char_chen_shaoheng_resolved_transparent.png"
+        "neutral": "/assets/characters/char_chen_shaoheng_neutral.png",
+        "friendly": "/assets/characters/char_chen_shaoheng_friendly.png",
+        "tense": "/assets/characters/char_chen_shaoheng_tense.png",
+        "resolved": "/assets/characters/char_chen_shaoheng_resolved.png"
       }
     },
     "nadya": {
@@ -44,10 +44,10 @@
       "fullName": "娜杰日达·索科洛娃",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_nadya_neutral_transparent.png",
-        "warm": "/assets/characters/char_nadya_warm_transparent.png",
-        "concerned": "/assets/characters/char_nadya_concerned_transparent.png",
-        "farewell": "/assets/characters/char_nadya_farewell_transparent.png"
+        "neutral": "/assets/characters/char_nadya_neutral.png",
+        "warm": "/assets/characters/char_nadya_warm.png",
+        "concerned": "/assets/characters/char_nadya_concerned.png",
+        "farewell": "/assets/characters/char_nadya_farewell.png"
       }
     },
     "belov": {
@@ -56,9 +56,9 @@
       "fullName": "亚历山大·别洛夫",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_belov_neutral_transparent.png",
-        "approving": "/assets/characters/char_belov_approving_transparent.png",
-        "disappointed": "/assets/characters/char_belov_disappointed_transparent.png"
+        "neutral": "/assets/characters/char_belov_neutral.png",
+        "approving": "/assets/characters/char_belov_approving.png",
+        "disappointed": "/assets/characters/char_belov_disappointed.png"
       }
     },
     "ivan": {
@@ -67,9 +67,9 @@
       "fullName": "伊万·科瓦廖夫",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/char_ivan_neutral_transparent.png",
-        "skeptical": "/assets/characters/char_ivan_skeptical_transparent.png",
-        "approving": "/assets/characters/char_ivan_approving_transparent.png"
+        "neutral": "/assets/characters/char_ivan_neutral.png",
+        "skeptical": "/assets/characters/char_ivan_skeptical.png",
+        "approving": "/assets/characters/char_ivan_approving.png"
       }
     }
   },
@@ -410,7 +410,7 @@
       "name": "序章·拆信",
       "chapterId": "prologue_1931",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "background": "/assets/props/props_letter_paper_1931.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -426,7 +426,7 @@
       "name": "序章·观察设备",
       "chapterId": "prologue_1931",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "background": "/assets/props/props_radio_telegram_1931.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -442,7 +442,7 @@
       "name": "序章·攀谈",
       "chapterId": "prologue_1931",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "background": "/assets/props/props_station_crowd_1931.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -465,7 +465,7 @@
         "chapterTitle": "时光流转",
         "backgroundText": "从 1931 年到 1936 年，沈怀远在苏联度过了数年求学时光。无线电技术在他手中，渐渐从陌生的蜂鸣变成可以辨认的语言。而现在，1936 年春天，一场例行实验即将开始。",
         "textType": "narration",
-        "text": "五年后。"
+        "text": "—— 五年后 ——"
       },
       "nextSceneId": "letter_1931_winter_family"
     },
@@ -506,7 +506,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "记录表里有一组数值不太对。你是先去看设备，还是和我把记录再核一遍？",
-        "portraitAsset": "/assets/characters/char_nadya_neutral_transparent.png"
+        "portraitAsset": "/assets/characters/char_nadya_neutral.png"
       },
       "choices": [
         {
@@ -653,7 +653,7 @@
         "speakerName": "别洛夫",
         "textType": "dialogue",
         "text": "你做得对。数据不会撒谎，人却会。今天你选择了诚实，这在研究中比任何技巧都重要。",
-        "portraitAsset": "/assets/characters/char_belov_approving_transparent.png"
+        "portraitAsset": "/assets/characters/char_belov_approving.png"
       },
       "nextSceneId": "d1_end"
     },
@@ -670,7 +670,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "问题比预想的复杂，但我们至少找到了原因。导师听完说明后点了点头。他说，知道何时求助，也是一种能力。",
-        "portraitAsset": "/assets/characters/char_nadya_warm_transparent.png"
+        "portraitAsset": "/assets/characters/char_nadya_warm.png"
       },
       "nextSceneId": "d1_end"
     },
@@ -885,7 +885,7 @@
         "speakerName": "伊万",
         "textType": "dialogue",
         "text": "你是个认真的年轻人。工厂里许多人只盯着产量，你却还记得机器将被谁使用。我尊重这一点。",
-        "portraitAsset": "/assets/characters/char_ivan_approving_transparent.png"
+        "portraitAsset": "/assets/characters/char_ivan_approving.png"
       },
       "nextSceneId": "d2_end"
     },
@@ -902,7 +902,7 @@
         "speakerName": "伊万",
         "textType": "dialogue",
         "text": "你比很多工程师都聪明。不是因为你找到了完美办法，而是因为你知道什么时候不能只追求完美。",
-        "portraitAsset": "/assets/characters/char_ivan_approving_transparent.png"
+        "portraitAsset": "/assets/characters/char_ivan_approving.png"
       },
       "nextSceneId": "d2_end"
     },
@@ -1169,7 +1169,7 @@
         "speakerName": "陈绍衡",
         "textType": "dialogue",
         "text": "你家里来信了？……怀远，你有没有想过，我们在这里学的这些，最后到底是为了什么？",
-        "portraitAsset": "/assets/characters/char_chen_shaoheng_friendly_transparent.png"
+        "portraitAsset": "/assets/characters/char_chen_shaoheng_friendly.png"
       },
       "nextSceneId": "d3_end"
     },
@@ -1308,7 +1308,7 @@
         "speakerName": "别洛夫",
         "textType": "dialogue",
         "text": "怀远，你在测试中表现出的判断力，已经超出了我对一个学生的期待。我想邀请你加入一个长期研究项目。它需要数年时间，但成果会影响未来的通信技术。",
-        "portraitAsset": "/assets/characters/char_belov_approving_transparent.png"
+        "portraitAsset": "/assets/characters/char_belov_approving.png"
       },
       "choices": [
         {
@@ -1440,7 +1440,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "展示就在明天。技术讲解还来得及再改一遍，设备演示也可以再排一次。你想先顾哪边？",
-        "portraitAsset": "/assets/characters/char_nadya_warm_transparent.png"
+        "portraitAsset": "/assets/characters/char_nadya_warm.png"
       },
       "choices": [
         {
@@ -2614,7 +2614,7 @@
       "background": "/assets/backgrounds/bg_time_note_four_seasons.webp",
       "showTopStatusBar": false,
       "showDialoguePanel": false,
-      "nextSceneId": "prologue_train",
+      "nextSceneId": "__title__",
       "content": {
         "speakerId": "narrator",
         "speakerName": "",
@@ -2627,13 +2627,13 @@
           "id": "thanks_title",
           "type": "text",
           "x": 560,
-          "y": 180,
+          "y": 140,
           "width": 800,
-          "height": 80,
+          "height": 100,
           "opacity": 1,
           "zIndex": 10,
           "fontFamily": "var(--font-display), serif",
-          "fontSize": 36,
+          "fontSize": 52,
           "lineHeight": 1.3,
           "align": "center",
           "color": "#f0e6c8",
@@ -2642,9 +2642,9 @@
         {
           "id": "thanks_separator",
           "type": "text",
-          "x": 860,
-          "y": 270,
-          "width": 200,
+          "x": 810,
+          "y": 260,
+          "width": 300,
           "height": 2,
           "opacity": 0.5,
           "zIndex": 9,
@@ -2653,20 +2653,20 @@
           "lineHeight": 1,
           "align": "center",
           "color": "#8a7a5a",
-          "text": "━━━━━━━━━━━━━━━━━━━━"
+          "text": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         },
         {
           "id": "thanks_body",
           "type": "text",
-          "x": 360,
-          "y": 340,
-          "width": 1200,
-          "height": 300,
+          "x": 310,
+          "y": 320,
+          "width": 1300,
+          "height": 350,
           "opacity": 0.9,
           "zIndex": 10,
           "fontFamily": "var(--font-body), serif",
-          "fontSize": 20,
-          "lineHeight": 2,
+          "fontSize": 26,
+          "lineHeight": 2.2,
           "align": "center",
           "color": "#c8bc98",
           "text": "本作取材于李强等二十世纪二三十年代留苏先辈的真实经历，并在史料基础上进行综合与艺术化重构。\n\n感谢你的游玩。\n\n雪落之前 · V1"
@@ -2675,16 +2675,16 @@
           "id": "thanks_hint",
           "type": "text",
           "x": 760,
-          "y": 900,
+          "y": 880,
           "width": 400,
           "height": 40,
-          "opacity": 0.5,
+          "opacity": 0.55,
           "zIndex": 10,
           "fontFamily": "var(--font-body), serif",
-          "fontSize": 16,
+          "fontSize": 20,
           "lineHeight": 1.5,
           "align": "center",
-          "color": "#8a7a5a",
+          "color": "#a09070",
           "text": "点击返回标题"
         }
       ]
