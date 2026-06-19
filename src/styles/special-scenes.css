@@ -1,0 +1,48 @@
+/* ============================================================ */
+/* 《雪落之前》V1 — 特殊场景样式                                 */
+/* ============================================================ */
+
+/* ---- 特殊场景全屏外壳 ---- */
+.special-scene-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ---- 章节介绍页 ---- */
+.chapter-intro-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- 家书信纸容器 ---- */
+.letter-container {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  border-radius: var(--border-radius-md);
+}
+
+/* ---- 历史事件页 ---- */
+.historical-event-content {
+  /* 已通过内联样式处理，此处保留扩展空间 */
+}
+
+/* ---- 季节札记 ---- */
+.season-journal-content {
+  /* 已通过内联样式处理，此处保留扩展空间 */
+}
+
+/* ---- 结局页 ---- */
+.ending-content {
+  /* 已通过内联样式处理，此处保留扩展空间 */
+}
+
+/* ---- 自由排版 ---- */
+/* 自由排版使用绝对定位元素，不需要额外布局样式 */
+
+/* ---- 安全降级页 ---- */
+/* 使用 SpecialSceneShell 统一外壳 */
+
+/* ---- 通用工具类 ---- */
+
+/* 推进提示脉冲动画复用 tokens.css 中的 @keyframes pulse */

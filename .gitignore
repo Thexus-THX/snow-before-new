@@ -1,0 +1,15 @@
+node_modules/
+dist/
+*.local
+*.log
+.DS_Store
+Thumbs.db
+.playwright-cli/
+
+# 忽略构建产物中的媒体文件，但保留 public/assets/ 下的源素材
+dist/*.png
+dist/*.jpg
+dist/*.jpeg
+dist/*.webp
+dist/*.ogg
+dist/*.mp3
