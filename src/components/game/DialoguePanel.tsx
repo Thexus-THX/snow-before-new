@@ -104,7 +104,7 @@ export default function DialoguePanel({
 
   return (
     <div
-      className="dialoguePanel hasPanelSkin"
+      className="dialoguePanel"
       onClick={handleClick}
       style={{ cursor: showCursor ? "pointer" : "default", userSelect: "none", flexShrink: 0 }}
     >

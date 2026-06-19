@@ -146,7 +146,6 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
               e.currentTarget.style.color = "var(--color-text-secondary)";
             }}
           >
-            <img src="/assets/ui/ui_icon_history.png" alt="" style={{ width: 18, height: 18, opacity: 0.7 }} />
             履历
           </button>
         </div>

@@ -466,7 +466,6 @@ export default function TitlePage() {
 
           {/* 设置 */}
           <button onClick={handleSettings} className="secondaryButton">
-            <img src="/assets/ui/ui_icon_settings.png" alt="" style={{ width: 20, height: 20, opacity: 0.7, marginRight: 8 }} />
             设　　置
           </button>
         </div>
