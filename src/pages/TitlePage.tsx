@@ -71,9 +71,9 @@ function drawPixelCircle(ctx: CanvasRenderingContext2D, cx: number, cy: number, 
 
 // 三个复古火车橙黄色灯光源（坐标可调整）
 const TRAIN_LIGHTS: LightSource[] = [
-  { x: 1433, y: 390, radius: 20, flickerPhase: 0,      flickerSpeed: 0.001 },
+  { x: 1425, y: 390, radius: 20, flickerPhase: 0,      flickerSpeed: 0.001 },
   { x: 1385, y: 620, radius: 14, flickerPhase: 1.5,    flickerSpeed: 0.0012 },
-  { x: 1507, y: 615, radius: 14, flickerPhase: 3.0,    flickerSpeed: 0.0009 },
+  { x: 1487, y: 615, radius: 14, flickerPhase: 3.0,    flickerSpeed: 0.0009 },
 ];
 
 // 生成新雪花（从画布上边缘或右边缘随机位置出发）
@@ -111,6 +111,8 @@ export default function TitlePage() {
   const navigate = useNavigate();
   const { setLaunchMode, loadGameData } = useGameStore();
   const musicVolume = useSettingsStore((s) => s.musicVolume);
+  const ambienceVolume = useSettingsStore((s) => s.ambienceVolume);
+  const sfxVolume = useSettingsStore((s) => s.sfxVolume);
   const isMuted = useSettingsStore((s) => s.isMuted);
   const masterVolume = useSettingsStore((s) => s.masterVolume);
   const snowCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -146,8 +148,10 @@ export default function TitlePage() {
   useEffect(() => {
     audioManager.setMasterVolume(masterVolume);
     audioManager.setBgmVolume(musicVolume);
+    audioManager.setAmbienceVolume(ambienceVolume);
+    audioManager.setSfxVolume(sfxVolume);
     audioManager.setMuted(isMuted);
-  }, [musicVolume, isMuted, masterVolume]);
+  }, [masterVolume, musicVolume, ambienceVolume, sfxVolume, isMuted]);
 
   // 初始化雪花
   const initFlakes = useCallback(() => {

@@ -6,10 +6,7 @@
  */
 
 /** 音频通道类型 */
-export type AudioChannel = "bgm" | "ambience" | "sfx";
-
-/** 预留通道 */
-export type FutureAudioChannel = "voice";
+export type AudioChannel = "bgm" | "ambience" | "sfx" | "voice";
 
 /** 清单中的单条音频定义 */
 export interface AudioAssetDefinition {
@@ -37,20 +34,39 @@ export type BgmState = "stopped" | "playing" | "fading";
 
 /** AudioManager 公开接口 */
 export interface IAudioManager {
+  // BGM
   playBgm(id: string): void;
   stopBgm(): void;
   crossfadeBgm(id: string): void;
+  // Ambience
   playAmbience(ids: string[]): void;
   stopAmbience(): void;
+  // SFX
   playSfx(id: string): void;
+  // Voice（预留，缺失时 no-op）
+  playVoice(id: string): void;
+  stopVoice(): void;
+  // 全局
   stopAll(): void;
+  pauseAll(): void;
+  resumeAll(): void;
+  // 音量
   setMasterVolume(value: number): void;
   setBgmVolume(value: number): void;
   setAmbienceVolume(value: number): void;
   setSfxVolume(value: number): void;
+  setVoiceVolume(value: number): void;
   setMuted(muted: boolean): void;
-  /** 首次交互解锁（浏览器 autoplay 限制） */
+  getMasterVolume(): number;
+  getBgmVolume(): number;
+  getAmbienceVolume(): number;
+  getSfxVolume(): number;
+  getVoiceVolume(): number;
+  isMuted(): boolean;
+  // 状态
   unlock(): void;
-  /** 获取当前播放的 BGM ID */
   getCurrentBgmId(): string | null;
+  getCurrentAmbienceIds(): string[];
+  getBgmState(): BgmState;
+  isPaused(): boolean;
 }

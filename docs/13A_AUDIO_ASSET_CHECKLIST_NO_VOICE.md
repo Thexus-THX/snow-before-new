@@ -41,7 +41,8 @@ public/assets/audio/bgm/bgm_00_title.ogg
 
 | 文件名 | 用途 | 氛围要求 |
 |---|---|---|
-| `bgm_01_prologue_station.ogg` | 创作说明、时间说明、序章车站 | 冷冽、远行、低沉火车感、轻微苏联年代感 |
+| `bgm_01_prologue_station.ogg` | 创作说明、时间说明 | 冷冽、远行、低沉火车感、轻微苏联年代感 |
+| `bgm_09_first_station.ogg` | 序章车站 |
 | `bgm_02_lab_spring.ogg` | 第一日实验室、第五日成果展示 | 克制、理性、轻微希望感、低音无线电氛围 |
 | `bgm_03_factory_summer.ogg` | 第二日工厂 | 工业节奏、机械感、压迫但不吵 |
 | `bgm_04_autumn_letter.ogg` | 第三日秋、家书、思乡 | 纸张、旧信、温柔但克制 |

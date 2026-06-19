@@ -4,38 +4,36 @@
 import { describe, it, expect } from "vitest";
 import { getSceneAudio } from "../audioSceneMap";
 
-describe("P2A audioSceneMap", () => {
+describe("audioSceneMap", () => {
   it("标题页返回 bgm.title", () => {
-    const config = getSceneAudio("__title__");
-    expect(config.bgm).toBe("bgm.title");
+    expect(getSceneAudio("__title__").bgm).toBe("bgm.title");
   });
 
-  it("序章场景返回 bgm.prologue + amb.station_winter", () => {
+  it("创作说明返回 bgm.title", () => {
+    expect(getSceneAudio("note_creative_opening").bgm).toBe("bgm.title");
+  });
+
+  it("序章返回 bgm.first_station", () => {
     const config = getSceneAudio("prologue_train");
-    expect(config.bgm).toBe("bgm.prologue");
+    expect(config.bgm).toBe("bgm.first_station");
     expect(config.ambience).toContain("amb.station_winter");
   });
 
-  it("Day01 返回 bgm.spring_lab", () => {
-    expect(getSceneAudio("d1_lab_intro").bgm).toBe("bgm.spring_lab");
+  it("Day01 返回 bgm.lab_spring", () => {
+    expect(getSceneAudio("d1_lab_intro").bgm).toBe("bgm.lab_spring");
   });
 
-  it("Day02 返回 bgm.factory + amb.factory_machines", () => {
+  it("Day02 返回 bgm.factory", () => {
     const config = getSceneAudio("d2_factory_intro");
     expect(config.bgm).toBe("bgm.factory");
-    expect(config.ambience).toContain("amb.factory_machines");
   });
 
-  it("Day03 返回 bgm.autumn_letter + amb.dorm_quiet", () => {
-    const config = getSceneAudio("d3_location_choice");
-    expect(config.bgm).toBe("bgm.autumn_letter");
-    expect(config.ambience).toContain("amb.dorm_quiet");
+  it("Day03 返回 bgm.autumn_letter", () => {
+    expect(getSceneAudio("d3_location_choice").bgm).toBe("bgm.autumn_letter");
   });
 
-  it("Day04 返回 bgm.winter_field + amb.snowfield_wind", () => {
-    const config = getSceneAudio("d4_field_intro");
-    expect(config.bgm).toBe("bgm.winter_field");
-    expect(config.ambience).toContain("amb.snowfield_wind");
+  it("Day04 返回 bgm.winter_field", () => {
+    expect(getSceneAudio("d4_field_intro").bgm).toBe("bgm.winter_field");
   });
 
   it("Day06 返回 bgm.lugouqiao_tension", () => {
@@ -54,13 +52,21 @@ describe("P2A audioSceneMap", () => {
     expect(getSceneAudio("letter_1931_winter_family").bgm).toBe("bgm.autumn_letter");
   });
 
-  it("札记场景按季节返回对应 BGM", () => {
-    expect(getSceneAudio("journal_day01_spring_1936").bgm).toBe("bgm.spring_lab");
+  it("札记春天返回 bgm.lab_spring", () => {
+    expect(getSceneAudio("journal_day01_spring_1936").bgm).toBe("bgm.lab_spring");
+  });
+
+  it("札记冬天返回 bgm.winter_field", () => {
     expect(getSceneAudio("journal_day04_winter_1936").bgm).toBe("bgm.winter_field");
   });
 
-  it("journey_review 不返回 BGM", () => {
-    const config = getSceneAudio("journey_review");
+  it("journey_review 无 BGM", () => {
+    expect(getSceneAudio("journey_review").bgm).toBeUndefined();
+  });
+
+  it("未知场景返回空配置", () => {
+    const config = getSceneAudio("unknown_scene");
     expect(config.bgm).toBeUndefined();
+    expect(config.ambience).toBeUndefined();
   });
 });

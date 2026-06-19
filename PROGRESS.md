@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-19（STEP 03A DialoguePanel 素材接入）
+> 最后更新：2026-06-20（STEP 04 P2A 音频系统基础建设 + BGM intro/loop 接入）
 
 ---
 
@@ -401,6 +401,59 @@
 - DialoguePanel 尺寸保持 1920×216
 - 无文字遮挡/裁剪/错位
 
+### ✅ STEP 04 P2A 音频系统基础建设 + BGM intro/loop 接入（2026-06-20）
+
+#### 音频审计
+- 磁盘实际文件：`bgmused/` 下 17 个文件（1 个完整曲 + 8×2 intro/loop）
+- 旧 `bgm/` 目录：9 个旧版完整文件（已废弃）
+- 旧 manifest 问题：只引用不存在的 `bgm_00_title.ogg`
+
+#### audioCatalog 重写
+- 引入 `BgmMode`：`singleFullTrack`（开始页）/ `introLoop`（剧情场景）
+- `BgmDefinition` 类型：支持 `path`（intro）+ `loopPath`（loop）
+- 9 首 BGM 全部接入 `bgmused/` 中真实文件
+- 所有 BGM 音量独立配置（0.36~0.48）
+
+#### AudioManager 重写
+- **introLoop 自动切换**：intro 播放一次后 `ended` 事件自动创建 loop 元素
+- fadeOut 统一 1.5s，fadeIn 统一 2s（标题页 2.5s）
+- 同 BGM ID 不重新触发 intro
+- Voice 通道预留（no-op）
+- `pauseAll` / `resumeAll`
+- 分通道音量接口：master/bgm/ambience/sfx/voice
+
+#### 音量持久化增强
+- settingsStore 新增 `ambienceVolume`（默认 0.35）
+- SettingsPage 新增环境音滑块
+- 所有音量默认值降低
+
+#### useSceneAudio 优化
+- 改用 BGM ID 去重（非场景 ID）：同 BGM 连续场景不重新触发 intro
+- 组件卸载时 `stopAll`
+
+#### BGM 场景映射更新
+- 序章：`bgm.first_station`（bgm_09，非 bgm_01）
+- 创作说明/时间说明：`bgm.title`
+- Day01/05：`bgm.lab_spring`，Day02：`bgm.factory`，Day03：`bgm.autumn_letter`，Day04/08：`bgm.winter_field`，Day06/07：`bgm.lugouqiao_tension`
+- 结局：`bgm.ending_return` / `bgm.ending_lamp`（loop: false）
+
+#### 测试
+- `audioCatalog.test.ts`：16 测试（9 BGM + mode + introLoop 完整性）
+- `AudioManager.test.ts`：20 测试（缺失降级/音量 clamp/mute/pause/voice no-op）
+- `useSceneAudio.test.ts`：16 测试（16 种场景映射）
+- `audioManifest.test.ts`：4 测试（兼容保留）
+- 累计 17 文件 / 174 测试通过
+
+#### 未接入
+- Ambience / SFX / Voice 素材均未提供，标记 missing
+- 未新增任何音频文件
+- 未重命名任何音频文件
+- 未修改剧情 JSON
+
+### ⬜ UI 素材接入（已回退）
+- UI 素材接入效果不好，已回退到 STEP 02 纯 CSS UI
+- `ui-new/` 中素材保留备用
+
 ## 待实现
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证
   - 场景 ID 唯一性
@@ -491,11 +544,21 @@ public/
 └── assets/
     ├── backgrounds/ (19 张) ✅
     ├── characters/ (19 张) ✅
-    ├── audio/bgm/ (1 首) ✅
+    ├── audio/bgmused/ (17 首 intro+loop) ✅
     ├── props/ (8 张) ✅
-    ├── ui/ (12 张) ✅
+    ├── ui/ (已回退到 CSS)
+    ├── ui-new/ (素材保留备用)
     └── references/ (2 张) ✅
 docs/ (9 个 .md)
+src/
+├── audio/
+│   ├── AudioManager.ts       # introLoop + singleFullTrack + crossfade
+│   ├── audioCatalog.ts       # BgmDefinition + BgmMode + 资源清单
+│   ├── audioSceneMap.ts      # 场景→BGM 映射
+│   ├── useSceneAudio.ts      # BGM ID 去重 hook
+│   ├── audioTypes.ts         # 类型定义
+│   ├── audioManifest.ts      # 旧清单（兼容保留）
+│   └── __tests__/ (4 文件)
 ```
 
 ---

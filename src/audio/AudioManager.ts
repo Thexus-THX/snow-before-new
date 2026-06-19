@@ -1,37 +1,51 @@
 /**
  * AudioManager.ts — 统一音频管理器（单例）
  *
- * P2A：BGM / ambience / SFX 三通道
- * - BGM：单首，淡入淡出
- * - Ambience：循环，场景切换
- * - SFX：可重叠短音效
- * - 缺失音频安全跳过
- * - 首次交互解锁播放
+ * BGM 模式：
+ * - singleFullTrack：单文件完整播放（开始页）
+ * - introLoop：intro 播放一次后自动切换到 loop（剧情场景）
+ *
+ * 通道：BGM / ambience / SFX / voice（预留）
+ * 缺失音频安全跳过，不报错。
  */
 import type { IAudioManager, BgmState } from "./audioTypes";
-import { getAssetById } from "./audioManifest";
-import type { AudioAssetDefinition } from "./audioTypes";
+import { getBgmById, getTrackById } from "./audioCatalog";
+import type { BgmDefinition } from "./audioCatalog";
+
+const DEBUG = import.meta.env.DEV;
+
+function debugLog(...args: unknown[]): void {
+  if (DEBUG) console.info("[AudioManager]", ...args);
+}
 
 class AudioManagerImpl implements IAudioManager {
-  // ---- 通道实例 ----
+  // ---- BGM 通道 ----
   private bgmElement: HTMLAudioElement | null = null;
-  private ambienceElements: Map<string, HTMLAudioElement> = new Map();
-  private sfxPool: HTMLAudioElement[] = [];
-
-  // ---- 状态 ----
+  /** introLoop 模式下的 loop 元素（在 intro 结束后创建） */
+  private bgmLoopElement: HTMLAudioElement | null = null;
   private currentBgmId: string | null = null;
   private bgmState: BgmState = "stopped";
   private fadeTimer: number | null = null;
+
+  // ---- 其他通道 ----
+  private ambienceElements: Map<string, HTMLAudioElement> = new Map();
+  private sfxPool: HTMLAudioElement[] = [];
+  private voiceElement: HTMLAudioElement | null = null;
+
+  // ---- 状态 ----
+  private currentAmbienceIds: Set<string> = new Set();
   private unlocked = false;
   private muted = false;
+  private paused = false;
 
-  // ---- 音量（0-1） ----
+  // ---- 音量 ----
   private masterVolume = 0.8;
-  private bgmVolume = 0.7;
-  private ambienceVolume = 0.4;
-  private sfxVolume = 0.8;
+  private bgmVolume = 0.45;
+  private ambienceVolume = 0.35;
+  private sfxVolume = 0.6;
+  private voiceVolume = 0.8;
 
-  // ---- 是否已注册 visibility handler ----
+  // ---- visibility ----
   private visibilityRegistered = false;
   private wasPlayingBeforeHidden = false;
 
@@ -40,53 +54,54 @@ class AudioManagerImpl implements IAudioManager {
     this.registerFirstInteraction();
   }
 
-  // ============ 公开方法 ============
+  // ========================================================================
+  // BGM 通道（支持 singleFullTrack + introLoop）
+  // ========================================================================
 
   playBgm(id: string): void {
-    if (this.currentBgmId === id && this.bgmState === "playing") return;
-
-    const asset = getAssetById(id);
-    if (!asset || !asset.src) {
-      if (import.meta.env.DEV && asset) {
-        console.info(`[AudioManager] BGM "${id}" 素材未提供，跳过`);
-      }
+    if (this.currentBgmId === id && this.bgmState === "playing") {
+      debugLog(`BGM "${id}" 已在播放，跳过`);
       return;
     }
 
-    // 如果正在播放另一首，淡出
-    if (this.currentBgmId && this.bgmState === "playing") {
+    const def = getBgmById(id);
+    if (!def || !def.enabled || def.missing || !def.path) {
+      debugLog(`BGM "${id}" 素材未提供，跳过`);
+      return;
+    }
+
+    // 已在播放另一首 → crossfade
+    if (this.currentBgmId && this.currentBgmId !== id && this.bgmState === "playing") {
       this.crossfadeBgm(id);
       return;
     }
 
-    this.startBgm(asset);
+    this.startBgm(def);
   }
 
   stopBgm(): void {
     this.clearFadeTimer();
-    if (this.bgmElement) {
-      this.bgmElement.pause();
-      this.bgmElement.currentTime = 0;
-      this.bgmElement = null;
-    }
+    this.cleanupBgmElements();
     this.currentBgmId = null;
     this.bgmState = "stopped";
   }
 
   crossfadeBgm(id: string): void {
-    const asset = getAssetById(id);
-    if (!asset?.src) return;
+    const def = getBgmById(id);
+    if (!def?.enabled || def.missing || !def.path) {
+      debugLog(`crossfadeBgm "${id}" 素材未提供，跳过`);
+      return;
+    }
 
     const old = this.bgmElement;
-    const fadeOutMs = asset.fadeOutMs ?? 600;
-    const fadeInMs = asset.fadeInMs ?? 800;
+    const oldLoop = this.bgmLoopElement;
+    const fadeOutMs = def.fadeOutMs;
 
-    // 淡出旧 BGM
     if (old) {
       this.bgmState = "fading";
       const steps = 20;
       const interval = fadeOutMs / steps;
-      const startVol = this.getEffectiveBgmVolume();
+      const startVol = this.getEffectiveBgmVolume() * (this.getCurrentBgmDefaultVolume() ?? 1);
       let step = 0;
 
       this.clearFadeTimer();
@@ -94,24 +109,33 @@ class AudioManagerImpl implements IAudioManager {
         step++;
         const v = startVol * (1 - step / steps);
         if (old) old.volume = Math.max(0, v);
+        if (oldLoop) oldLoop.volume = Math.max(0, v);
         if (step < steps) {
           this.fadeTimer = window.setTimeout(doFadeOut, interval);
         } else {
+          // 完全停止旧元素
           old.pause();
           old.currentTime = 0;
+          if (oldLoop) {
+            oldLoop.pause();
+            oldLoop.currentTime = 0;
+          }
           this.bgmElement = null;
-          // 淡入新 BGM
-          this.startBgm(asset);
+          this.bgmLoopElement = null;
+          this.startBgm(def);
         }
       };
       this.fadeTimer = window.setTimeout(doFadeOut, interval);
     } else {
-      this.startBgm(asset);
+      this.startBgm(def);
     }
   }
 
+  // ========================================================================
+  // Ambience 通道
+  // ========================================================================
+
   playAmbience(ids: string[]): void {
-    // 停止不在新列表中的环境音
     const newSet = new Set(ids);
     for (const [playingId, el] of this.ambienceElements) {
       if (!newSet.has(playingId)) {
@@ -119,151 +143,215 @@ class AudioManagerImpl implements IAudioManager {
         this.ambienceElements.delete(playingId);
       }
     }
-
-    // 播放新环境音
     for (const id of ids) {
       if (this.ambienceElements.has(id)) continue;
-
-      const asset = getAssetById(id);
-      if (!asset?.src) continue; // 素材未提供，跳过
-
+      const track = getTrackById(id);
+      if (!track || track.type === "bgm" || !track.enabled || track.missing || !track.path) continue;
       try {
-        const audio = new Audio(asset.src);
+        const audio = new Audio(track.path);
         audio.loop = true;
-        audio.volume = this.getEffectiveAmbienceVolume();
-        const playPromise = audio.play();
-        if (playPromise) {
-          playPromise.catch(() => {
-            // autoplay 限制，等待解锁
-          });
-        }
+        audio.volume = this.paused ? 0 : this.getEffectiveAmbienceVolume();
+        audio.play().catch(() => {});
         this.ambienceElements.set(id, audio);
       } catch {
-        if (import.meta.env.DEV) {
-          console.warn(`[AudioManager] 环境音 "${id}" 加载失败`);
-        }
+        debugLog(`环境音 "${id}" 加载失败`);
       }
     }
+    this.currentAmbienceIds = newSet;
   }
 
   stopAmbience(): void {
-    for (const el of this.ambienceElements.values()) {
-      el.pause();
-    }
+    for (const el of this.ambienceElements.values()) el.pause();
     this.ambienceElements.clear();
+    this.currentAmbienceIds.clear();
   }
 
-  playSfx(id: string): void {
-    const asset = getAssetById(id);
-    if (!asset?.src) return; // 素材未提供，静默跳过
+  // ========================================================================
+  // SFX 通道
+  // ========================================================================
 
+  playSfx(id: string): void {
+    const track = getTrackById(id);
+    if (!track || track.type === "bgm" || !track.enabled || track.missing || !track.path) return;
+    if (this.paused || this.muted) return;
     try {
-      const audio = new Audio(asset.src);
+      const audio = new Audio(track.path);
       audio.volume = this.getEffectiveSfxVolume();
-      const playPromise = audio.play();
-      if (playPromise) {
-        playPromise.catch(() => {
-          // SFX 播放失败不影响 UI
-        });
-      }
-      // 播放完毕后清理
+      audio.play().catch(() => {});
       audio.addEventListener("ended", () => {
         const idx = this.sfxPool.indexOf(audio);
         if (idx >= 0) this.sfxPool.splice(idx, 1);
       });
       this.sfxPool.push(audio);
-    } catch {
-      // 静默失败
+    } catch { /* noop */ }
+  }
+
+  // ========================================================================
+  // Voice 通道（预留，安全降级）
+  // ========================================================================
+
+  playVoice(id: string): void {
+    const track = getTrackById(id);
+    if (!track || track.type === "bgm" || !track.enabled || track.missing || !track.path) return;
+    this.stopVoice();
+    try {
+      const audio = new Audio(track.path);
+      audio.loop = false;
+      audio.volume = this.paused ? 0 : this.getEffectiveVoiceVolume();
+      audio.play().catch(() => {});
+      audio.addEventListener("ended", () => { this.voiceElement = null; });
+      this.voiceElement = audio;
+    } catch { /* noop */ }
+  }
+
+  stopVoice(): void {
+    if (this.voiceElement) {
+      this.voiceElement.pause();
+      this.voiceElement.currentTime = 0;
+      this.voiceElement = null;
     }
   }
+
+  // ========================================================================
+  // 全局控制
+  // ========================================================================
 
   stopAll(): void {
     this.stopBgm();
     this.stopAmbience();
-    for (const sfx of this.sfxPool) {
-      sfx.pause();
-    }
+    this.stopVoice();
+    for (const sfx of this.sfxPool) sfx.pause();
     this.sfxPool = [];
   }
 
-  setMasterVolume(value: number): void {
-    this.masterVolume = Math.max(0, Math.min(1, value));
-    this.applyVolumes();
+  pauseAll(): void {
+    if (this.paused) return;
+    this.paused = true;
+    if (this.bgmElement) this.bgmElement.pause();
+    if (this.bgmLoopElement) this.bgmLoopElement.pause();
+    for (const el of this.ambienceElements.values()) el.pause();
+    if (this.voiceElement) this.voiceElement.pause();
+    for (const sfx of this.sfxPool) sfx.pause();
   }
 
-  setBgmVolume(value: number): void {
-    this.bgmVolume = Math.max(0, Math.min(1, value));
-    this.applyVolumes();
+  resumeAll(): void {
+    if (!this.paused) return;
+    this.paused = false;
+    if (this.bgmElement && this.bgmState === "playing") this.bgmElement.play().catch(() => {});
+    if (this.bgmLoopElement && this.bgmState === "playing") this.bgmLoopElement.play().catch(() => {});
+    for (const el of this.ambienceElements.values()) el.play().catch(() => {});
+    if (this.voiceElement) this.voiceElement.play().catch(() => {});
   }
 
-  setAmbienceVolume(value: number): void {
-    this.ambienceVolume = Math.max(0, Math.min(1, value));
-    this.applyVolumes();
-  }
+  // ========================================================================
+  // 音量
+  // ========================================================================
 
-  setSfxVolume(value: number): void {
-    this.sfxVolume = Math.max(0, Math.min(1, value));
-    // SFX 是瞬时的，不需要持续更新
-  }
+  setMasterVolume(v: number): void { this.masterVolume = Math.max(0, Math.min(1, v)); this.applyVolumes(); }
+  setBgmVolume(v: number): void { this.bgmVolume = Math.max(0, Math.min(1, v)); this.applyVolumes(); }
+  setAmbienceVolume(v: number): void { this.ambienceVolume = Math.max(0, Math.min(1, v)); this.applyVolumes(); }
+  setSfxVolume(v: number): void { this.sfxVolume = Math.max(0, Math.min(1, v)); }
+  setVoiceVolume(v: number): void { this.voiceVolume = Math.max(0, Math.min(1, v)); if (this.voiceElement) this.voiceElement.volume = this.getEffectiveVoiceVolume(); }
+  setMuted(m: boolean): void { this.muted = m; this.applyVolumes(); }
 
-  setMuted(muted: boolean): void {
-    this.muted = muted;
-    this.applyVolumes();
-  }
+  getMasterVolume(): number { return this.masterVolume; }
+  getBgmVolume(): number { return this.bgmVolume; }
+  getAmbienceVolume(): number { return this.ambienceVolume; }
+  getSfxVolume(): number { return this.sfxVolume; }
+  getVoiceVolume(): number { return this.voiceVolume; }
+  isMuted(): boolean { return this.muted; }
 
   unlock(): void {
     if (this.unlocked) return;
     this.unlocked = true;
-
-    // 重试当前 BGM
-    if (this.bgmElement && this.bgmElement.paused && this.currentBgmId) {
-      this.bgmElement.play().catch(() => {});
-    }
-
-    // 重试环境音
-    for (const el of this.ambienceElements.values()) {
-      if (el.paused) {
-        el.play().catch(() => {});
-      }
-    }
+    if (this.bgmElement?.paused && this.currentBgmId) this.bgmElement.play().catch(() => {});
+    for (const el of this.ambienceElements.values()) { if (el.paused) el.play().catch(() => {}); }
   }
 
-  getCurrentBgmId(): string | null {
-    return this.currentBgmId;
-  }
+  getCurrentBgmId(): string | null { return this.currentBgmId; }
+  getCurrentAmbienceIds(): string[] { return Array.from(this.currentAmbienceIds); }
+  getBgmState(): BgmState { return this.bgmState; }
+  isPaused(): boolean { return this.paused; }
 
-  // ============ 内部方法 ============
+  // ========================================================================
+  // 内部：启动 BGM
+  // ========================================================================
 
-  private startBgm(asset: AudioAssetDefinition): void {
-    if (!asset.src) return;
+  private startBgm(def: BgmDefinition): void {
+    if (!def.path) return;
 
     try {
-      const audio = new Audio(asset.src);
-      audio.loop = asset.loop ?? true;
+      const audio = new Audio(def.path);
       audio.volume = 0;
 
-      const playPromise = audio.play();
-      if (playPromise) {
-        playPromise.catch(() => {
-          // 浏览器阻止 autoplay，等待用户交互
-        });
+      if (def.mode === "singleFullTrack") {
+        // 单文件完整播放
+        audio.loop = def.loop;
+      } else {
+        // introLoop：intro 不循环，播完后切换到 loop
+        audio.loop = false;
+        this.setupIntroToLoop(audio, def);
       }
 
+      audio.play().catch(() => {});
       this.bgmElement = audio;
-      this.currentBgmId = asset.id;
+      this.currentBgmId = def.id;
       this.bgmState = "playing";
 
-      // 淡入
-      this.fadeInBgm(audio, asset.fadeInMs ?? 800);
-    } catch {
-      if (import.meta.env.DEV) {
-        console.warn(`[AudioManager] BGM "${asset.id}" 加载失败`);
+      if (!this.paused) {
+        this.fadeInBgm(audio, def);
       }
+    } catch {
+      debugLog(`BGM "${def.id}" 加载失败`);
     }
   }
 
-  private fadeInBgm(audio: HTMLAudioElement, durationMs: number): void {
-    const targetVol = this.getEffectiveBgmVolume();
+  /** intro 播放结束后自动切换到 loop */
+  private setupIntroToLoop(intro: HTMLAudioElement, def: BgmDefinition): void {
+    if (!def.loopPath) return;
+
+    const onIntroEnd = () => {
+      intro.removeEventListener("ended", onIntroEnd);
+
+      // 检查是否已被新的 BGM 替换
+      if (this.currentBgmId !== def.id || this.bgmElement !== intro) return;
+
+      try {
+        const loopAudio = new Audio(def.loopPath!);
+        loopAudio.loop = def.loop;
+        loopAudio.volume = 0;
+
+        const targetVol = this.getEffectiveBgmVolume() * def.defaultVolume;
+        loopAudio.play().catch(() => {});
+        this.bgmLoopElement = loopAudio;
+
+        // 淡入 loop（用默认 fadeIn 时长）
+        const fadeMs = 1500;
+        const steps = 20;
+        const interval = fadeMs / steps;
+        let step = 0;
+        const doFade = () => {
+          step++;
+          loopAudio.volume = targetVol * (step / steps);
+          if (step < steps) {
+            this.fadeTimer = window.setTimeout(doFade, interval);
+          }
+        };
+        this.fadeTimer = window.setTimeout(doFade, interval);
+
+        debugLog(`BGM "${def.id}" intro 结束 → loop`);
+      } catch {
+        debugLog(`BGM "${def.id}" loop 加载失败`);
+      }
+    };
+
+    intro.addEventListener("ended", onIntroEnd);
+  }
+
+  /** 淡入（使用曲目自身 defaultVolume 作为系数） */
+  private fadeInBgm(audio: HTMLAudioElement, def: BgmDefinition): void {
+    const targetVol = this.getEffectiveBgmVolume() * def.defaultVolume;
+    const durationMs = def.fadeInMs;
     const steps = 20;
     const interval = durationMs / steps;
     let step = 0;
@@ -278,6 +366,19 @@ class AudioManagerImpl implements IAudioManager {
     this.fadeTimer = window.setTimeout(doFade, interval);
   }
 
+  private cleanupBgmElements(): void {
+    if (this.bgmElement) {
+      this.bgmElement.pause();
+      this.bgmElement.currentTime = 0;
+      this.bgmElement = null;
+    }
+    if (this.bgmLoopElement) {
+      this.bgmLoopElement.pause();
+      this.bgmLoopElement.currentTime = 0;
+      this.bgmLoopElement = null;
+    }
+  }
+
   private clearFadeTimer(): void {
     if (this.fadeTimer !== null) {
       clearTimeout(this.fadeTimer);
@@ -285,53 +386,69 @@ class AudioManagerImpl implements IAudioManager {
     }
   }
 
+  /** 获取当前 BGM 的 defaultVolume（音量系数），用于 fadeOut 计算 */
+  private getCurrentBgmDefaultVolume(): number | null {
+    if (!this.currentBgmId) return null;
+    const def = getBgmById(this.currentBgmId);
+    return def?.defaultVolume ?? null;
+  }
+
+  // ========================================================================
+  // 音量计算
+  // ========================================================================
+
   private getEffectiveBgmVolume(): number {
     return this.muted ? 0 : this.masterVolume * this.bgmVolume;
   }
-
   private getEffectiveAmbienceVolume(): number {
     return this.muted ? 0 : this.masterVolume * this.ambienceVolume;
   }
-
   private getEffectiveSfxVolume(): number {
     return this.muted ? 0 : this.masterVolume * this.sfxVolume;
+  }
+  private getEffectiveVoiceVolume(): number {
+    return this.muted ? 0 : this.masterVolume * this.voiceVolume;
   }
 
   private applyVolumes(): void {
     const bgmV = this.getEffectiveBgmVolume();
-    if (this.bgmElement) {
-      this.bgmElement.volume = bgmV;
-    }
+    const currentDef = this.currentBgmId ? getBgmById(this.currentBgmId) : null;
+    const coeff = currentDef?.defaultVolume ?? 1;
+
+    if (this.bgmElement) this.bgmElement.volume = bgmV * coeff;
+    if (this.bgmLoopElement) this.bgmLoopElement.volume = bgmV * coeff;
 
     const ambV = this.getEffectiveAmbienceVolume();
-    for (const el of this.ambienceElements.values()) {
-      el.volume = ambV;
-    }
+    for (const el of this.ambienceElements.values()) el.volume = ambV;
+
+    if (this.voiceElement) this.voiceElement.volume = this.getEffectiveVoiceVolume();
   }
 
-  // ============ visibility 处理 ============
+  // ========================================================================
+  // visibility / first interaction
+  // ========================================================================
 
   private registerVisibilityHandler(): void {
     if (this.visibilityRegistered) return;
     this.visibilityRegistered = true;
-
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         this.wasPlayingBeforeHidden = this.bgmState === "playing";
         if (this.bgmElement) this.bgmElement.pause();
+        if (this.bgmLoopElement) this.bgmLoopElement.pause();
         for (const el of this.ambienceElements.values()) el.pause();
+        if (this.voiceElement) this.voiceElement.pause();
       } else {
-        if (this.wasPlayingBeforeHidden && this.bgmElement) {
-          this.bgmElement.play().catch(() => {});
+        if (this.wasPlayingBeforeHidden && !this.paused) {
+          if (this.bgmElement) this.bgmElement.play().catch(() => {});
+          if (this.bgmLoopElement) this.bgmLoopElement.play().catch(() => {});
         }
-        for (const el of this.ambienceElements.values()) {
-          el.play().catch(() => {});
+        if (!this.paused) {
+          for (const el of this.ambienceElements.values()) el.play().catch(() => {});
         }
       }
     });
   }
-
-  // ============ 首次交互解锁 ============
 
   private registerFirstInteraction(): void {
     const handler = () => {
@@ -344,5 +461,4 @@ class AudioManagerImpl implements IAudioManager {
   }
 }
 
-/** 全局单例 */
 export const audioManager = new AudioManagerImpl();

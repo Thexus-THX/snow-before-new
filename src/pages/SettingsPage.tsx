@@ -14,12 +14,14 @@ export default function SettingsPage() {
   const {
     masterVolume,
     musicVolume,
+    ambienceVolume,
     sfxVolume,
     voiceVolume,
     isMuted,
     textSpeed,
     setMasterVolume,
     setMusicVolume,
+    setAmbienceVolume,
     setSfxVolume,
     setVoiceVolume,
     toggleMute,
@@ -30,9 +32,11 @@ export default function SettingsPage() {
   useEffect(() => {
     audioManager.setMasterVolume(masterVolume);
     audioManager.setBgmVolume(musicVolume);
+    audioManager.setAmbienceVolume(ambienceVolume);
     audioManager.setSfxVolume(sfxVolume);
+    audioManager.setVoiceVolume(voiceVolume);
     audioManager.setMuted(isMuted);
-  }, [musicVolume, sfxVolume, isMuted, masterVolume]);
+  }, [masterVolume, musicVolume, ambienceVolume, sfxVolume, voiceVolume, isMuted]);
 
   const sliderStyle: React.CSSProperties = {
     width: 200,
@@ -92,6 +96,20 @@ export default function SettingsPage() {
             max={100}
             value={Math.round(musicVolume * 100)}
             onChange={(e) => setMusicVolume(Number(e.target.value) / 100)}
+            style={sliderStyle}
+            disabled={isMuted}
+          />
+        </div>
+
+        {/* 环境音 */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <span style={{ width: 80, color: "#b8a88c" }}>环境音</span>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={Math.round(ambienceVolume * 100)}
+            onChange={(e) => setAmbienceVolume(Number(e.target.value) / 100)}
             style={sliderStyle}
             disabled={isMuted}
           />

@@ -8,10 +8,11 @@ import { create } from "zustand";
  */
 interface SettingsStore {
   // ---- 音量 ----
-  masterVolume: number; // 0-1
-  musicVolume: number; // 0-1
-  sfxVolume: number; // 0-1
-  voiceVolume: number; // 0-1
+  masterVolume: number; // 0-1, 默认 0.8
+  musicVolume: number; // 0-1, 默认 0.45 (bgm)
+  ambienceVolume: number; // 0-1, 默认 0.35
+  sfxVolume: number; // 0-1, 默认 0.6
+  voiceVolume: number; // 0-1, 默认 0.8
   isMuted: boolean;
 
   // ---- 文字速度 ----
@@ -23,6 +24,7 @@ interface SettingsStore {
   // ---- 操作方法 ----
   setMasterVolume: (v: number) => void;
   setMusicVolume: (v: number) => void;
+  setAmbienceVolume: (v: number) => void;
   setSfxVolume: (v: number) => void;
   setVoiceVolume: (v: number) => void;
   toggleMute: () => void;
@@ -47,11 +49,12 @@ function loadSettings(): Partial<SettingsStore> {
 const saved = loadSettings();
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
-  // 默认值
+  // 默认值（STEP 04 要求：不要太大）
   masterVolume: saved.masterVolume ?? 0.8,
-  musicVolume: saved.musicVolume ?? 0.7,
-  sfxVolume: saved.sfxVolume ?? 0.8,
-  voiceVolume: saved.voiceVolume ?? 0.9,
+  musicVolume: saved.musicVolume ?? 0.45,
+  ambienceVolume: saved.ambienceVolume ?? 0.35,
+  sfxVolume: saved.sfxVolume ?? 0.6,
+  voiceVolume: saved.voiceVolume ?? 0.8,
   isMuted: saved.isMuted ?? false,
   textSpeed: saved.textSpeed ?? "normal",
   tutorialDismissed: saved.tutorialDismissed ?? false,
@@ -62,6 +65,10 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   },
   setMusicVolume: (v: number) => {
     set({ musicVolume: Math.max(0, Math.min(1, v)) });
+    get().save();
+  },
+  setAmbienceVolume: (v: number) => {
+    set({ ambienceVolume: Math.max(0, Math.min(1, v)) });
     get().save();
   },
   setSfxVolume: (v: number) => {
@@ -92,8 +99,8 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     }
   },
   save: () => {
-    const { masterVolume, musicVolume, sfxVolume, voiceVolume, isMuted, textSpeed, tutorialDismissed } = get();
-    const payload = { masterVolume, musicVolume, sfxVolume, voiceVolume, isMuted, textSpeed, tutorialDismissed };
+    const { masterVolume, musicVolume, ambienceVolume, sfxVolume, voiceVolume, isMuted, textSpeed, tutorialDismissed } = get();
+    const payload = { masterVolume, musicVolume, ambienceVolume, sfxVolume, voiceVolume, isMuted, textSpeed, tutorialDismissed };
     localStorage.setItem("snow-before-v1-settings", JSON.stringify(payload));
   },
 }));

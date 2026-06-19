@@ -3,43 +3,63 @@
  *
  * 根据当前场景自动切换 BGM 和环境音。
  * 在 GamePage 顶层调用。
+ *
+ * STEP 04：增强清理逻辑，场景切换时正确淡出/停止。
  */
 import { useEffect, useRef } from "react";
 import { audioManager } from "./AudioManager";
 import { getSceneAudio } from "./audioSceneMap";
 import type { SceneDefinition } from "@/schemas/types";
 
+const DEBUG = import.meta.env.DEV;
+
 /**
  * 监听场景变化，自动更新音频
  * @param scene 当前场景对象（可能为 undefined）
  */
 export function useSceneAudio(scene: SceneDefinition | undefined): void {
-  const prevSceneId = useRef<string | null>(null);
+  const prevBgmId = useRef<string | null>(null);
 
   useEffect(() => {
     if (!scene) return;
-    if (prevSceneId.current === scene.id) return;
-    prevSceneId.current = scene.id;
 
     const config = getSceneAudio(scene.id);
+    const newBgmId = config.bgm ?? null;
 
-    // 切换 BGM
-    if (config.bgm) {
-      audioManager.crossfadeBgm(config.bgm);
-    }
+    // 只有 BGM ID 变化时才切换
+    if (newBgmId !== prevBgmId.current) {
+      if (DEBUG) {
+        console.info(`[useSceneAudio] BGM 切换: ${prevBgmId.current ?? "(无)"} → ${newBgmId ?? "(无)"} (scene: ${scene.id})`);
+      }
 
-    // 切换环境音
-    if (config.ambience && config.ambience.length > 0) {
-      audioManager.playAmbience(config.ambience);
-    } else {
-      audioManager.stopAmbience();
-    }
+      prevBgmId.current = newBgmId;
 
-    // 进入 SFX
-    if (config.enterSfx) {
-      audioManager.playSfx(config.enterSfx);
+      if (newBgmId) {
+        audioManager.crossfadeBgm(newBgmId);
+      } else {
+        audioManager.stopBgm();
+      }
+
+      // 切换环境音
+      if (config.ambience && config.ambience.length > 0) {
+        audioManager.playAmbience(config.ambience);
+      } else {
+        audioManager.stopAmbience();
+      }
+
+      // 进入 SFX
+      if (config.enterSfx) {
+        audioManager.playSfx(config.enterSfx);
+      }
     }
   }, [scene]);
+
+  // 组件卸载时停止所有音频
+  useEffect(() => {
+    return () => {
+      audioManager.stopAll();
+    };
+  }, []);
 }
 
 /**
