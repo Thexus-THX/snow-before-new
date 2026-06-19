@@ -1419,7 +1419,7 @@
       "name": "第五日·成果展示",
       "chapterId": "d5_1937_spring",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day05_spring_exhibition.webp",
+      "background": "/assets/backgrounds/bg_day05_spring_exhibition.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1435,7 +1435,7 @@
       "name": "第五日·普通选择——展示准备",
       "chapterId": "d5_1937_spring",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day05_spring_exhibition.webp",
+      "background": "/assets/backgrounds/bg_day05_spring_exhibition.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1485,7 +1485,7 @@
       "name": "第五日·普通选择——技术用途",
       "chapterId": "d5_1937_spring",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day05_spring_exhibition.webp",
+      "background": "/assets/backgrounds/bg_day05_spring_exhibition.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1551,7 +1551,7 @@
       "name": "第五日·结束",
       "chapterId": "d5_1937_spring",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day05_spring_exhibition.webp",
+      "background": "/assets/backgrounds/bg_day05_spring_exhibition.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1567,7 +1567,7 @@
       "name": "季节札记·1937春",
       "chapterId": "d5_1937_spring",
       "template": "seasonJournal",
-      "background": "/assets/backgrounds/bg_day05_spring_exhibition.webp",
+      "background": "/assets/backgrounds/bg_day05_spring_exhibition.png",
       "showTopStatusBar": false,
       "showDialoguePanel": false,
       "content": {
