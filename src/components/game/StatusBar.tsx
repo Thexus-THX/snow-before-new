@@ -33,7 +33,7 @@ export default function StatusBar({ state, chapter, engine }: StatusBarProps) {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0 40px",
-        background: "url(/assets/ui/ui_top_status_bar_transparent.png) center/100% 100% no-repeat #1c1612",
+        background: "#1c1612",
         borderBottom: "2px solid #3a2818",
         fontSize: "var(--font-size-status)",
         color: "var(--color-text-secondary)",

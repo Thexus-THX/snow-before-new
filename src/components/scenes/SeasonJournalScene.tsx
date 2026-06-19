@@ -59,7 +59,7 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
         <div style={{
           maxWidth: 840,
           width: "100%",
-          background: "url(/assets/ui/ui_season_journal_panel_transparent.png) center/100% 100% no-repeat rgba(26,22,16,0.94)",
+          background: "rgba(26,22,16,0.94)",
           border: "2px solid #4a3828",
           borderRadius: "var(--border-radius-md)",
           padding: "48px 56px",

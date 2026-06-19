@@ -61,7 +61,7 @@ export default function HistoricalEventScene(props: HistoricalEventSceneProps) {
         <div style={{
           maxWidth: 960,
           width: "100%",
-          background: "url(/assets/ui/ui_historical_event_frame_transparent.png) center/100% 100% no-repeat rgba(26,22,16,0.92)",
+          background: "rgba(26,22,16,0.92)",
           border: "2px solid #4a3828",
           borderRadius: "var(--border-radius-md)",
           padding: "48px 56px",

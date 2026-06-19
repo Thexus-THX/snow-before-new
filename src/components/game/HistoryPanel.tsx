@@ -55,7 +55,7 @@ export default function HistoryPanel({ history, onRollback, onClose }: HistoryPa
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: "url(/assets/ui/ui_history_panel_transparent.png) center/100% 100% no-repeat rgba(20,17,13,0.96)",
+          background: "rgba(20,17,13,0.96)",
           borderLeft: "1px solid #3a2818",
           padding: "24px 0",
         }}

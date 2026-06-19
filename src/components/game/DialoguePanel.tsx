@@ -113,7 +113,7 @@ export default function DialoguePanel({
         alignItems: "flex-start",
         justifyContent: "center",
         padding: "0 48px",
-        background: "url(/assets/ui/ui_dialogue_panel_transparent.png) center/100% 100% no-repeat var(--color-bg-dialogue)",
+        background: "var(--color-bg-dialogue)",
         borderTop: "1px solid #3a2a18",
         cursor: showCursor ? "pointer" : "default",
         userSelect: "none",

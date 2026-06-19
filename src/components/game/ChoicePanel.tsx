@@ -59,10 +59,10 @@ export default function ChoicePanel({
             onClick={() => onConfirm(pendingConfirm)}
             style={{
               padding: "12px 48px",
-              background: "url(/assets/ui/ui_choice_critical_transparent.png) center/100% 100% no-repeat",
+              background: "var(--color-choice-critical)",
               color: "var(--color-text-primary)",
               fontSize: "var(--font-size-choice)",
-              border: "none",
+              border: "1px solid var(--color-choice-border)",
               borderRadius: "var(--border-radius-md)",
               cursor: "pointer",
             }}
@@ -73,10 +73,10 @@ export default function ChoicePanel({
             onClick={onCancelConfirm}
             style={{
               padding: "12px 48px",
-              background: "url(/assets/ui/ui_choice_normal_transparent.png) center/100% 100% no-repeat",
+              background: "var(--color-choice-bg)",
               color: "var(--color-text-secondary)",
               fontSize: "var(--font-size-choice)",
-              border: "none",
+              border: "1px solid var(--color-choice-border)",
               borderRadius: "var(--border-radius-md)",
               cursor: "pointer",
             }}
@@ -120,15 +120,15 @@ export default function ChoicePanel({
               width: "100%",
               padding: "10px 24px",
               background: isLocked
-                ? "url(/assets/ui/ui_choice_locked_transparent.png) center/100% 100% no-repeat"
+                ? "rgba(30, 25, 18, 0.5)"
                 : choice.isCritical
-                  ? "url(/assets/ui/ui_choice_critical_transparent.png) center/100% 100% no-repeat"
-                  : "url(/assets/ui/ui_choice_normal_transparent.png) center/100% 100% no-repeat",
+                  ? "var(--color-choice-critical)"
+                  : "var(--color-choice-bg)",
               color: isLocked ? "var(--color-text-dim)" : "var(--color-text-primary)",
               fontSize: "var(--font-size-choice)",
               textAlign: "left",
               lineHeight: "var(--line-height-dialogue)",
-              border: "none",
+              border: "1px solid var(--color-choice-border)",
               borderRadius: "var(--border-radius-md)",
               cursor: isLocked ? "not-allowed" : "pointer",
               opacity: isLocked ? 0.6 : 1,

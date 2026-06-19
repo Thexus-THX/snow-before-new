@@ -483,9 +483,9 @@ export default function TitlePage() {
             style={{
               padding: "18px 72px",
               fontSize: 22,
-              border: "none",
+              border: "1px solid #5a5040",
               borderRadius: "var(--border-radius-md)",
-              background: "url(/assets/ui/ui_button_primary_transparent.png) center/100% 100% no-repeat",
+              background: "rgba(42, 34, 24, 0.55)",
               color: "var(--color-text-primary)",
               cursor: "pointer",
               letterSpacing: 10,
@@ -504,10 +504,10 @@ export default function TitlePage() {
             style={{
               padding: "18px 72px",
               fontSize: 22,
-              border: "none",
+              border: "1px solid #5a5040",
               borderRadius: "var(--border-radius-md)",
               background: saveExists
-                ? "url(/assets/ui/ui_button_secondary_transparent.png) center/100% 100% no-repeat"
+                ? "rgba(42, 34, 24, 0.55)"
                 : "rgba(28, 22, 16, 0.35)",
               color: saveExists ? "var(--color-text-primary)" : "var(--color-text-dim)",
               cursor: saveExists ? "pointer" : "not-allowed",
@@ -527,9 +527,9 @@ export default function TitlePage() {
             style={{
               padding: "14px 60px",
               fontSize: 18,
-              border: "none",
+              border: "1px solid #5a5040",
               borderRadius: "var(--border-radius-md)",
-              background: "url(/assets/ui/ui_button_secondary_transparent.png) center/100% 100% no-repeat",
+              background: "rgba(42, 34, 24, 0.55)",
               color: "var(--color-text-secondary)",
               cursor: "pointer",
               letterSpacing: 8,
