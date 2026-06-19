@@ -223,6 +223,12 @@
 - 选择数量不变（关键选择场景仍为 8 个核心场景）
 - 结局条件、数值效果、标记均未修改
 
+#### Viewport 缩放修复
+- `GameViewport` 改用 `translate(offsetX, offsetY) scale()` 实现窗口缩放时内容始终居中完整展示
+- `TitlePage` 背景图 `cover` → `100% 100%` 拉伸适配，修复烟雾/灯光 Canvas 与背景图偏移
+- 移除创作说明/时间说明/旅程回顾页中与 `SpecialSceneShell` 底部提示重复的"点击继续"
+- 创作说明页字体放大（标题 42px，正文 24px）
+
 #### 新增测试
 - `src/content/__tests__/gameDataIntegrity.test.ts`：15 个测试用例
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证

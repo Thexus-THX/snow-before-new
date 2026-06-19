@@ -372,7 +372,7 @@ export default function TitlePage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "url(/assets/backgrounds/bg_day08_winter_station.webp) center/cover no-repeat #0d1520",
+          background: "url(/assets/backgrounds/bg_day08_winter_station.webp) center/100% 100% no-repeat #0d1520",
           position: "relative",
         }}
       >

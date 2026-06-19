@@ -197,14 +197,14 @@
         {
           "id": "creative_title",
           "type": "text",
-          "x": 560,
-          "y": 120,
-          "width": 800,
-          "height": 60,
+          "x": 460,
+          "y": 100,
+          "width": 1000,
+          "height": 70,
           "opacity": 1,
           "zIndex": 10,
           "fontFamily": "var(--font-display), serif",
-          "fontSize": 32,
+          "fontSize": 42,
           "lineHeight": 1.3,
           "align": "center",
           "color": "#f0e6c8",
@@ -213,9 +213,9 @@
         {
           "id": "creative_separator",
           "type": "text",
-          "x": 860,
-          "y": 190,
-          "width": 200,
+          "x": 810,
+          "y": 185,
+          "width": 300,
           "height": 2,
           "opacity": 0.5,
           "zIndex": 9,
@@ -229,34 +229,18 @@
         {
           "id": "creative_body",
           "type": "text",
-          "x": 360,
-          "y": 260,
-          "width": 1200,
-          "height": 340,
+          "x": 280,
+          "y": 240,
+          "width": 1360,
+          "height": 440,
           "opacity": 0.9,
           "zIndex": 10,
           "fontFamily": "var(--font-body), serif",
-          "fontSize": 20,
+          "fontSize": 24,
           "lineHeight": 1.8,
           "align": "center",
           "color": "#d4c8a8",
           "text": "本作取材于李强等二十世纪二三十年代留苏先辈的真实经历，并在史料基础上进行了艺术化重构。你将以一名虚构留学生的身份，走过求学、抉择与归途，感受一代青年在时代洪流中的理想、牵挂与担当。\n\n游戏中的人物、事件及时间线为综合创作，不对应单一历史人物。"
-        },
-        {
-          "id": "creative_note",
-          "type": "text",
-          "x": 560,
-          "y": 640,
-          "width": 800,
-          "height": 30,
-          "opacity": 0.4,
-          "zIndex": 10,
-          "fontFamily": "var(--font-body), serif",
-          "fontSize": 14,
-          "lineHeight": 1.5,
-          "align": "center",
-          "color": "#8a7a5a",
-          "text": "—— 点击继续"
         }
       ],
       "nextSceneId": "note_time_structure"
@@ -340,22 +324,6 @@
           "align": "center",
           "color": "#b8a878",
           "text": "春 · 夏 · 秋 · 冬  —  春 · 夏 · 秋 · 冬"
-        },
-        {
-          "id": "time_hint",
-          "type": "text",
-          "x": 760,
-          "y": 900,
-          "width": 400,
-          "height": 30,
-          "opacity": 0.4,
-          "zIndex": 10,
-          "fontFamily": "var(--font-body), serif",
-          "fontSize": 14,
-          "lineHeight": 1.5,
-          "align": "center",
-          "color": "#8a7a5a",
-          "text": "点击继续"
         }
       ],
       "nextSceneId": "prologue_train"
@@ -2265,22 +2233,6 @@
           "align": "center",
           "color": "#d4c8a8",
           "text": "旅程结束。感谢你陪伴沈怀远走过这段跨越风雪与岁月的旅程。\n\n那些选择、犹豫和告别，最终汇成了一条只属于你的路径。\n\n雪落之前，有人归去，有人留下。\n但每一个选择，都曾是风雪中真实的一步。"
-        },
-        {
-          "id": "review_hint",
-          "type": "text",
-          "x": 760,
-          "y": 900,
-          "width": 400,
-          "height": 40,
-          "opacity": 0.5,
-          "zIndex": 10,
-          "fontFamily": "var(--font-body), serif",
-          "fontSize": 16,
-          "lineHeight": 1.5,
-          "align": "center",
-          "color": "#8a7a5a",
-          "text": "点击继续"
         }
       ],
       "nextSceneId": "thank_you"

@@ -30,12 +30,15 @@ export default function GameViewport({ children }: GameViewportProps) {
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
+  const offsetX = (window.innerWidth - 1920 * scale) / 2;
+  const offsetY = (window.innerHeight - 1080 * scale) / 2;
+
   return (
     <div
       ref={containerRef}
       className="game-viewport"
       style={{
-        transform: `scale(${scale})`,
+        transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`,
       }}
     >
       {children}
