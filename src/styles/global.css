@@ -138,14 +138,15 @@ textarea {
   left: 0;
   bottom: 0;
   width: 1920px;
-  height: 216px;
+  min-height: 216px;
+  max-height: 432px;
   box-sizing: border-box;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  padding: 0 48px;
+  justify-content: flex-start;
+  padding: 16px 48px;
   gap: 10px;
   flex-shrink: 0;
   background:
@@ -489,7 +490,7 @@ textarea {
   outline: 2px solid rgba(255, 200, 80, 0.7);
 }
 .uiDebug .choicePanel::after {
-  content: "ChoicePanel 1920×216";
+  content: "ChoicePanel 1920×(216~432)";
   position: absolute;
   right: 4px;
   top: 4px;
