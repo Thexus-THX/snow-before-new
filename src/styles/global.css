@@ -181,6 +181,7 @@ textarea {
   height: 216px;
   box-sizing: border-box;
   overflow: hidden;
+  /* CSS 降级方案（无素材时生效） */
   background:
     linear-gradient(180deg,
       rgba(42, 38, 30, 0.94),
@@ -191,11 +192,30 @@ textarea {
     0 -8px 32px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
-.dialoguePanel::before {
+
+/* 素材装饰层（默认不启用，加 .hasPanelSkin 后生效） */
+.dialoguePanel.hasPanelSkin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.92;
+  background: url("/assets/ui/ui_dialogue_panel_transparent.png") center/100% 100% no-repeat;
+}
+/* 素材加载失败时降级：伪元素透明 */
+.dialoguePanel.hasPanelSkin::before {
+  /* 如果图片不存在，回退到纯 CSS */
+  background-color: transparent;
+}
+
+/* 纸张纹理 + 扫描线叠加层 */
+.dialoguePanel::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 2;
   opacity: 0.1;
   background-image:
     repeating-linear-gradient(
@@ -206,16 +226,18 @@ textarea {
       transparent 4px
     );
 }
-/* 纸张噪点叠加 */
-.dialoguePanel::after {
-  content: "";
+/* 噪点叠加（额外伪元素用 box-shadow 模拟，因为 ::after 已被占用） */
+.dialoguePanel__text {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.04;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(255,255,240,0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 30%, rgba(200,180,140,0.04) 0%, transparent 40%);
+  left: 96px;
+  right: 96px;
+  top: 82px;
+  bottom: 42px;
+  font-size: 26px;
+  line-height: 1.55;
+  color: #f1ead7;
+  overflow: hidden;
+  z-index: 3;
 }
 
 .dialoguePanel__name {
@@ -231,6 +253,7 @@ textarea {
   line-height: 1;
   color: #e7d3a2;
   border-left: 4px solid rgba(168, 138, 72, 0.85);
+  z-index: 3;
 }
 
 .dialoguePanel__text {
@@ -251,6 +274,7 @@ textarea {
   bottom: 20px;
   font-size: 16px;
   color: rgba(241, 234, 215, 0.55);
+  z-index: 3;
 }
 
 /* ---- 选择按钮 ---- */
@@ -414,21 +438,51 @@ textarea {
 .uiDebug .dialoguePanel {
   outline: 2px solid rgba(255, 80, 80, 0.7);
 }
-.uiDebug .dialoguePanel::before {
-  content: "DialoguePanel 1920×216";
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  font-size: 12px;
-  color: rgba(255, 80, 80, 0.9);
-  background: rgba(0, 0, 0, 0.7);
-  padding: 2px 6px;
-  border-radius: 2px;
-  z-index: 999;
-  pointer-events: none;
-  font-family: monospace;
+.uiDebug .dialoguePanel.hasPanelSkin::before {
+  outline: 2px dashed rgba(255, 200, 80, 0.6);
+  outline-offset: -4px;
+}
+.uiDebug .dialoguePanel > :not(.dialoguePanel__name):not(.dialoguePanel__text):not(.dialoguePanel__hint) {
+  /* Debug 标签层 */
+}
+/* Debug 标签使用独立的元素（通过 CSS 无法在 ::before 上同时放两个 content） */
+.uiDebug .dialoguePanel::after {
+  content: "DialoguePanel 1920×216" !important;
+  position: absolute !important;
+  left: 4px !important;
+  top: 4px !important;
+  font-size: 12px !important;
+  color: rgba(255, 80, 80, 0.9) !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  padding: 2px 6px !important;
+  border-radius: 2px !important;
+  z-index: 999 !important;
+  pointer-events: none !important;
+  font-family: monospace !important;
   opacity: 1 !important;
   background-image: none !important;
+  width: auto !important;
+  height: auto !important;
+  inset: auto !important;
+}
+/* 素材层标签 */
+.uiDebug .dialoguePanel.hasPanelSkin::before {
+  content: "Skin: dialogue_panel_transparent" !important;
+  color: rgba(255, 200, 80, 0.9) !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  font-size: 11px !important;
+  padding: 1px 5px !important;
+  right: 4px !important;
+  top: 20px !important;
+  left: auto !important;
+  width: auto !important;
+  height: auto !important;
+  z-index: 999 !important;
+  pointer-events: none !important;
+  font-family: monospace !important;
+  opacity: 1 !important;
+  background-image: none !important;
+  inset: auto !important;
 }
 
 .uiDebug .choicePanel {

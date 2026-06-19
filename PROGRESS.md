@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-19（STEP 02 UI Skin Layer & Layout Hardening）
+> 最后更新：2026-06-19（STEP 03A DialoguePanel 素材接入）
 
 ---
 
@@ -375,6 +375,31 @@
 #### 测试
 - 16 文件 / 157 测试全部通过
 - 构建 1.50s
+
+### ✅ STEP 03A DialoguePanel 素材接入（最小闭环）（2026-06-19）
+
+#### 接入方式
+- `ui_dialogue_panel_transparent.png`（1920×216，精确匹配）通过 CSS `.hasPanelSkin::before` 作为装饰叠加层
+- 素材层 z-index: 1（CSS 背景之上、文字层之下）
+- `::after` 伪元素承载纸张纹理扫描线（z-index: 2）
+- 文字层（`__name`/`__text`/`__hint`）z-index: 3
+- 素材层 `pointer-events: none`，不阻挡鼠标事件
+- 无素材时 CSS 降级方案不受影响
+
+#### 修改文件
+- `src/styles/global.css`：`.dialoguePanel.hasPanelSkin::before` 素材层
+- `src/components/game/DialoguePanel.tsx`：className 加 `hasPanelSkin`
+- `PROGRESS.md`
+
+#### Debug
+- `?uiDebug=1` 时显示 "Skin: dialogue_panel_transparent" 标签
+- 素材层虚线边框
+
+#### 验证
+- 16 文件 / 157 测试 ✅
+- 构建 1.55s ✅
+- DialoguePanel 尺寸保持 1920×216
+- 无文字遮挡/裁剪/错位
 
 ## 待实现
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证
