@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（序章素材 + 家书/致谢打磨）
+> 最后更新：2026-06-20（P3A 剧情扩容骨架接入）
 
 ---
 
@@ -526,6 +526,36 @@
 #### BGM 修复
 - `useSceneAudio`：无 BGM 场景不停止当前 BGM
 - `crossfadeBgm` 同 ID 跳过
+
+### ✅ P3A 剧情扩容骨架接入（2026-06-20）
+
+#### 新增 12 个核心剧情节点
+
+| 场景 ID | 章节 | 类型 | 说话人 |
+|----------|------|------|--------|
+| `prologue_dorm_first_night` | 序章 | 内心独白 | 旁白 |
+| `prologue_study_montage_1931_1936` | 序章 | 环境旁白 | 旁白 |
+| `d1_nadya_record_argument` | Day1 | 对白 | 娜佳 |
+| `d2_ivan_worker_lesson` | Day2 | 对白 | 伊万 |
+| `d3_chen_first_conflict_seed` | Day3 | 对白 | 陈绍衡 |
+| `d3_reply_unsent` | Day3 | 内心独白 | 旁白 |
+| `d5_chen_after_tech_use` | Day5 | 对白 | 陈绍衡 |
+| `d6_radio_fragments` | Day6 | 环境旁白 | 旁白 |
+| `d6_nadya_understands_distance` | Day6 | 对白 | 娜佳 |
+| `d7_chen_quarrel_full` | Day7 | 对白 | 陈绍衡 |
+| `d8_nadya_farewell` | Day8 | 对白 | 娜佳 |
+| `d8_before_final_silence` | Day8 | 内心独白 | 旁白 |
+
+#### 数据验证
+- 总场景数：65 → **77**
+- 新增选择：**0**
+- 新增关键选择：**0**
+- 修改 effects：**否**
+- 修改结局条件：**否**
+- 新增素材：**否**
+- 所有 nextSceneId 有效 ✅
+- tsc 通过 ✅
+- build 通过 ✅
 
 ## 待实现
 

@@ -419,7 +419,7 @@
         "textType": "narration",
         "text": "沈怀远拆开信封。母亲的字迹工整而克制，只说家中一切尚可，要他安心求学。兰英在末尾添了两行小字，问异乡是不是常下雪。纸上的墨迹微微晕开，不知是旅途潮气，还是有人写信时停笔太久。"
       },
-      "nextSceneId": "prologue_time_skip"
+      "nextSceneId": "prologue_dorm_first_night"
     },
     "prologue_radio_result": {
       "id": "prologue_radio_result",
@@ -435,7 +435,7 @@
         "textType": "narration",
         "text": "他走向长椅，俯身观察那台无线电设备。面板上的俄文标识仍显陌生，旋钮转动时的阻尼却与书中描述相合。手指触到冰冷的金属外壳时，沈怀远忽然意识到，未来数年里，他最常相伴的也许正是这种低低的电流声。"
       },
-      "nextSceneId": "prologue_time_skip"
+      "nextSceneId": "prologue_dorm_first_night"
     },
     "prologue_people_result": {
       "id": "prologue_people_result",
@@ -451,7 +451,7 @@
         "textType": "narration",
         "text": "他朝那几名同学走去。人群中，一位金发姑娘转过头来，用略带口音的中文向他问好。她说自己叫娜佳，也在学习无线电。她的笑容并不热烈，却有一种令人安心的笃定，像是早已知道他们会在这片雪地相遇。"
       },
-      "nextSceneId": "prologue_time_skip"
+      "nextSceneId": "prologue_dorm_first_night"
     },
     "prologue_time_skip": {
       "id": "prologue_time_skip",
@@ -537,7 +537,8 @@
             ]
           }
         }
-      ]
+      ],
+      "nextSceneId": "d1_nadya_record_argument"
     },
     "d1_after_choice": {
       "id": "d1_after_choice",
@@ -744,7 +745,7 @@
         "textType": "narration",
         "text": "离开安静的实验室后，沈怀远第一次走进莫斯科近郊的无线电设备工厂。装配线的轰鸣填满车间，工人们在机床与零件之间穿梭。伊万师傅站在生产线末端，抬手示意他过去。"
       },
-      "nextSceneId": "d2_c1_factory"
+      "nextSceneId": "d2_ivan_worker_lesson"
     },
     "d2_c1_factory": {
       "id": "d2_c1_factory",
@@ -1005,7 +1006,8 @@
             ]
           }
         }
-      ]
+      ],
+      "nextSceneId": "d3_chen_first_conflict_seed"
     },
     "d3_c2_action": {
       "id": "d3_c2_action",
@@ -1154,7 +1156,8 @@
             ]
           }
         }
-      ]
+      ],
+      "nextSceneId": "d3_reply_unsent"
     },
     "d3_chen_night": {
       "id": "d3_chen_night",
@@ -1540,7 +1543,8 @@
             ]
           }
         }
-      ]
+      ],
+      "nextSceneId": "d5_chen_after_tech_use"
     },
     "d5_end": {
       "id": "d5_end",
@@ -1596,7 +1600,7 @@
         "textType": "narration",
         "text": "零碎消息最先从电波和报纸边角传来。实验室的指示灯仍一明一灭，空气中的气氛却已经变了。更多来源彼此印证之后，日常研究生活被时代打断。"
       },
-      "nextSceneId": "d6_c1_source"
+      "nextSceneId": "d6_radio_fragments"
     },
     "d6_c1_source": {
       "id": "d6_c1_source",
@@ -1670,7 +1674,7 @@
           "sourceNote": "本页为历史背景说明，具体人物与情节为艺术化重构。"
         }
       },
-      "nextSceneId": "d6_k1_first_action"
+      "nextSceneId": "d6_nadya_understands_distance"
     },
     "d6_k1_first_action": {
       "id": "d6_k1_first_action",
@@ -1828,7 +1832,7 @@
         "textType": "narration",
         "text": "战事与天气都在收紧。归国不再是一句愿望，而是路线、票证、经费、资料与信任构成的现实问题。白天推进筹备，夜里真正的分歧也将浮出水面。"
       },
-      "nextSceneId": "d7_c1_priority"
+      "nextSceneId": "d7_chen_quarrel_full"
     },
     "d7_c1_priority": {
       "id": "d7_c1_priority",
@@ -2073,7 +2077,7 @@
         "textType": "narration",
         "text": "风雪比预想中来得更早。路线可能中断，研究仍待交接，未说出口的话也只剩有限时间。这是最后的准备日。在离开或留下之前，沈怀远只能再处理一件事。"
       },
-      "nextSceneId": "d8_c1_priority"
+      "nextSceneId": "d8_nadya_farewell"
     },
     "d8_c1_priority": {
       "id": "d8_c1_priority",
@@ -2270,7 +2274,7 @@
           ]
         }
       },
-      "nextSceneId": "d8_k2_final"
+      "nextSceneId": "d8_before_final_silence"
     },
     "d8_k2_final": {
       "id": "d8_k2_final",
@@ -2688,6 +2692,194 @@
           "text": "点击返回标题"
         }
       ]
+    },
+    "prologue_dorm_first_night": {
+      "id": "prologue_dorm_first_night",
+      "name": "序章·第一夜",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "夜里，宿舍的暖气管发出细小的敲击声。沈怀远把母亲的信压在枕边，摊开俄文字母表，又合上。窗外雪光映在天花板上，白得像一张未写完的纸。\n\n他想起父亲临行前只说了一句\"到了外头，话少些，眼睛亮些\"。那时他觉得这句话太短，如今却觉得，短得正好够他在异乡的第一夜反复咀嚼。"
+      },
+      "nextSceneId": "prologue_study_montage_1931_1936"
+    },
+    "prologue_study_montage_1931_1936": {
+      "id": "prologue_study_montage_1931_1936",
+      "name": "序章·求学岁月",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "后来的几年里，沈怀远学会了在清晨排队领热汤，学会了把俄语笔记写得比中文还整齐，也学会了在电流杂音里辨认真正的信号。\n\n有时他会在实验楼外看见娜佳抱着一摞资料匆匆走过；有时会在图书馆里遇见陈绍衡，两人隔着桌灯点一下头。别洛夫导师的评语总是简短，伊万师傅的工厂检修单则总是沾着油污。\n\n异乡并没有变成熟悉的家，只是渐渐有了可以辨认的方向。"
+      },
+      "nextSceneId": "prologue_time_skip"
+    },
+    "d1_nadya_record_argument": {
+      "id": "d1_nadya_record_argument",
+      "name": "第一日·娜佳的判断",
+      "chapterId": "d1_1936_spring",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day01_spring_lab.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "\"这不是抄写错误。\"娜佳把铅笔点在记录表上，\"你看，这三组数值偏离的方向一致。如果只是手误，不会这么整齐。\"\n\n沈怀远低头看了片刻，才意识到她说得对。\n\n娜佳没有得意，只把表格推近一点：\"所以我才问你，要先看设备，还是先核记录。两个方向都可能错，也都可能救我们一次。\""
+      }
+    },
+    "d2_ivan_worker_lesson": {
+      "id": "d2_ivan_worker_lesson",
+      "name": "第二日·伊万的课",
+      "chapterId": "d2_1936_summer",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day02_summer_factory.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "ivan",
+        "speakerName": "伊万",
+        "textType": "dialogue",
+        "text": "\"学生总喜欢问图纸对不对。\"伊万把一只外壳有划痕的设备放到桌上，\"工人问的是，明天它还能不能用。\"\n\n他敲了敲金属外壳，声音很闷。\n\n\"你们在学校里把错误叫误差。到了工厂，误差会变成返工，变成事故，变成某个人手里一台坏掉的机器。\""
+      },
+      "nextSceneId": "d2_c1_factory"
+    },
+    "d3_chen_first_conflict_seed": {
+      "id": "d3_chen_first_conflict_seed",
+      "name": "第三日·分歧初现",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "chen",
+        "speakerName": "陈绍衡",
+        "textType": "dialogue",
+        "text": "\"我今天又去问了回国路线。\"陈绍衡把围巾摘下来，声音压得很低，\"不一定立刻走，但总要知道路在哪里。\"\n\n沈怀远看向他：\"你已经在准备了？\"\n\n陈绍衡笑了一下，却没有笑意：\"怀远，不准备的人，等真要走的时候，连第一步都迈不出去。\""
+      }
+    },
+    "d3_reply_unsent": {
+      "id": "d3_reply_unsent",
+      "name": "第三日·未寄的回信",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "回信写到一半，沈怀远停住了。纸上已经写下\"我在这里一切都好\"，可他知道，这句话只能算半真。\n\n他没有写实验失败时的慌乱，没有写工厂里那些疲惫的脸，也没有写陈绍衡问出的那个问题。家人需要安心，可他也需要某个地方，能够放下完整的自己。"
+      }
+    },
+    "d5_chen_after_tech_use": {
+      "id": "d5_chen_after_tech_use",
+      "name": "第五日·展示之后",
+      "chapterId": "d5_1937_spring",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day05_spring_showcase.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "chen",
+        "speakerName": "陈绍衡",
+        "textType": "dialogue",
+        "text": "\"你刚才答得很漂亮。\"陈绍衡说。\n\n沈怀远听出他话里还有别的意思：\"但你不满意。\"\n\n\"我不是不满意漂亮话。\"陈绍衡望向已经熄灯的展示厅，\"我是怕我们说了太久'将来'，等真需要的时候，手里还是只有讲稿。\""
+      }
+    },
+    "d6_radio_fragments": {
+      "id": "d6_radio_fragments",
+      "name": "第六日·电波碎片",
+      "chapterId": "d6_1937_summer",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day06_summer_news.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "最初只是几段听不完整的电波。地名被杂音切碎，时间也模糊不清。沈怀远把耳机压得更紧，仍只能听见断续的词：北平、宛平、日军、冲突。\n\n他不敢立刻相信，也不敢轻易放下。电波有时会骗人，可如果这一次是真的，他又该如何面对自己仍坐在实验室里的事实？"
+      },
+      "nextSceneId": "d6_c1_source"
+    },
+    "d6_nadya_understands_distance": {
+      "id": "d6_nadya_understands_distance",
+      "name": "第六日·娜佳的理解",
+      "chapterId": "d6_1937_summer",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day06_summer_news.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "\"我以前以为，故乡只是一个人来的地方。\"娜佳看着桌上的报纸，声音很轻，\"现在我明白，它也可能是一个人必须回去的地方。\"\n\n她没有问沈怀远会不会走。这个问题太早，也太迟。\n\n\"如果你要准备，\"她说，\"至少不要一个人准备。\""
+      },
+      "nextSceneId": "d6_k1_first_action"
+    },
+    "d7_chen_quarrel_full": {
+      "id": "d7_chen_quarrel_full",
+      "name": "第七日·分歧",
+      "chapterId": "d7_1937_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day07_autumn_preparation.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "chen",
+        "speakerName": "陈绍衡",
+        "textType": "dialogue",
+        "text": "\"你总说要稳妥。\"陈绍衡压低声音，\"可稳妥到最后，会不会只剩下留下？\"\n\n沈怀远抬头：\"你以为我不想回去？\"\n\n\"我怕你想得太久。\"\n\n这句话落下后，两人都沉默了。窗外的秋雨敲在玻璃上，像某种催促。沈怀远忽然明白，他们争的并不是谁更爱国，而是谁更能承受把事情做错的后果。"
+      },
+      "nextSceneId": "d7_c1_priority"
+    },
+    "d8_nadya_farewell": {
+      "id": "d8_nadya_farewell",
+      "name": "第八日·娜佳的告别",
+      "chapterId": "d8_1937_winter",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day08_winter_dorm.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "娜佳把一条围巾放到他手边。\n\n\"不是礼物。\"她说，\"只是莫斯科的冬天太冷。\"\n\n沈怀远想说些什么，却发现那些句子都显得过轻。娜佳先移开目光，像是在替他保留沉默的余地。\n\n\"如果你回去，\"她说，\"记得把电波调得清楚一点。这样，也许我能在很远的地方听见。\""
+      },
+      "nextSceneId": "d8_c1_priority"
+    },
+    "d8_before_final_silence": {
+      "id": "d8_before_final_silence",
+      "name": "第八日·车站之前",
+      "chapterId": "d8_1937_winter",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day08_winter_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "车站的钟声响起时，沈怀远没有立刻抬头。\n\n他想起初到苏联的那个雪夜，想起第一次听懂电波里的信号，想起工厂里翻过去的检测记录，想起家书上被反复停笔留下的墨痕。\n\n原来一个人走到选择面前，并不是因为他忽然变得勇敢，而是因为许多细小的时刻早已把他推到了这里。"
+      },
+      "nextSceneId": "d8_k2_final"
     }
   },
   "endings": {},
