@@ -19,11 +19,11 @@
       "fullName": "沈怀远",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/.png",
-        "focused": "/assets/characters/.png",
-        "tired": "/assets/characters/.png",
-        "hesitant": "/assets/characters/.png",
-        "determined": "/assets/characters/.png"
+        "neutral": "/assets/characters/char_shen_huaiyuan_neutral_transparent.png",
+        "focused": "/assets/characters/char_shen_huaiyuan_focused_transparent.png",
+        "tired": "/assets/characters/char_shen_huaiyuan_tired_transparent.png",
+        "hesitant": "/assets/characters/char_shen_huaiyuan_hesitant_transparent.png",
+        "determined": "/assets/characters/char_shen_huaiyuan_determined_transparent.png"
       }
     },
     "chen": {
@@ -32,10 +32,10 @@
       "shortName": "绍衡",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/.png",
-        "friendly": "/assets/characters/.png",
-        "tense": "/assets/characters/.png",
-        "resolved": "/assets/characters/.png"
+        "neutral": "/assets/characters/char_chen_shaoheng_neutral_transparent.png",
+        "friendly": "/assets/characters/char_chen_shaoheng_friendly_transparent.png",
+        "tense": "/assets/characters/char_chen_shaoheng_tense_transparent.png",
+        "resolved": "/assets/characters/char_chen_shaoheng_resolved_transparent.png"
       }
     },
     "nadya": {
@@ -44,10 +44,10 @@
       "fullName": "娜杰日达·索科洛娃",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/.png",
-        "warm": "/assets/characters/.png",
-        "concerned": "/assets/characters/.png",
-        "farewell": "/assets/characters/.png"
+        "neutral": "/assets/characters/char_nadya_neutral_transparent.png",
+        "warm": "/assets/characters/char_nadya_warm_transparent.png",
+        "concerned": "/assets/characters/char_nadya_concerned_transparent.png",
+        "farewell": "/assets/characters/char_nadya_farewell_transparent.png"
       }
     },
     "belov": {
@@ -56,9 +56,9 @@
       "fullName": "亚历山大·别洛夫",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/.png",
-        "approving": "/assets/characters/.png",
-        "disappointed": "/assets/characters/.png"
+        "neutral": "/assets/characters/char_belov_neutral_transparent.png",
+        "approving": "/assets/characters/char_belov_approving_transparent.png",
+        "disappointed": "/assets/characters/char_belov_disappointed_transparent.png"
       }
     },
     "ivan": {
@@ -67,9 +67,9 @@
       "fullName": "伊万·科瓦廖夫",
       "defaultPortrait": "neutral",
       "portraits": {
-        "neutral": "/assets/characters/.png",
-        "skeptical": "/assets/characters/.png",
-        "approving": "/assets/characters/.png"
+        "neutral": "/assets/characters/char_ivan_neutral_transparent.png",
+        "skeptical": "/assets/characters/char_ivan_skeptical_transparent.png",
+        "approving": "/assets/characters/char_ivan_approving_transparent.png"
       }
     }
   },
@@ -506,7 +506,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "记录表里有一组数值不太对。你是先去看设备，还是和我把记录再核一遍？",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_nadya_neutral_transparent.png"
       },
       "choices": [
         {
@@ -653,7 +653,7 @@
         "speakerName": "别洛夫",
         "textType": "dialogue",
         "text": "你做得对。数据不会撒谎，人却会。今天你选择了诚实，这在研究中比任何技巧都重要。",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_belov_approving_transparent.png"
       },
       "nextSceneId": "d1_end"
     },
@@ -670,7 +670,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "问题比预想的复杂，但我们至少找到了原因。导师听完说明后点了点头。他说，知道何时求助，也是一种能力。",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_nadya_warm_transparent.png"
       },
       "nextSceneId": "d1_end"
     },
@@ -885,7 +885,7 @@
         "speakerName": "伊万",
         "textType": "dialogue",
         "text": "你是个认真的年轻人。工厂里许多人只盯着产量，你却还记得机器将被谁使用。我尊重这一点。",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_ivan_approving_transparent.png"
       },
       "nextSceneId": "d2_end"
     },
@@ -902,7 +902,7 @@
         "speakerName": "伊万",
         "textType": "dialogue",
         "text": "你比很多工程师都聪明。不是因为你找到了完美办法，而是因为你知道什么时候不能只追求完美。",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_ivan_approving_transparent.png"
       },
       "nextSceneId": "d2_end"
     },
@@ -1012,7 +1012,7 @@
       "name": "第三日·家书应对",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_dorm.webp",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1100,7 +1100,7 @@
       "name": "第三日·回信方式",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_dorm.webp",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1161,7 +1161,7 @@
       "name": "第三日·与陈绍衡夜谈",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_dorm.webp",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1169,7 +1169,7 @@
         "speakerName": "陈绍衡",
         "textType": "dialogue",
         "text": "你家里来信了？……怀远，你有没有想过，我们在这里学的这些，最后到底是为了什么？",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_chen_shaoheng_friendly_transparent.png"
       },
       "nextSceneId": "d3_end"
     },
@@ -1178,7 +1178,7 @@
       "name": "第三日·结束",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_dorm.webp",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1308,7 +1308,7 @@
         "speakerName": "别洛夫",
         "textType": "dialogue",
         "text": "怀远，你在测试中表现出的判断力，已经超出了我对一个学生的期待。我想邀请你加入一个长期研究项目。它需要数年时间，但成果会影响未来的通信技术。",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_belov_approving_transparent.png"
       },
       "choices": [
         {
@@ -1440,7 +1440,7 @@
         "speakerName": "娜佳",
         "textType": "dialogue",
         "text": "展示就在明天。技术讲解还来得及再改一遍，设备演示也可以再排一次。你想先顾哪边？",
-        "portraitAsset": "/assets/characters/.png"
+        "portraitAsset": "/assets/characters/char_nadya_warm_transparent.png"
       },
       "choices": [
         {

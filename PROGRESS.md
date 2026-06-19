@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-19（P1B 特殊场景内容接入与数据闭环）
+> 最后更新：2026-06-19（P1C 全流程路线验收与运行稳定性清理）
 
 ---
 
@@ -249,8 +249,30 @@
 - 执行 `remove_fake_transparency.py` 处理 37 个素材文件（25 UI + 12 角色立绘）
 - 严格遵循 `docs/UI_ASSET_MAPPING.md` / `LAYOUT_SYSTEM.md` / `COMPONENT_SYSTEM.md` 规范
 
-#### 新增测试
-- `src/content/__tests__/gameDataIntegrity.test.ts`：15 个测试用例
+### ✅ P1C 全流程路线验收与运行稳定性清理（2026-06-19）
+
+#### Bug 修复
+- **角色立绘路径全部损坏**：P1B 阶段批量替换时正则捕获组丢失，19 处路径变为 `/assets/characters/.png`，修复脚本逐个还原
+- **`bg_day03_autumn_dorm.webp` 不存在**：4 个场景改用已有 `bg_day03_autumn_library.webp`
+- **标题 BGM 误播**：切标签页回来误播，增加 `wasPlayingBeforeHidden` 追踪 + `destroyTitleBgm`
+
+#### 全流程数据审计（+19 测试）
+- 场景 ID 唯一、nextSceneId 可达、死胡同 0 个、特殊场景无 choices
+- 家书/事件/札记完整性、elements 坐标范围、template 匹配
+
+#### 资源引用检查（+7 测试）
+- 所有图片引用验证存在，音频允许缺失并记录清单
+
+#### 路线模拟器（+7 测试）
+- 6 条路线全可达合法结局，无死循环/死胡同
+
+#### 空占位类清理
+- 删除 5 个未引用空文件，构建测试全过
+
+#### 测试统计
+- 13 文件 / 121 测试通过（+3 文件 / +33 测试）
+
+## 待实现
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证
   - 场景 ID 唯一性
   - nextSceneId 可达性（BFS 遍历）
