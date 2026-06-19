@@ -78,8 +78,8 @@ describe("SceneRenderer 模板分发", () => {
     // 应包含状态栏内容（普通布局特征）
     expect(container.textContent).toContain("学识");
     expect(container.textContent).toContain("身心");
-    // 应包含对话面板（底部区域存在）
-    expect(container.querySelector('[style*="--dialogue-height"]')).toBeTruthy();
+    // 应包含对话面板（底部区域存在，使用 CSS 类）
+    expect(container.querySelector('.dialoguePanel')).toBeTruthy();
   });
 
   it("chapterIntro 渲染特殊场景（用例 1）", () => {

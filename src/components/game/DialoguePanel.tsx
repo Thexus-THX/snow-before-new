@@ -104,49 +104,24 @@ export default function DialoguePanel({
 
   return (
     <div
+      className="dialoguePanel"
       onClick={handleClick}
-      style={{
-        width: "100%",
-        height: "var(--dialogue-height)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        padding: "0 48px",
-        background: "var(--color-bg-dialogue)",
-        borderTop: "1px solid #3a2a18",
-        cursor: showCursor ? "pointer" : "default",
-        userSelect: "none",
-        position: "relative",
-        flexShrink: 0,
-      }}
+      style={{ cursor: showCursor ? "pointer" : "default", userSelect: "none", flexShrink: 0 }}
     >
       {/* 说话者名称（立即显示） */}
       {showSpeaker && (
-        <span
-          style={{
-            color: "var(--color-text-amber)",
-            fontSize: "var(--font-size-status)",
-            fontWeight: 600,
-            marginBottom: 8,
-            letterSpacing: 2,
-          }}
-        >
-          {content.speakerName}
-        </span>
+        <div className="dialoguePanel__name">{content.speakerName}</div>
       )}
 
       {/* 对话文本（打字机动画） */}
-      <span
+      <div
+        className="dialoguePanel__text"
         style={{
+          fontStyle: textType === "innerThought" ? "italic" : "normal",
           color:
             textType === "narration"
-              ? "var(--color-text-secondary)"
-              : "var(--color-text-primary)",
-          fontSize: "var(--font-size-dialogue)",
-          lineHeight: "var(--line-height-dialogue)",
-          fontStyle: textType === "innerThought" ? "italic" : "normal",
-          minHeight: "1.5em",
+              ? "rgba(241, 234, 215, 0.78)"
+              : "#f1ead7",
         }}
       >
         {displayedText}
@@ -157,42 +132,23 @@ export default function DialoguePanel({
               display: "inline-block",
               width: 2,
               height: "1em",
-              background: "var(--color-text-amber)",
+              background: "#d4a843",
               marginLeft: 2,
               verticalAlign: "text-bottom",
               animation: "pulse 0.6s ease-in-out infinite",
             }}
           />
         )}
-      </span>
+      </div>
 
       {/* 点击跳过提示（打字中） */}
       {!isFinished && canAdvance && (
-        <span
-          style={{
-            position: "absolute",
-            right: 48,
-            bottom: 16,
-            color: "var(--color-text-dim)",
-            fontSize: "var(--font-size-small)",
-          }}
-        >
-          点击显示全文
-        </span>
+        <span className="dialoguePanel__hint">点击显示全文</span>
       )}
 
       {/* 推进提示（已完成） */}
       {isFinished && canAdvance && (
-        <span
-          style={{
-            position: "absolute",
-            right: 48,
-            bottom: 16,
-            color: "var(--color-text-dim)",
-            fontSize: "var(--font-size-small)",
-            animation: "pulse 2s ease-in-out infinite",
-          }}
-        >
+        <span className="dialoguePanel__hint" style={{ animation: "pulse 2s ease-in-out infinite" }}>
           ▸ 点击继续
         </span>
       )}

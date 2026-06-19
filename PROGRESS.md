@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-19（P2A 无配音版音频底层系统）
+> 最后更新：2026-06-19（STEP 01 CSS UI 可用化修复）
 
 ---
 
@@ -307,6 +307,38 @@
 
 #### 未接入配音
 - voice 通道类型已预留，本阶段不接入、不要求素材
+
+### ✅ STEP 01 CSS UI 可用化修复（2026-06-19）
+
+#### 目标
+- UI 尺寸由 CSS 常量控制，不再依赖图片原始尺寸
+- 容器尺寸由 CSS 决定，文本由 HTML 渲染，图片不决定点击区域
+- 无素材时可安全降级为纯 CSS 样式
+
+#### 新增文件
+- `src/constants/ui.ts` — UI 尺寸常量（DIALOGUE_PANEL 1920×216, CHOICE_BUTTON 1920×72, PRIMARY_BUTTON 300×64 等）
+- `src/components/common/UiPanel.tsx` — 通用面板组件（className/style/children/debugName）
+- `src/components/common/useUiDebug.ts` — UI Debug 模式（URL `?uiDebug=1` 或 localStorage）
+
+#### CSS 类体系
+- `.dialoguePanel` — 固定 1920×216，底部定位，渐变背景 + 扫描线伪元素装饰
+- `.dialoguePanel__name` / `__text` / `__hint` — 子区域定位
+- `.choiceButton` — 固定 72px 高，hover/active/disabled 状态
+- `.primaryButton` / `.secondaryButton` — 固定 300×64，渐变背景
+- `.uiDebug` — 调试边框显示组件实际尺寸
+- `.uiPanel--nineSlice` — 九宫格预留（未启用）
+
+#### 重构组件
+- `DialoguePanel.tsx` — 改用 CSS 类，移除内联 style 中的尺寸
+- `ChoicePanel.tsx` — 选项按钮改用 `.choiceButton` 类
+- `TitlePage.tsx` — 三按钮改用 `.primaryButton` / `.secondaryButton`
+- `SceneRenderer.test.tsx` — 更新选择器匹配新 CSS 类
+
+#### 验收
+- 16 文件 / 157 测试全部通过
+- 未新增任何素材文件
+- 未修改剧情 JSON
+- 未修改音频系统
 
 ## 待实现
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证

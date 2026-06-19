@@ -115,33 +115,18 @@ export default function ChoicePanel({
             key={choice.id}
             onClick={isLocked ? undefined : () => onSelect(choice)}
             disabled={isLocked}
-            className={`choice-btn${choice.isCritical ? " choice-btn-critical" : ""}${isLocked ? " choice-btn-locked" : ""}`}
+            className="choiceButton"
             style={{
-              width: "100%",
-              padding: "10px 24px",
               background: isLocked
                 ? "rgba(30, 25, 18, 0.5)"
                 : choice.isCritical
-                  ? "var(--color-choice-critical)"
-                  : "var(--color-choice-bg)",
-              color: isLocked ? "var(--color-text-dim)" : "var(--color-text-primary)",
-              fontSize: "var(--font-size-choice)",
-              textAlign: "left",
-              lineHeight: "var(--line-height-dialogue)",
-              border: "1px solid var(--color-choice-border)",
-              borderRadius: "var(--border-radius-md)",
-              cursor: isLocked ? "not-allowed" : "pointer",
-              opacity: isLocked ? 0.6 : 1,
-              transition: "filter var(--transition-fast)",
-              position: "relative" as const,
-            }}
-            onMouseEnter={(e) => {
-              if (isLocked) return;
-              e.currentTarget.style.filter = "brightness(1.15)";
-            }}
-            onMouseLeave={(e) => {
-              if (isLocked) return;
-              e.currentTarget.style.filter = "none";
+                  ? "rgba(90, 48, 32, 0.72)"
+                  : "rgba(35, 31, 25, 0.88)",
+              border: isLocked
+                ? "1px solid rgba(60, 50, 38, 0.3)"
+                : choice.isCritical
+                  ? "1px solid rgba(200, 100, 50, 0.6)"
+                  : "1px solid rgba(188, 151, 82, 0.52)",
             }}
           >
             {choice.text}

@@ -451,22 +451,7 @@ export default function TitlePage() {
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
 
           {/* 开始新游戏 */}
-          <button
-            onClick={handleNewGame}
-            className="title-btn"
-            style={{
-              padding: "18px 72px",
-              fontSize: 22,
-              border: "1px solid #5a5040",
-              borderRadius: "var(--border-radius-md)",
-              background: "rgba(42, 34, 24, 0.55)",
-              color: "var(--color-text-primary)",
-              cursor: "pointer",
-              letterSpacing: 10,
-              fontFamily: "var(--font-body)",
-              minWidth: 300,
-            }}
-          >
+          <button onClick={handleNewGame} className="primaryButton">
             开 始 新 游 戏
           </button>
 
@@ -474,48 +459,14 @@ export default function TitlePage() {
           <button
             onClick={saveExists ? handleContinue : undefined}
             disabled={!saveExists}
-            className={`title-btn${!saveExists ? " title-btn-disabled" : ""}`}
-            style={{
-              padding: "18px 72px",
-              fontSize: 22,
-              border: "1px solid #5a5040",
-              borderRadius: "var(--border-radius-md)",
-              background: saveExists
-                ? "rgba(42, 34, 24, 0.55)"
-                : "rgba(28, 22, 16, 0.35)",
-              color: saveExists ? "var(--color-text-primary)" : "var(--color-text-dim)",
-              cursor: saveExists ? "pointer" : "not-allowed",
-              letterSpacing: 10,
-              fontFamily: "var(--font-body)",
-              minWidth: 300,
-              opacity: saveExists ? 1 : 0.5,
-            }}
+            className="secondaryButton"
           >
             继 续 旅 程
           </button>
 
           {/* 设置 */}
-          <button
-            onClick={handleSettings}
-            className="title-btn"
-            style={{
-              padding: "14px 60px",
-              fontSize: 18,
-              border: "1px solid #5a5040",
-              borderRadius: "var(--border-radius-md)",
-              background: "rgba(42, 34, 24, 0.55)",
-              color: "var(--color-text-secondary)",
-              cursor: "pointer",
-              letterSpacing: 8,
-              fontFamily: "var(--font-body)",
-              minWidth: 240,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-            }}
-          >
-            <img src="/assets/ui/ui_icon_settings.png" alt="" style={{ width: 20, height: 20, opacity: 0.7 }} />
+          <button onClick={handleSettings} className="secondaryButton">
+            <img src="/assets/ui/ui_icon_settings.png" alt="" style={{ width: 20, height: 20, opacity: 0.7, marginRight: 8 }} />
             设　　置
           </button>
         </div>
