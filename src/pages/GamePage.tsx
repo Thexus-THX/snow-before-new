@@ -5,7 +5,8 @@ import { useGameStore } from "@/app/stores/gameStore";
 import { validateGameData } from "@/schemas/gameSchema";
 import { hasValidSave } from "@/engine/saveManager";
 import { buildHistoryEntryFromScene } from "@/engine/sceneHistory";
-import { destroyTitleBgm } from "@/engine/audioManager";
+import { audioManager } from "@/audio/AudioManager";
+import { useSceneAudio } from "@/audio/useSceneAudio";
 import type { GameData, ChoiceDefinition, HistoryEntry, ResolvedChoice } from "@/schemas/types";
 import gameDataRaw from "@/content/game-data.json";
 
@@ -41,8 +42,8 @@ export default function GamePage() {
     // 防止 StrictMode 双重初始化
     if (initializedRef.current) return;
 
-    // 进入游戏时销毁标题 BGM 实例
-    destroyTitleBgm();
+    // 进入游戏时停止标题 BGM
+    audioManager.stopBgm();
 
     try {
       const validation = validateGameData(gameDataRaw);
@@ -145,6 +146,9 @@ export default function GamePage() {
   }, [rollbackToHistoryEntry]);
 
   const history = getHistory();
+
+  // 场景音频
+  useSceneAudio(currentScene);
 
   // 加载/错误
   if (loading) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-secondary)",fontSize:24}}>正在加载…</div></GameViewport>);

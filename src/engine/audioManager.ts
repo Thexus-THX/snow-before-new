@@ -1,81 +1,43 @@
 /**
- * audioManager.ts — 全局音频管理器（轻量级单例）
+ * audioManager.ts — 兼容层（已迁移到 src/audio/AudioManager.ts）
  *
- * 管理标题 BGM 的全局实例，使其可以在 TitlePage 和 SettingsPage 之间共享。
- * 页面切到后台时自动暂停，恢复前台时仅在之前正在播放时才恢复。
+ * 保留旧 API 以确保渐进迁移，内部转发到统一 AudioManager。
+ * @deprecated 请使用 src/audio/AudioManager.ts 中的 audioManager
  */
 
-let titleBgm: HTMLAudioElement | null = null;
-let wasPlayingBeforeHidden = false;
-const TITLE_BGM_PATH = "/assets/audio/bgm/bgm_00_title.ogg";
-let visibilityHandlerRegistered = false;
+import { audioManager } from "@/audio/AudioManager";
 
-/**
- * 注册页面可见性变化监听：页面隐藏时暂停 BGM，恢复时仅在之前播放中才恢复
- */
-function registerVisibilityHandler(): void {
-  if (visibilityHandlerRegistered) return;
-  visibilityHandlerRegistered = true;
+// ---- 兼容旧 API ----
 
-  document.addEventListener("visibilitychange", () => {
-    if (!titleBgm) return;
+let titleBgmInstance: HTMLAudioElement | null = null;
 
-    if (document.hidden) {
-      wasPlayingBeforeHidden = !titleBgm.paused;
-      titleBgm.pause();
-    } else {
-      // 只在之前正在播放时才恢复
-      if (wasPlayingBeforeHidden) {
-        titleBgm.play().catch(() => {});
-      }
-    }
-  });
-}
-
-/**
- * 取消注册可见性监听（BGM 实例销毁时调用）
- */
-function unregisterVisibilityHandler(): void {
-  // 不取消全局监听，保持简单
-}
-
-/**
- * 获取或创建标题 BGM 实例（全局单例）
- */
 export function ensureTitleBgm(): HTMLAudioElement {
-  if (!titleBgm) {
-    titleBgm = new Audio(TITLE_BGM_PATH);
-    titleBgm.loop = true;
-    titleBgm.volume = 0.6; // 初始默认值，后续由 settingsStore 覆盖
+  if (!titleBgmInstance) {
+    titleBgmInstance = new Audio("/assets/audio/bgm/bgm_00_title.ogg");
+    titleBgmInstance.loop = true;
+    titleBgmInstance.volume = 0.6;
   }
-  registerVisibilityHandler();
-  return titleBgm;
+  audioManager.crossfadeBgm("bgm.title");
+  return titleBgmInstance;
 }
 
-/**
- * 获取标题 BGM 实例（可能为 null）
- */
 export function getTitleBgm(): HTMLAudioElement | null {
-  return titleBgm;
+  return titleBgmInstance;
 }
 
-/**
- * 停止并重置标题 BGM
- */
 export function stopTitleBgm(): void {
-  if (titleBgm) {
-    titleBgm.pause();
-    titleBgm.currentTime = 0;
+  audioManager.stopBgm();
+  if (titleBgmInstance) {
+    titleBgmInstance.pause();
+    titleBgmInstance.currentTime = 0;
   }
 }
 
-/**
- * 销毁标题 BGM 实例
- */
 export function destroyTitleBgm(): void {
-  if (titleBgm) {
-    titleBgm.pause();
-    titleBgm.src = "";
-    titleBgm = null;
+  audioManager.stopBgm();
+  if (titleBgmInstance) {
+    titleBgmInstance.pause();
+    titleBgmInstance.src = "";
+    titleBgmInstance = null;
   }
 }

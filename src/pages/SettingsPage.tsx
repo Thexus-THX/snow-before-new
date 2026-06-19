@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
 import { useSettingsStore } from "@/app/stores/settingsStore";
-import { getTitleBgm } from "@/engine/audioManager";
+import { audioManager } from "@/audio/AudioManager";
 
 /**
  * SettingsPage — 设置页面
@@ -26,13 +26,13 @@ export default function SettingsPage() {
     setTextSpeed,
   } = useSettingsStore();
 
-  // 实时同步音量到全局 BGM
+  // 实时同步音量到 AudioManager
   useEffect(() => {
-    const bgm = getTitleBgm();
-    if (!bgm) return;
-    const effectiveVolume = isMuted ? 0 : masterVolume * musicVolume;
-    bgm.volume = Math.max(0, Math.min(1, effectiveVolume));
-  }, [musicVolume, isMuted, masterVolume]);
+    audioManager.setMasterVolume(masterVolume);
+    audioManager.setBgmVolume(musicVolume);
+    audioManager.setSfxVolume(sfxVolume);
+    audioManager.setMuted(isMuted);
+  }, [musicVolume, sfxVolume, isMuted, masterVolume]);
 
   const sliderStyle: React.CSSProperties = {
     width: 200,

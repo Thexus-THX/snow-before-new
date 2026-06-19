@@ -7,7 +7,7 @@ import { validateGameData } from "@/schemas/gameSchema";
 import { hasValidSave } from "@/engine/saveManager";
 import type { GameData } from "@/schemas/types";
 import gameDataRaw from "@/content/game-data.json";
-import { getTitleBgm, ensureTitleBgm } from "@/engine/audioManager";
+import { audioManager } from "@/audio/AudioManager";
 
 /** 像素雪花粒子 */
 interface Snowflake {
@@ -137,34 +137,16 @@ export default function TitlePage() {
     }
   }, [loadGameData]);
 
-  // BGM：使用全局单例，页面加载即尝试播放
+  // BGM：使用统一 AudioManager
   useEffect(() => {
-    const bgm = ensureTitleBgm();
-    // 尝试自动播放（现代浏览器可能拒绝，静默处理）
-    bgm.play().catch(() => {
-      // 自动播放被浏览器阻止，等待用户首次交互
-      const resume = () => {
-        bgm.play().catch(() => {});
-        document.removeEventListener("click", resume);
-        document.removeEventListener("keydown", resume);
-      };
-      document.addEventListener("click", resume);
-      document.addEventListener("keydown", resume);
-    });
-
-    // 不需要在组件卸载时停止 BGM（全局单例，跨页面保持）
-    return () => {
-      // 仅在真正离开标题相关页面时处理
-      // 由于使用了全局单例，清理由调用方决定
-    };
+    audioManager.crossfadeBgm("bgm.title");
   }, []);
 
-  // 音量同步：当设置变化时实时更新 BGM 音量
+  // 音量同步：当设置变化时实时更新 AudioManager
   useEffect(() => {
-    const bgm = getTitleBgm();
-    if (!bgm) return;
-    const effectiveVolume = isMuted ? 0 : masterVolume * musicVolume;
-    bgm.volume = Math.max(0, Math.min(1, effectiveVolume));
+    audioManager.setMasterVolume(masterVolume);
+    audioManager.setBgmVolume(musicVolume);
+    audioManager.setMuted(isMuted);
   }, [musicVolume, isMuted, masterVolume]);
 
   // 初始化雪花
@@ -335,11 +317,7 @@ export default function TitlePage() {
 
   const handleNewGame = () => {
     // 停止标题 BGM
-    const bgm = getTitleBgm();
-    if (bgm) {
-      bgm.pause();
-      bgm.currentTime = 0;
-    }
+    audioManager.stopBgm();
     if (saveExists && !window.confirm("已有旅程记录。开始新游戏将覆盖当前进度，是否继续？")) {
       return;
     }
@@ -348,11 +326,7 @@ export default function TitlePage() {
   };
 
   const handleContinue = () => {
-    const bgm = getTitleBgm();
-    if (bgm) {
-      bgm.pause();
-      bgm.currentTime = 0;
-    }
+    audioManager.stopBgm();
     setLaunchMode("continue");
     navigate("/game");
   };

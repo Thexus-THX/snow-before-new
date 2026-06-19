@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-19（P1C 全流程路线验收与运行稳定性清理）
+> 最后更新：2026-06-19（P2A 无配音版音频底层系统）
 
 ---
 
@@ -271,6 +271,42 @@
 
 #### 测试统计
 - 13 文件 / 121 测试通过（+3 文件 / +33 测试）
+
+### ✅ P2A 无配音版音频底层系统（2026-06-19）
+
+#### AudioManager 实现
+- 统一单例 `AudioManager`（`src/audio/AudioManager.ts`）
+- BGM / ambience / SFX 三通道独立管理
+- BGM 淡入淡出（`crossfadeBgm`）、同 ID 不重复启动
+- 环境音循环、场景切换自动更新
+- SFX 可重叠播放、缺失素材安全跳过
+- 全局静音 + 分轨音量（master/bgm/ambience/sfx）clamp 0-1
+- 首次交互解锁播放、页面 visibility 暂停/恢复
+- 旧 `src/engine/audioManager.ts` 改为兼容层，内部转发到新 AudioManager
+
+#### audioManifest
+- 24 条音频定义（9 BGM + 6 Ambience + 8 SFX + 1 预留）
+- 仅 `bgm.title` 拥有真实 src（`/assets/audio/bgm/bgm_00_title.ogg`）
+- 其余 23 条 `src: null` + `optional: true`，安全跳过
+- 未新增任何音频文件
+
+#### audioSceneMap
+- 按场景 ID / 章节前缀映射到逻辑音频 ID
+- 覆盖标题页、序章、8 日、家书、札记、历史事件、结局、旅程回顾
+
+#### 页面迁移
+- **TitlePage**：移除旧 `ensureTitleBgm/getTitleBgm`，改用 `audioManager.crossfadeBgm("bgm.title")`
+- **SettingsPage**：音量控制接入 `audioManager.setMasterVolume/setBgmVolume/setSfxVolume/setMuted`
+- **GamePage**：集成 `useSceneAudio` hook，场景切换自动更新音频；`destroyTitleBgm` → `audioManager.stopBgm()`
+
+#### 测试
+- `audioManifest.test.ts`：10 测试（真实素材数/optional/null 资产/ID 唯一性/通道分类）
+- `AudioManager.test.ts`：14 测试（所有方法不抛错、缺失资产安全跳过、clamp）
+- `useSceneAudio.test.ts`：12 测试（12 种场景映射正确性）
+- 累计 16 文件 / 157 测试通过（+3 文件 / +36 测试）
+
+#### 未接入配音
+- voice 通道类型已预留，本阶段不接入、不要求素材
 
 ## 待实现
   - letter/historicalEvent/seasonJournal/freeLayout 数量验证
