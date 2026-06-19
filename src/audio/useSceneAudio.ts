@@ -18,7 +18,8 @@ const DEBUG = import.meta.env.DEV;
  * @param scene 当前场景对象（可能为 undefined）
  */
 export function useSceneAudio(scene: SceneDefinition | undefined): void {
-  const prevBgmId = useRef<string | null>(null);
+  // 初始化为当前正在播放的 BGM ID，避免从 TitlePage 进入时重播同 ID
+  const prevBgmId = useRef<string | null>(audioManager.getCurrentBgmId());
 
   useEffect(() => {
     if (!scene) return;
@@ -54,12 +55,8 @@ export function useSceneAudio(scene: SceneDefinition | undefined): void {
     }
   }, [scene]);
 
-  // 组件卸载时停止所有音频
-  useEffect(() => {
-    return () => {
-      audioManager.stopAll();
-    };
-  }, []);
+  // BGM 由场景切换逻辑接管，不在卸载时强制停止
+  // （避免 StrictMode 双挂载导致 BGM 被误停）
 }
 
 /**
@@ -68,9 +65,6 @@ export function useSceneAudio(scene: SceneDefinition | undefined): void {
 export function useTitleBgm(): void {
   useEffect(() => {
     audioManager.crossfadeBgm("bgm.title");
-    return () => {
-      // 不在此处停止，由后续场景接管
-    };
   }, []);
 }
 

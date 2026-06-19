@@ -42,8 +42,7 @@ export default function GamePage() {
     // 防止 StrictMode 双重初始化
     if (initializedRef.current) return;
 
-    // 进入游戏时停止标题 BGM
-    audioManager.stopBgm();
+    // BGM 由 useSceneAudio 统一管理，不在此处强制停止
 
     try {
       const validation = validateGameData(gameDataRaw);

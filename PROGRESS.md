@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（STEP 04 P2A 音频系统基础建设 + BGM intro/loop 接入）
+> 最后更新：2026-06-20（BGM 系统打磨完成）
 
 ---
 
@@ -454,27 +454,19 @@
 - UI 素材接入效果不好，已回退到 STEP 02 纯 CSS UI
 - `ui-new/` 中素材保留备用
 
-## 待实现
-  - letter/historicalEvent/seasonJournal/freeLayout 数量验证
-  - 场景 ID 唯一性
-  - nextSceneId 可达性（BFS 遍历）
-  - 特殊场景 choices/effects 约束
-  - 关键选择场景存在性
-  - 选择场景完整性
-  - 家书/历史事件/札记内容完整性
-- 累计 10 个测试文件，88 个测试全部通过
+### ✅ BGM 系统打磨（2026-06-20）
+
+#### 修复
+- 同 BGM ID 不重播：`playBgm` / `crossfadeBgm` 双保险
+- 标题页→创作说明无缝衔接（去掉强制 stopBgm）
+- 设置页返回不重播
+- 离开页面再回来不双播（visibility 恢复时只播一个元素）
+- StrictMode 不误杀 BGM（去掉 useSceneAudio cleanup 中的 stopAll）
 
 ## 待实现
 
-### ✅ 特殊场景模板渲染组件
-- ✅ 七种模板组件全部实现，穷尽分发 + 安全降级 + 防双击推进 + 历史记录 + 30 个新增测试
-
-### ⬜ 音频系统
-- ✅ `bgm_00_title.ogg` 就绪
-- ⬜ BGM 01-08、环境音、音效 SFX、关键句配音
-
-### ✅ UI 装饰素材（全部就绪）
-- ✅ 12 张 UI + 19 张角色立绘 + 假透明修复
+### ⬜ 环境音 / SFX / 配音
+- Ambience 6 首、SFX 8 个、Voice 配音均未提供
 
 ### ⬜ 编辑器（/editor）
 - 可视化编辑器整体未实现

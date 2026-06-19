@@ -87,6 +87,12 @@ class AudioManagerImpl implements IAudioManager {
   }
 
   crossfadeBgm(id: string): void {
+    // 同一首 BGM 已在播放，不重播
+    if (this.currentBgmId === id && this.bgmState === "playing") {
+      debugLog(`crossfadeBgm "${id}" 已在播放，跳过`);
+      return;
+    }
+
     const def = getBgmById(id);
     if (!def?.enabled || def.missing || !def.path) {
       debugLog(`crossfadeBgm "${id}" 素材未提供，跳过`);
@@ -95,40 +101,21 @@ class AudioManagerImpl implements IAudioManager {
 
     const old = this.bgmElement;
     const oldLoop = this.bgmLoopElement;
-    const fadeOutMs = def.fadeOutMs;
 
+    // 先立即停止旧 BGM，再开始新 BGM
     if (old) {
-      this.bgmState = "fading";
-      const steps = 20;
-      const interval = fadeOutMs / steps;
-      const startVol = this.getEffectiveBgmVolume() * (this.getCurrentBgmDefaultVolume() ?? 1);
-      let step = 0;
-
-      this.clearFadeTimer();
-      const doFadeOut = () => {
-        step++;
-        const v = startVol * (1 - step / steps);
-        if (old) old.volume = Math.max(0, v);
-        if (oldLoop) oldLoop.volume = Math.max(0, v);
-        if (step < steps) {
-          this.fadeTimer = window.setTimeout(doFadeOut, interval);
-        } else {
-          // 完全停止旧元素
-          old.pause();
-          old.currentTime = 0;
-          if (oldLoop) {
-            oldLoop.pause();
-            oldLoop.currentTime = 0;
-          }
-          this.bgmElement = null;
-          this.bgmLoopElement = null;
-          this.startBgm(def);
-        }
-      };
-      this.fadeTimer = window.setTimeout(doFadeOut, interval);
-    } else {
-      this.startBgm(def);
+      old.pause();
+      old.currentTime = 0;
+      this.bgmElement = null;
     }
+    if (oldLoop) {
+      oldLoop.pause();
+      oldLoop.currentTime = 0;
+      this.bgmLoopElement = null;
+    }
+    this.clearFadeTimer();
+
+    this.startBgm(def);
   }
 
   // ========================================================================
@@ -440,8 +427,14 @@ class AudioManagerImpl implements IAudioManager {
         if (this.voiceElement) this.voiceElement.pause();
       } else {
         if (this.wasPlayingBeforeHidden && !this.paused) {
-          if (this.bgmElement) this.bgmElement.play().catch(() => {});
-          if (this.bgmLoopElement) this.bgmLoopElement.play().catch(() => {});
+          // 只恢复正在播放的 BGM 元素（intro 或 loop，不是两个都播）
+          if (this.bgmLoopElement) {
+            // loop 元素存在说明 intro 已结束，只恢复 loop
+            this.bgmLoopElement.play().catch(() => {});
+          } else if (this.bgmElement) {
+            // 还在播 intro
+            this.bgmElement.play().catch(() => {});
+          }
         }
         if (!this.paused) {
           for (const el of this.ambienceElements.values()) el.play().catch(() => {});

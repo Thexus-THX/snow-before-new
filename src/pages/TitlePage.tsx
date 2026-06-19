@@ -320,17 +320,15 @@ export default function TitlePage() {
   }, [initFlakes, spawnSmoke]);
 
   const handleNewGame = () => {
-    // 停止标题 BGM
-    audioManager.stopBgm();
     if (saveExists && !window.confirm("已有旅程记录。开始新游戏将覆盖当前进度，是否继续？")) {
       return;
     }
     setLaunchMode("new");
     navigate("/game");
+    // 不在此停止 BGM：创作说明页和标题页共用 bgm.title，无缝衔接
   };
 
   const handleContinue = () => {
-    audioManager.stopBgm();
     setLaunchMode("continue");
     navigate("/game");
   };
