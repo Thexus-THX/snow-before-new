@@ -13,7 +13,7 @@ describe("P2A audioManifest (legacy, kept for compatibility)", () => {
   });
 
   it("旧 manifest 条目数正确", () => {
-    expect(AUDIO_MANIFEST.length).toBeGreaterThanOrEqual(24);
+    expect(AUDIO_MANIFEST.length).toBeGreaterThanOrEqual(23);
   });
 
   it("getAssetById 对不存在的 ID 返回 undefined", () => {

@@ -66,9 +66,10 @@ describe("P1C 全流程数据审计", () => {
     expect(scenes["ending_foreign_lamp"].template).toBe("ending");
   });
 
-  it("8. journey_review → thank_you 链完整", () => {
+  it("8. journey_review → thank_you → prologue_train 链完整", () => {
     expect(scenes["journey_review"].nextSceneId).toBe("thank_you");
     expect(scenes["thank_you"].nextSceneId).toBe("prologue_train");
+    expect(scenes["prologue_train"]).toBeDefined();
   });
 
   // ---- 9. 没有死胡同（无 nextSceneId 且无 choices） ----

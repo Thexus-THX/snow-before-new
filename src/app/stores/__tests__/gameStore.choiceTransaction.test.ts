@@ -9,6 +9,7 @@
  */
 import { describe, it, expect, beforeEach } from "vitest";
 import { useGameStore } from "@/app/stores/gameStore";
+import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
 import type { GameData, ChoiceDefinition, GameState } from "@/schemas/types";
 
 // ============================================================
@@ -138,6 +139,7 @@ describe("gameStore 选择事务", () => {
   beforeEach(() => {
     // 每个测试前重置 store
     useGameStore.getState().reset();
+    useEndingGalleryStore.getState().resetAllData();
     useGameStore.getState().loadGameData(gd);
     useGameStore.getState().startNewGame();
     // 清理 localStorage

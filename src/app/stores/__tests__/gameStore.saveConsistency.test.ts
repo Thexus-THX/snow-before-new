@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useGameStore } from "@/app/stores/gameStore";
+import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
 import { STORAGE_KEY } from "@/engine/saveManager";
 import type { GameData } from "@/schemas/types";
 
@@ -32,13 +33,14 @@ describe("gameStore 存档一致性", () => {
 
   beforeEach(() => {
     useGameStore.getState().reset();
+    useEndingGalleryStore.getState().resetAllData();
     useGameStore.getState().loadGameData(gd);
     try { localStorage.clear(); } catch {}
   });
 
   // ---- 新游戏覆盖 ----
   describe("新游戏覆盖", () => {
-    it("开始新游戏后旧存档被清除", () => {
+    it("开始新游戏后旧存档保留（多周目支持）", () => {
       // 先写入一个旧存档
       const oldState = structuredClone(gd.initialState);
       oldState.currentSceneId = "s2"; // 模拟旧进度
@@ -47,37 +49,33 @@ describe("gameStore 存档一致性", () => {
       // 开始新游戏
       useGameStore.getState().startNewGame();
 
-      // 旧存档应被清除
-      expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+      // V2: 旧存档应保留（多周目支持）
+      expect(localStorage.getItem(STORAGE_KEY)).not.toBeNull();
 
       // 状态应从 initialState 开始
       const state = useGameStore.getState().state!;
       expect(state.currentSceneId).toBe("s1");
     });
 
-    it("开始新游戏后 continueGame 返回 false", () => {
+    it("开始新游戏后 continueGame 仍可加载旧存档", () => {
       // 写旧存档
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ schemaVersion: 1, gameId: "snow-before-v1", gameDataVersion: "1.0.0", savedAt: Date.now(), state: gd.initialState, snapshots: {} }));
 
       // 开始新游戏
       useGameStore.getState().startNewGame();
 
-      // 再次尝试 continueGame 应失败（P0 返回 { success, reason }）
+      // V2: 旧存档仍然存在，continueGame 应成功
       const result = useGameStore.getState().continueGame();
-      expect(result.success).toBe(false);
+      expect(result.success).toBe(true);
     });
 
-    it("clearSave 失败不影响新游戏开始", () => {
-      // 模拟 localStorage.removeItem 失败
-      const orig = localStorage.removeItem;
-      localStorage.removeItem = () => { throw new Error("denied"); };
-      try {
-        useGameStore.getState().startNewGame();
-        const state = useGameStore.getState().state!;
-        expect(state.currentSceneId).toBe("s1"); // 仍成功开始
-      } finally {
-        localStorage.removeItem = orig;
-      }
+    it("开始新游戏后启动图鉴周目记录", () => {
+      useGameStore.getState().startNewGame();
+
+      // V2: 应创建新的周目记录
+      const gallery = useEndingGalleryStore.getState();
+      expect(gallery.currentPlaythroughId).not.toBeNull(); // startNewGame 调用 gallery.startNewPlaythrough()
+      expect(gallery.playthroughs.length).toBeGreaterThanOrEqual(1);
     });
   });
 

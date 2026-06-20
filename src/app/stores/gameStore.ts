@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import type { GameData, GameState, SceneDefinition, HistoryEntry, StateSnapshot, ChoiceDefinition } from "@/schemas/types";
 import { GameEngine } from "@/engine/gameEngine";
-import { loadSave, hasValidSave, buildSaveEnvelope, writeSave, clearSave } from "@/engine/saveManager";
+import { loadSave, hasValidSave, buildSaveEnvelope, writeSave } from "@/engine/saveManager";
+import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
 
 /** 游戏启动模式 */
 export type GameLaunchMode = "new" | "continue";
@@ -100,11 +101,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const { engine, gameData } = get();
     if (!gameData || !engine) return null;
 
-    // P0.1: 清除旧持久化存档
-    const clearResult = clearSave();
-    if (clearResult.status !== "ok") {
-      console.warn("[gameStore] 清除旧存档失败:", clearResult.reason, "— 新游戏将继续");
-    }
+    // 不再清除旧存档 - 启动新周目记录
+    const gallery = useEndingGalleryStore.getState();
+    gallery.startNewPlaythrough();
 
     const initial = structuredClone(gameData.initialState);
     set({ state: initial, snapshots: {} });
@@ -319,7 +318,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
       writeSave(save);
     }
 
-    // 8. 一次性提交所有状态
+    // 8. 同步当前周目历史到图鉴 store
+    const gallery = useEndingGalleryStore.getState();
+    gallery.updateCurrentPlaythroughHistory(next.history);
+
+    // 9. 检测是否触发了结局场景（template 为 ending）
+    const targetScene = engine.getScene(found.nextSceneId);
+    if (targetScene?.template === "ending") {
+      gallery.completePlaythrough(targetScene.id);
+    }
+
+    // 10. 一次性提交所有状态
     set({ state: next, submittingChoice: false });
 
     return { ok: true, nextSceneId: found.nextSceneId, visibleEffects };

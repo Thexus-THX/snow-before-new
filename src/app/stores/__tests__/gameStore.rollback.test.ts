@@ -8,6 +8,7 @@
  */
 import { describe, it, expect, beforeEach } from "vitest";
 import { useGameStore } from "@/app/stores/gameStore";
+import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
 import type { GameData, GameState, HistoryEntry, ChoiceDefinition } from "@/schemas/types";
 
 // ============================================================
@@ -152,6 +153,7 @@ describe("gameStore 回滚", () => {
 
   beforeEach(() => {
     useGameStore.getState().reset();
+    useEndingGalleryStore.getState().resetAllData();
     useGameStore.getState().loadGameData(gd);
     useGameStore.getState().startNewGame();
     try { localStorage.clear(); } catch { /* 无操作 */ }

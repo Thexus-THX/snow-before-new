@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（P3C 剧情衔接修复与场景过渡补全）
+> 最后更新：2026-06-20（部署前清理与精简）
 
 ---
 
@@ -622,6 +622,44 @@
 |------|---------|
 | `d6_radio_fragments` | `bg_day06_summer_news.webp` |
 | `d7_chen_quarrel_full` | `bg_day07_autumn_preparation.webp` |
+
+### ✅ 部署前清理与精简（2026-06-20）
+
+#### 功能逻辑审查
+- **endingGalleryStore 集成**：`startNewGame()` → 新周目，`commitChoice()` → 同步历史 + 检测结局，`SettingsPage` → 清零，链路完整
+- **router**：5 个路由结构正确，`thank_you` → `navigate("/")` 返回标题页
+- **gameStore 变更**：choice 事务、存档一致性、回滚逻辑均通过测试
+
+#### 删除文件（8 个）
+| 文件 | 原因 |
+|------|------|
+| `scripts/remove_fake_transparency.py` | 图片处理脚本，已处理完毕 |
+| `scripts/scan_characters.py` | 诊断脚本，不再需要 |
+| `scripts/verify_results.py` | 验证脚本，不再需要 |
+| `src/app/stores/editorStore.ts` | 无任何外部引用 |
+| `src/components/common/UiPanel.tsx` | 无任何外部引用 |
+| `src/components/common/useUiDebug.ts` | 无任何外部引用 |
+| `src/engine/audioManager.ts` | 废弃兼容层，已全部迁移到 `audio/` |
+| `src/constants/ui.ts` | 无任何外部引用 |
+
+#### 冗余资源迁移到备份目录（`e:/sown-before-backup/`）
+| 资源 | 数量 | 说明 |
+|------|------|------|
+| `characters/*.webp` | 17 个 | 代码只引用 `.png`，`.webp` 冗余 |
+| `audio/bgm/*` | 9 个 | 已被 `bgmused/` 替代 |
+| `audio/ambience/*.mp3` | 5 个 | 原始素材，代码使用 `.ogg` |
+| `ui-un/*` | 4 个 | 旧版 UI 资源 |
+| `references/*` | 2 个 | 参考图，非运行时所需 |
+
+#### 路径引用修正
+- `audioManifest.ts`：`bgm/bgm_00_title.ogg` → `bgmused/bgm_01_prologue_station.ogg`
+- `game-data.json`：2 个结局 bgm 引用更新为 `bgmused/` 路径
+
+#### 文案调整
+- 标题页按钮："回到雪落之前" → "开始新游戏"
+
+#### 测试
+- 全部 177 测试通过（17 文件 / 0 失败）
 
 ## 待实现
 

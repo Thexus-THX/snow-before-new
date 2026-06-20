@@ -2596,7 +2596,7 @@
             "有些选择发生在一日之内，有些选择，要经过四季才能看清。"
           ],
           "voiceAsset": "/assets/audio/voice/voice_ending_return.ogg",
-          "bgm": "/assets/audio/bgm/bgm_07_ending_return.ogg"
+          "bgm": "/assets/audio/bgmused/bgm_07_ending_return_intro.ogg"
         }
       }
     },
@@ -2618,7 +2618,7 @@
             "异乡的灯照亮了他的学问，也照见了他心中始终没有远去的故乡。"
           ],
           "voiceAsset": "/assets/audio/voice/voice_ending_stay.ogg",
-          "bgm": "/assets/audio/bgm/bgm_08_ending_stay.ogg"
+          "bgm": "/assets/audio/bgmused/bgm_08_ending_foreign_lamp_intro.ogg"
         }
       }
     },
@@ -2697,7 +2697,7 @@
       "background": "/assets/backgrounds/bg_time_note_four_seasons.webp",
       "showTopStatusBar": false,
       "showDialoguePanel": false,
-      "nextSceneId": "__title__",
+      "nextSceneId": "prologue_train",
       "content": {
         "speakerId": "narrator",
         "speakerName": "",
@@ -2812,6 +2812,7 @@
       "background": "/assets/backgrounds/bg_day01_spring_lab.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
+      "nextSceneId": "d1_k1_failure",
       "content": {
         "speakerId": "nadya",
         "speakerName": "娜佳",
@@ -2843,6 +2844,7 @@
       "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
+      "nextSceneId": "d3_c3_reply",
       "content": {
         "speakerId": "chen",
         "speakerName": "陈绍衡",
@@ -2858,6 +2860,7 @@
       "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
+      "nextSceneId": "d3_chen_night",
       "content": {
         "speakerId": "narrator",
         "speakerName": "",
@@ -2886,7 +2889,7 @@
       "name": "第六日·电波碎片",
       "chapterId": "d6_1937_summer",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day06_summer_news.webp",
+      "background": "/assets/backgrounds/bg_day06_summer_lab_radio.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -2902,7 +2905,7 @@
       "name": "第六日·娜佳的理解",
       "chapterId": "d6_1937_summer",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day06_summer_news.webp",
+      "background": "/assets/backgrounds/bg_day06_summer_lab_radio.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -2918,7 +2921,7 @@
       "name": "第七日·分歧",
       "chapterId": "d7_1937_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day07_autumn_preparation.webp",
+      "background": "/assets/backgrounds/bg_day07_autumn_dorm.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {

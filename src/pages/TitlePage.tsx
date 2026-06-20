@@ -320,12 +320,9 @@ export default function TitlePage() {
   }, [initFlakes, spawnSmoke]);
 
   const handleNewGame = () => {
-    if (saveExists && !window.confirm("已有旅程记录。开始新游戏将覆盖当前进度，是否继续？")) {
-      return;
-    }
+    // 不再覆盖存档 - 直接开始新周目
     setLaunchMode("new");
     navigate("/game");
-    // 不在此停止 BGM：创作说明页和标题页共用 bgm.title，无缝衔接
   };
 
   const handleContinue = () => {
@@ -336,6 +333,10 @@ export default function TitlePage() {
   const handleSettings = () => {
     // 不停止 BGM，设置页面可以继续调节音量
     navigate("/settings");
+  };
+
+  const handleEndingGallery = () => {
+    navigate("/ending-gallery");
   };
 
   return (
@@ -469,6 +470,14 @@ export default function TitlePage() {
           {/* 设置 */}
           <button onClick={handleSettings} className="secondaryButton">
             设　　置
+          </button>
+
+          {/* 结局图鉴 */}
+          <button
+            onClick={handleEndingGallery}
+            className="secondaryButton"
+          >
+            结 局 图 鉴
           </button>
         </div>
         </div>

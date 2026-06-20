@@ -11,7 +11,7 @@ export const AUDIO_MANIFEST: AudioAssetDefinition[] = [
   {
     id: "bgm.title",
     channel: "bgm",
-    src: "/assets/audio/bgm/bgm_00_title.ogg",
+    src: "/assets/audio/bgmused/bgm_01_prologue_station.ogg",
     loop: true,
     optional: false,
     defaultVolume: 0.8,
