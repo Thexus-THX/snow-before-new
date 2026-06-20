@@ -56,8 +56,8 @@ export default function SettingsPage() {
     label: string; value: number; onChange: (v: number) => void;
     disabled?: boolean; showPercent?: boolean;
   }) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 14, opacity: disabled ? 0.42 : 1 }}>
-      <span style={{ width: 72, color: COLORS.label, fontSize: 16, letterSpacing: "0.06em", flexShrink: 0 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 16, height: 50, opacity: disabled ? 0.42 : 1 }}>
+      <span style={{ width: 84, color: COLORS.label, fontSize: 18, fontWeight: 600, letterSpacing: "0.06em", flexShrink: 0 }}>
         {label}
       </span>
       <div style={{ flex: 1, position: "relative", height: 28, display: "flex", alignItems: "center" }}>
@@ -99,7 +99,7 @@ export default function SettingsPage() {
         `}</style>
       </div>
       {showPercent && (
-        <span style={{ width: 42, textAlign: "right", color: COLORS.textDim, fontSize: 14, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>
+        <span style={{ width: 46, textAlign: "right", color: "#8a7a60", fontSize: 15, fontVariantNumeric: "tabular-nums", flexShrink: 0, fontWeight: 500 }}>
           {Math.round(value * 100)}%
         </span>
       )}
@@ -142,8 +142,8 @@ export default function SettingsPage() {
   // ===== 分组标题 =====
   const SectionTitle = ({ text }: { text: string }) => (
     <div style={{
-      fontSize: 16, fontWeight: 600, letterSpacing: "0.12em",
-      color: COLORS.gold, marginBottom: 6, marginTop: 10,
+      fontSize: 17, fontWeight: 700, letterSpacing: "0.12em",
+      color: COLORS.gold, marginBottom: 8, marginTop: 12,
       fontFamily: "var(--font-display), serif",
     }}>
       {text}
@@ -161,8 +161,8 @@ export default function SettingsPage() {
       }}>
         {/* ===== 设置面板 ===== */}
         <div style={{
-          width: 680,
-          padding: "42px 52px 36px",
+          width: 700,
+          padding: "48px 56px 40px",
           background: COLORS.panelBg,
           border: `1px solid ${COLORS.panelBorder}`,
           borderRadius: 3,
@@ -171,8 +171,8 @@ export default function SettingsPage() {
         }}>
           {/* 标题 */}
           <h1 style={{
-            fontSize: 36, fontWeight: 400, letterSpacing: 8,
-            marginBottom: 20, textAlign: "center",
+            fontSize: 42, fontWeight: 400, letterSpacing: 8,
+            marginBottom: 22, textAlign: "center",
             fontFamily: "var(--font-display), serif",
             color: "var(--color-text-primary)",
             textShadow: "0 3px 10px rgba(0,0,0,0.65)",
@@ -184,7 +184,7 @@ export default function SettingsPage() {
           {/* ===== 音频组 ===== */}
           <SectionTitle text="音频" />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 4 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 4 }}>
             <SliderRow label="主音量" value={masterVolume} onChange={setMasterVolume} />
             <SliderRow label="音乐" value={musicVolume} onChange={setMusicVolume} disabled={isMuted} />
             <SliderRow label="环境音" value={ambienceVolume} onChange={setAmbienceVolume} disabled={isMuted} />
@@ -194,7 +194,7 @@ export default function SettingsPage() {
               <span style={{ width: 72, color: COLORS.label, fontSize: 15, letterSpacing: "0.06em", flexShrink: 0 }}>
                 语音
               </span>
-              <span style={{ color: "rgba(180,160,140,0.4)", fontSize: 14, letterSpacing: "0.06em", fontStyle: "italic" }}>
+              <span style={{ color: "rgba(180,160,140,0.5)", fontSize: 15, letterSpacing: "0.06em", fontStyle: "italic" }}>
                 暂未启用
               </span>
             </div>
@@ -205,7 +205,7 @@ export default function SettingsPage() {
                 静音
               </span>
               <Checkbox checked={isMuted} onChange={toggleMute} />
-              <span style={{ color: COLORS.textDim, fontSize: 14, marginLeft: 4 }}>
+              <span style={{ color: COLORS.textDim, fontSize: 15, marginLeft: 4 }}>
                 {isMuted ? "已静音" : "未静音"}
               </span>
             </div>
@@ -228,8 +228,8 @@ export default function SettingsPage() {
                     key={s}
                     onClick={() => setTextSpeed(s)}
                     style={{
-                      padding: "7px 18px",
-                      fontSize: 15, letterSpacing: "0.06em",
+                      padding: "9px 20px",
+                      fontSize: 16, letterSpacing: "0.06em",
                       fontFamily: "var(--font-display), serif",
                       border: `1px solid ${selected ? COLORS.gold : COLORS.panelBorder}`,
                       borderRadius: i === 0 ? "2px 0 0 2px" : i === 2 ? "0 2px 2px 0" : 0,
@@ -268,8 +268,8 @@ export default function SettingsPage() {
             <button
               onClick={() => navigate(fromGame ? "/game" : "/")}
               style={{
-                width: 210, height: 48,
-                fontSize: 17, fontWeight: 600, letterSpacing: "0.1em",
+                width: 220, height: 52,
+                fontSize: 18, fontWeight: 600, letterSpacing: "0.1em",
                 fontFamily: "var(--font-display), serif",
                 color: COLORS.label, background: COLORS.btnBg,
                 border: `1px solid ${COLORS.btnBorder}`, borderRadius: 2,
@@ -295,8 +295,8 @@ export default function SettingsPage() {
             <button
               onClick={() => setShowResetConfirm(true)}
               style={{
-                width: 210, height: 48,
-                fontSize: 17, fontWeight: 600, letterSpacing: "0.1em",
+                width: 220, height: 52,
+                fontSize: 18, fontWeight: 600, letterSpacing: "0.1em",
                 fontFamily: "var(--font-display), serif",
                 color: "#c47868", background: "rgba(45, 22, 22, 0.45)",
                 border: `1px solid ${COLORS.dangerBorder}`, borderRadius: 2,
@@ -392,7 +392,7 @@ export default function SettingsPage() {
 
         {/* 底部 */}
         <p style={{
-          fontSize: 13, color: "rgba(160,140,115,0.55)",
+          fontSize: 14, color: "rgba(170,148,120,0.6)",
           marginTop: 28, letterSpacing: 2,
         }}>
           雪落之前 · 设置
