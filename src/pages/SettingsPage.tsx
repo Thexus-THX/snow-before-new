@@ -42,6 +42,7 @@ export default function SettingsPage() {
     sliderTrack: "#3a3028",
     sliderFill: "#c8a860",
     sliderThumb: "#d4b878",
+    sliderThumbBorder: "#a08050",
     btnBg: "rgba(42, 34, 22, 0.55)",
     btnBorder: "rgba(176, 132, 72, 0.38)",
     btnHoverBg: "rgba(62, 48, 28, 0.75)",
@@ -83,12 +84,14 @@ export default function SettingsPage() {
         />
         <style>{`
           input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 16px; height: 16px;
-            background: ${COLORS.sliderThumb}; border: 1px solid ${COLORS.gold};
+            -webkit-appearance: none; width: 18px; height: 18px;
+            background: ${COLORS.sliderThumb};
+            border: 1px solid ${COLORS.sliderThumbBorder};
             border-radius: 2px; cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
           }
           input[type=range]::-webkit-slider-thumb:hover {
-            background: #e0cc90; border-color: #d4b878;
+            background: #e0cc90; border-color: #c8a860;
           }
           input[type=range]:disabled::-webkit-slider-thumb {
             opacity: 0.5; cursor: not-allowed;
@@ -139,8 +142,8 @@ export default function SettingsPage() {
   // ===== 分组标题 =====
   const SectionTitle = ({ text }: { text: string }) => (
     <div style={{
-      fontSize: 14, fontWeight: 600, letterSpacing: "0.12em",
-      color: COLORS.gold, marginBottom: 4, marginTop: 8,
+      fontSize: 15, fontWeight: 600, letterSpacing: "0.12em",
+      color: COLORS.gold, marginBottom: 6, marginTop: 10,
       fontFamily: "var(--font-display), serif",
     }}>
       {text}
@@ -153,13 +156,13 @@ export default function SettingsPage() {
         width: 1920, height: 1080,
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        background: "radial-gradient(ellipse at 50% 45%, rgba(30,24,18,0.6) 0%, #0f1218 70%)",
+        background: "radial-gradient(ellipse at 50% 45%, rgba(38,30,20,0.55) 0%, rgba(25,20,14,0.35) 40%, #0f1218 70%)",
         color: "#e8dfcf",
       }}>
         {/* ===== 设置面板 ===== */}
         <div style={{
-          width: 620,
-          padding: "36px 44px 32px",
+          width: 680,
+          padding: "42px 52px 36px",
           background: COLORS.panelBg,
           border: `1px solid ${COLORS.panelBorder}`,
           borderRadius: 3,
@@ -168,8 +171,8 @@ export default function SettingsPage() {
         }}>
           {/* 标题 */}
           <h1 style={{
-            fontSize: 32, fontWeight: 400, letterSpacing: 8,
-            marginBottom: 18, textAlign: "center",
+            fontSize: 33, fontWeight: 400, letterSpacing: 8,
+            marginBottom: 20, textAlign: "center",
             fontFamily: "var(--font-display), serif",
             color: "var(--color-text-primary)",
             textShadow: "0 3px 10px rgba(0,0,0,0.65)",
@@ -186,12 +189,13 @@ export default function SettingsPage() {
             <SliderRow label="音乐" value={musicVolume} onChange={setMusicVolume} disabled={isMuted} />
             <SliderRow label="环境音" value={ambienceVolume} onChange={setAmbienceVolume} disabled={isMuted} />
             <SliderRow label="音效" value={sfxVolume} onChange={setSfxVolume} disabled={isMuted} />
-            <SliderRow label="语音" value={voiceVolume} onChange={setVoiceVolume} disabled={true} showPercent={false} />
-            {/* 语音提示 */}
+            {/* 语音 — 暂未启用 */}
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ width: 72, flexShrink: 0 }} />
-              <span style={{ color: "rgba(180,160,140,0.35)", fontSize: 12, letterSpacing: "0.05em" }}>
-                — 暂未启用 —
+              <span style={{ width: 72, color: COLORS.label, fontSize: 15, letterSpacing: "0.06em", flexShrink: 0 }}>
+                语音
+              </span>
+              <span style={{ color: "rgba(180,160,140,0.4)", fontSize: 13, letterSpacing: "0.06em", fontStyle: "italic" }}>
+                暂未启用
               </span>
             </div>
 
@@ -264,8 +268,8 @@ export default function SettingsPage() {
             <button
               onClick={() => navigate(fromGame ? "/game" : "/")}
               style={{
-                width: 200, height: 46,
-                fontSize: 15, fontWeight: 500, letterSpacing: "0.1em",
+                width: 210, height: 48,
+                fontSize: 16, fontWeight: 600, letterSpacing: "0.1em",
                 fontFamily: "var(--font-display), serif",
                 color: COLORS.label, background: COLORS.btnBg,
                 border: `1px solid ${COLORS.btnBorder}`, borderRadius: 2,
@@ -291,8 +295,8 @@ export default function SettingsPage() {
             <button
               onClick={() => setShowResetConfirm(true)}
               style={{
-                width: 200, height: 46,
-                fontSize: 15, fontWeight: 500, letterSpacing: "0.1em",
+                width: 210, height: 48,
+                fontSize: 16, fontWeight: 600, letterSpacing: "0.1em",
                 fontFamily: "var(--font-display), serif",
                 color: "#c47868", background: "rgba(45, 22, 22, 0.45)",
                 border: `1px solid ${COLORS.dangerBorder}`, borderRadius: 2,
@@ -388,7 +392,7 @@ export default function SettingsPage() {
 
         {/* 底部 */}
         <p style={{
-          fontSize: 12, color: "rgba(150,130,105,0.4)",
+          fontSize: 12, color: "rgba(160,140,115,0.55)",
           marginTop: 28, letterSpacing: 2,
         }}>
           雪落之前 · 设置
