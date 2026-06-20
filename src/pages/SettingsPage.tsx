@@ -57,7 +57,7 @@ export default function SettingsPage() {
     disabled?: boolean; showPercent?: boolean;
   }) => (
     <div style={{ display: "flex", alignItems: "center", gap: 14, opacity: disabled ? 0.42 : 1 }}>
-      <span style={{ width: 72, color: COLORS.label, fontSize: 15, letterSpacing: "0.06em", flexShrink: 0 }}>
+      <span style={{ width: 72, color: COLORS.label, fontSize: 16, letterSpacing: "0.06em", flexShrink: 0 }}>
         {label}
       </span>
       <div style={{ flex: 1, position: "relative", height: 28, display: "flex", alignItems: "center" }}>
@@ -99,7 +99,7 @@ export default function SettingsPage() {
         `}</style>
       </div>
       {showPercent && (
-        <span style={{ width: 42, textAlign: "right", color: COLORS.textDim, fontSize: 13, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>
+        <span style={{ width: 42, textAlign: "right", color: COLORS.textDim, fontSize: 14, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>
           {Math.round(value * 100)}%
         </span>
       )}
@@ -142,7 +142,7 @@ export default function SettingsPage() {
   // ===== 分组标题 =====
   const SectionTitle = ({ text }: { text: string }) => (
     <div style={{
-      fontSize: 15, fontWeight: 600, letterSpacing: "0.12em",
+      fontSize: 16, fontWeight: 600, letterSpacing: "0.12em",
       color: COLORS.gold, marginBottom: 6, marginTop: 10,
       fontFamily: "var(--font-display), serif",
     }}>
@@ -171,7 +171,7 @@ export default function SettingsPage() {
         }}>
           {/* 标题 */}
           <h1 style={{
-            fontSize: 33, fontWeight: 400, letterSpacing: 8,
+            fontSize: 36, fontWeight: 400, letterSpacing: 8,
             marginBottom: 20, textAlign: "center",
             fontFamily: "var(--font-display), serif",
             color: "var(--color-text-primary)",
@@ -194,7 +194,7 @@ export default function SettingsPage() {
               <span style={{ width: 72, color: COLORS.label, fontSize: 15, letterSpacing: "0.06em", flexShrink: 0 }}>
                 语音
               </span>
-              <span style={{ color: "rgba(180,160,140,0.4)", fontSize: 13, letterSpacing: "0.06em", fontStyle: "italic" }}>
+              <span style={{ color: "rgba(180,160,140,0.4)", fontSize: 14, letterSpacing: "0.06em", fontStyle: "italic" }}>
                 暂未启用
               </span>
             </div>
@@ -205,7 +205,7 @@ export default function SettingsPage() {
                 静音
               </span>
               <Checkbox checked={isMuted} onChange={toggleMute} />
-              <span style={{ color: COLORS.textDim, fontSize: 13, marginLeft: 4 }}>
+              <span style={{ color: COLORS.textDim, fontSize: 14, marginLeft: 4 }}>
                 {isMuted ? "已静音" : "未静音"}
               </span>
             </div>
@@ -229,7 +229,7 @@ export default function SettingsPage() {
                     onClick={() => setTextSpeed(s)}
                     style={{
                       padding: "7px 18px",
-                      fontSize: 14, letterSpacing: "0.06em",
+                      fontSize: 15, letterSpacing: "0.06em",
                       fontFamily: "var(--font-display), serif",
                       border: `1px solid ${selected ? COLORS.gold : COLORS.panelBorder}`,
                       borderRadius: i === 0 ? "2px 0 0 2px" : i === 2 ? "0 2px 2px 0" : 0,
@@ -269,7 +269,7 @@ export default function SettingsPage() {
               onClick={() => navigate(fromGame ? "/game" : "/")}
               style={{
                 width: 210, height: 48,
-                fontSize: 16, fontWeight: 600, letterSpacing: "0.1em",
+                fontSize: 17, fontWeight: 600, letterSpacing: "0.1em",
                 fontFamily: "var(--font-display), serif",
                 color: COLORS.label, background: COLORS.btnBg,
                 border: `1px solid ${COLORS.btnBorder}`, borderRadius: 2,
@@ -296,7 +296,7 @@ export default function SettingsPage() {
               onClick={() => setShowResetConfirm(true)}
               style={{
                 width: 210, height: 48,
-                fontSize: 16, fontWeight: 600, letterSpacing: "0.1em",
+                fontSize: 17, fontWeight: 600, letterSpacing: "0.1em",
                 fontFamily: "var(--font-display), serif",
                 color: "#c47868", background: "rgba(45, 22, 22, 0.45)",
                 border: `1px solid ${COLORS.dangerBorder}`, borderRadius: 2,
@@ -392,7 +392,7 @@ export default function SettingsPage() {
 
         {/* 底部 */}
         <p style={{
-          fontSize: 12, color: "rgba(160,140,115,0.55)",
+          fontSize: 13, color: "rgba(160,140,115,0.55)",
           marginTop: 28, letterSpacing: 2,
         }}>
           雪落之前 · 设置
