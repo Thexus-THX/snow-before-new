@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-21（P4A 全流程路线验收）
+> 最后更新：2026-06-21（P5A-Day0 序章扩写与美术接入）
 
 ---
 
@@ -680,6 +680,43 @@
 - 新增场景：**1**（d8_readiness_report）
 - 删除场景：**0**
 - tsc ✅ | 17/17 测试 ✅ | build ✅
+
+### ✅ P5A-Day0 序章内容扩写与美术接入（2026-06-21）
+
+#### 新增序章节点（4 个）
+| 场景 ID | 名称 | 背景 | 类型 |
+|---------|------|------|------|
+| `prologue_platform_language` | 序章·陌生的语言 | 车站 | 旁白 |
+| `prologue_customs_and_registration` | 序章·登记窗口 | 登记站 | 旁白 |
+| `prologue_nadya_first_help` | 序章·娜佳的指引 | 车站 | 娜佳对话 |
+| `prologue_first_radio_room` | 序章·无线电教室 | 无线电教室 | 旁白 |
+
+#### 润色已有节点（2 个）
+- `prologue_dorm_first_night`：背景换为 `bg_prologue_dorm_first_night.webp`
+- `prologue_study_montage_1931_1936`：背景换为 `bg_prologue_radio_room_1931.webp`
+
+#### 新增 flags（3 个）
+| flag | 来源 |
+|------|------|
+| `flag_prologue_first_letter` | prologue_choice 选拆信 |
+| `flag_prologue_first_radio` | prologue_choice 选观察设备 |
+| `flag_prologue_first_people` | prologue_choice 选攀谈 |
+
+这些 flags 不用于锁结局，仅用于 journey_review 回响。
+
+#### 新增背景素材（3 张）
+- `bg_prologue_registration_station.webp`
+- `bg_prologue_radio_room_1931.webp`
+- `bg_prologue_dorm_first_night.webp`
+
+#### 数据验证
+- 新增音频素材：**否**
+- 新增角色立绘：**否**
+- 新增选择：**否**
+- 新增关键选择：**否**
+- 修改结局条件：**否**
+- 新增测试：**10**（prologueExpansion.test.ts）
+- 18/18 文件 193/193 测试 ✅ | build ✅
 
 ### ✅ P4A 全流程路线验收（2026-06-21）
 

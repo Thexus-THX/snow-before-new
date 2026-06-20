@@ -344,6 +344,38 @@
         "textType": "narration",
         "text": "1931 年末，一列火车缓缓驶入苏联境内。车窗外是连绵的雪原与陌生的站台。沈怀远抱紧行李箱，箱底夹层里，母亲临行前塞进的那封家书，是他此刻唯一熟悉的东西。"
       },
+      "nextSceneId": "prologue_platform_language"
+    },
+    "prologue_platform_language": {
+      "id": "prologue_platform_language",
+      "name": "序章·陌生的语言",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "站台广播响起时，沈怀远一个词也没听懂。\n\n那些卷着舌音的俄语从头顶掠过，像另一种天气。身旁有人催促，他只好跟着人流向前走。行李箱很沉，手心被冻得发疼。\n\n他第一次清楚地意识到，远行并不只是离开家门，而是连一句问路的话都要重新学起。"
+      },
+      "nextSceneId": "prologue_customs_and_registration"
+    },
+    "prologue_customs_and_registration": {
+      "id": "prologue_customs_and_registration",
+      "name": "序章·登记窗口",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_registration_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "登记窗口前排着长队。每个人手里都攥着文件、介绍信和写着陌生字母的纸条。\n\n沈怀远把自己的证件递过去，又在对方示意下慌忙翻出另一份表格。印章落下时，他才松了一口气。\n\n那一声很轻，却像是在提醒他：从今天起，他在这里的一切，都要先被纸面上的名字确认。"
+      },
       "nextSceneId": "prologue_choice"
     },
     "prologue_choice": {
@@ -371,7 +403,8 @@
               "homesickness": 1
             },
             "addFlags": [
-              "intro_letter_first"
+              "intro_letter_first",
+              "flag_prologue_first_letter"
             ]
           }
         },
@@ -385,7 +418,8 @@
               "knowledge": 1
             },
             "addFlags": [
-              "intro_radio_first"
+              "intro_radio_first",
+              "flag_prologue_first_radio"
             ]
           }
         },
@@ -399,7 +433,8 @@
               "nadya": 1
             },
             "addFlags": [
-              "intro_people_first"
+              "intro_people_first",
+              "flag_prologue_first_people"
             ]
           }
         }
@@ -419,7 +454,7 @@
         "textType": "narration",
         "text": "沈怀远拆开信封。母亲的字迹工整而克制，只说家中一切尚可，要他安心求学。兰英在末尾添了两行小字，问异乡是不是常下雪。纸上的墨迹微微晕开，不知是旅途潮气，还是有人写信时停笔太久。"
       },
-      "nextSceneId": "prologue_dorm_first_night"
+      "nextSceneId": "prologue_nadya_first_help"
     },
     "prologue_radio_result": {
       "id": "prologue_radio_result",
@@ -435,7 +470,7 @@
         "textType": "narration",
         "text": "他走向长椅，俯身观察那台无线电设备。面板上的俄文标识仍显陌生，旋钮转动时的阻尼却与书中描述相合。手指触到冰冷的金属外壳时，沈怀远忽然意识到，未来数年里，他最常相伴的也许正是这种低低的电流声。"
       },
-      "nextSceneId": "prologue_dorm_first_night"
+      "nextSceneId": "prologue_nadya_first_help"
     },
     "prologue_people_result": {
       "id": "prologue_people_result",
@@ -450,6 +485,39 @@
         "speakerName": "",
         "textType": "narration",
         "text": "他朝那几名同学走去。人群中，一位金发姑娘转过头来，用略带口音的中文向他问好。她说自己叫娜佳，也在学习无线电。她的笑容并不热烈，却有一种令人安心的笃定，像是早已知道他们会在这片雪地相遇。"
+      },
+      "nextSceneId": "prologue_nadya_first_help"
+    },
+    "prologue_nadya_first_help": {
+      "id": "prologue_nadya_first_help",
+      "name": "序章·娜佳的指引",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "「你要去无线电学院的宿舍？这边。」\n\n她指了指站台外的方向，又看了一眼他手里的登记条。\n\n「先别把这张纸收得太深。出了车站还要查一次。」\n\n沈怀远慢了一拍才听明白她在帮自己。他想道谢，对方却已经放慢语速，又把那句话重复了一遍。\n\n「别担心。第一次来这里的人，都会觉得这些牌子像一堵墙。」",
+        "portraitAsset": "/assets/characters/char_nadya_warm.png"
+      },
+      "nextSceneId": "prologue_first_radio_room"
+    },
+    "prologue_first_radio_room": {
+      "id": "prologue_first_radio_room",
+      "name": "序章·无线电教室",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_radio_room_1931.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "入学后的第一个傍晚，沈怀远被带进无线电教室。墙边的设备还没有全部通电，金属外壳在灯下泛着冷光。\n\n有人旋动旋钮，耳机里忽然传出一阵断续的杂音。那声音并不好听，却让他停住了脚步。\n\n电波看不见，也握不住，却能越过城市、雪原和国境，比一个人的脚步走得更远。那一刻，他第一次觉得，自己选择的并不只是一门技术。"
       },
       "nextSceneId": "prologue_dorm_first_night"
     },
@@ -3020,7 +3088,7 @@
       "name": "序章·第一夜",
       "chapterId": "prologue_1931",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day00_bedroom.png",
+      "background": "/assets/backgrounds/bg_prologue_dorm_first_night.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -3036,7 +3104,7 @@
       "name": "序章·求学岁月",
       "chapterId": "prologue_1931",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day00_timepast.png",
+      "background": "/assets/backgrounds/bg_prologue_radio_room_1931.webp",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {

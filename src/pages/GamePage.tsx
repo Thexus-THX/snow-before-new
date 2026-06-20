@@ -45,34 +45,34 @@ export default function GamePage() {
     // 防止 StrictMode 双重初始化
     if (initializedRef.current) return;
 
-    // BGM 由 useSceneAudio 统一管理，不在此处强制停止
-
     try {
       const validation = validateGameData(gameDataRaw);
       if (!validation.success) throw new Error(`数据校验失败:\n${validation.error}`);
       const gd = validation.data as GameData;
+
+      // 从设置返回时 store 中已有 state，无需重新初始化
+      const existingState = useGameStore.getState().state;
+      if (existingState) {
+        initializedRef.current = true;
+        setLoading(false);
+        return;
+      }
 
       // 加载数据
       loadGameData(gd);
 
       // 根据启动意图执行
       if (launchMode === "new") {
-        // 明确新游戏：清空存档后开始
         startNewGame();
       } else if (launchMode === "continue") {
-        // 明确继续：尝试读档，失败则回退到新游戏
         const result = continueGame();
         if (!result.success) {
           console.warn("[GamePage] 继续游戏失败:", result.reason, "— 回退到新游戏");
           startNewGame();
         }
       } else {
-        // 无启动意图（直接访问 /game 或从设置返回）：
-        // 如果 store 中已有游戏状态（从设置返回），直接使用
-        const currentState = useGameStore.getState().state;
-        if (currentState) {
-          // 已有状态，无需重新初始化
-        } else if (gd && hasValidSave(gd)) {
+        // 无启动意图（直接访问 /game）：
+        if (gd && hasValidSave(gd)) {
           const result = continueGame();
           if (!result.success) {
             startNewGame();
