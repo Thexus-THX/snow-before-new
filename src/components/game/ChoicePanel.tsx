@@ -14,6 +14,7 @@ interface ChoicePanelProps {
   pendingConfirm?: ChoiceDefinition | null;
   onConfirm: (choice: ChoiceDefinition) => void;
   onCancelConfirm: () => void;
+  error?: string | null;
 }
 
 export default function ChoicePanel({
@@ -22,6 +23,7 @@ export default function ChoicePanel({
   pendingConfirm,
   onConfirm,
   onCancelConfirm,
+  error,
 }: ChoicePanelProps) {
   // 如果正在等待二次确认，显示确认对话框
   if (pendingConfirm) {
@@ -78,6 +80,19 @@ export default function ChoicePanel({
   // 正常选项列表
   return (
     <div className="choicePanel">
+      {error && (
+        <p
+          style={{
+            color: "var(--color-change-negative)",
+            fontSize: "var(--font-size-small)",
+            textAlign: "center",
+            marginBottom: 8,
+            opacity: 0.9,
+          }}
+        >
+          {error}
+        </p>
+      )}
       {choices.map((resolved) => {
         const { choice, availability, lockedHint } = resolved;
         const isLocked = availability === "locked";

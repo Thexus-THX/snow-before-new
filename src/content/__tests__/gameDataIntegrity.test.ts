@@ -69,8 +69,9 @@ describe("P1B 数据完整性", () => {
 
   it("所有 nextSceneId 指向存在的场景", () => {
     const missing: string[] = [];
+    const specialRoutes = new Set(["__title__"]);
     for (const [id, scene] of Object.entries(scenes)) {
-      if (scene.nextSceneId && !scenes[scene.nextSceneId]) {
+      if (scene.nextSceneId && !scenes[scene.nextSceneId] && !specialRoutes.has(scene.nextSceneId)) {
         missing.push(`${id} -> ${scene.nextSceneId}`);
       }
     }
@@ -218,7 +219,8 @@ describe("P1B 数据完整性", () => {
       "d2_c1_factory",
       "d2_k1_quality",
       "d3_location_choice",
-      "d3_c2_action",
+      "d3_c2b_remittance",
+      "d3_library_choice",
       "d3_c3_reply",
       "d4_c1_field",
       "d4_k1_invitation",

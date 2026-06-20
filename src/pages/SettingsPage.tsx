@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
 import { useSettingsStore } from "@/app/stores/settingsStore";
 import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
@@ -10,9 +10,12 @@ import { audioManager } from "@/audio/AudioManager";
  * SettingsPage — 设置页面
  *
  * 音量调节实时生效于全局 BGM 实例。
+ * ?from=game → 返回游戏；否则返回标题
  */
 export default function SettingsPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const fromGame = searchParams.get("from") === "game";
   const {
     masterVolume,
     musicVolume,
@@ -190,7 +193,7 @@ export default function SettingsPage() {
       </div>
 
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate(fromGame ? "/game" : "/")}
         style={{
           marginTop: 48,
           padding: "12px 48px",
@@ -202,7 +205,7 @@ export default function SettingsPage() {
           fontSize: 16,
         }}
       >
-        返回标题
+        {fromGame ? "返回游戏" : "返回标题"}
       </button>
 
       {/* 清零存档按钮 */}

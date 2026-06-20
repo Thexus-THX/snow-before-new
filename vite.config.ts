@@ -10,7 +10,7 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    // SPA fallback: redirect unknown routes to index.html during dev
-    historyApiFallback: true,
   },
+  // SPA fallback: redirect unknown routes to index.html during dev
+  appType: 'spa',
 });

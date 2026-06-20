@@ -178,9 +178,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // ---- 开始原子事务 ----
     set({ submittingChoice: true });
 
-    // 1. 普通选择：创建快照
-    let snapshotId: string | undefined;
-    if (!found.isCritical) {
+    try {
+      // 1. 创建快照（关键选择也需要，用于回滚恢复 lockedCriticalChoiceIds）
+      let snapshotId: string | undefined;
       snapshotId = `snap_${Date.now()}`;
       const snapshot: StateSnapshot = {
         id: snapshotId,
@@ -191,147 +191,152 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set((prev) => ({
         snapshots: { ...prev.snapshots, [snapshotId!]: snapshot },
       }));
-    }
 
-    // 2. 应用效果
-    const next = structuredClone(state);
-    const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-    const visibleEffects: string[] = [];
-    const effects = found.effects;
+      // 2. 应用效果
+      const next = structuredClone(state);
+      const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+      const visibleEffects: string[] = [];
+      const effects = found.effects;
 
-    if (effects) {
-      // 长期数值
-      if (effects.stats) {
-        if (effects.stats.knowledge) {
-          next.stats.knowledge = clamp(next.stats.knowledge + effects.stats.knowledge, 0, 10);
-          visibleEffects.push(`学识 ${effects.stats.knowledge > 0 ? "+" : ""}${effects.stats.knowledge}`);
+      if (effects) {
+        // 长期数值
+        if (effects.stats) {
+          if (effects.stats.knowledge) {
+            next.stats.knowledge = clamp(next.stats.knowledge + effects.stats.knowledge, 0, 10);
+            visibleEffects.push(`学识 ${effects.stats.knowledge > 0 ? "+" : ""}${effects.stats.knowledge}`);
+          }
+          if (effects.stats.wellbeing) {
+            next.stats.wellbeing = clamp(next.stats.wellbeing + effects.stats.wellbeing, 0, 10);
+            visibleEffects.push(`身心 ${effects.stats.wellbeing > 0 ? "+" : ""}${effects.stats.wellbeing}`);
+          }
+          if (effects.stats.responsibility)
+            next.stats.responsibility = clamp(next.stats.responsibility + effects.stats.responsibility, 0, 10);
+          if (effects.stats.homesickness)
+            next.stats.homesickness = clamp(next.stats.homesickness + effects.stats.homesickness, 0, 10);
         }
-        if (effects.stats.wellbeing) {
-          next.stats.wellbeing = clamp(next.stats.wellbeing + effects.stats.wellbeing, 0, 10);
-          visibleEffects.push(`身心 ${effects.stats.wellbeing > 0 ? "+" : ""}${effects.stats.wellbeing}`);
-        }
-        if (effects.stats.responsibility)
-          next.stats.responsibility = clamp(next.stats.responsibility + effects.stats.responsibility, 0, 10);
-        if (effects.stats.homesickness)
-          next.stats.homesickness = clamp(next.stats.homesickness + effects.stats.homesickness, 0, 10);
-      }
 
-      // 准备清单
-      if (effects.preparationItems) {
-        const keys = ["route", "documents", "funds", "technicalMaterials", "contact"] as const;
-        const labelMap: Record<string, string> = {
-          route: "路线", documents: "票证", funds: "经费",
-          technicalMaterials: "技术资料", contact: "联系人",
-        };
-        for (const k of keys) {
-          const delta = effects.preparationItems[k];
-          if (delta !== undefined && delta !== 0) {
-            next.preparationItems[k] = clamp(next.preparationItems[k] + delta, 0, 2);
-            visibleEffects.push(`${labelMap[k]} ${delta > 0 ? "+" : ""}${delta}`);
+        // 准备清单
+        if (effects.preparationItems) {
+          const keys = ["route", "documents", "funds", "technicalMaterials", "contact"] as const;
+          const labelMap: Record<string, string> = {
+            route: "路线", documents: "票证", funds: "经费",
+            technicalMaterials: "技术资料", contact: "联系人",
+          };
+          for (const k of keys) {
+            const delta = effects.preparationItems[k];
+            if (delta !== undefined && delta !== 0) {
+              next.preparationItems[k] = clamp(next.preparationItems[k] + delta, 0, 2);
+              visibleEffects.push(`${labelMap[k]} ${delta > 0 ? "+" : ""}${delta}`);
+            }
           }
         }
-      }
 
-      // 角色信任
-      if (effects.trust) {
-        const tKeys = ["chen", "nadya", "belov", "ivan"] as const;
-        for (const k of tKeys) {
-          const delta = effects.trust[k];
-          if (delta !== undefined) {
-            next.trust[k] = clamp(next.trust[k] + delta, 0, 10);
+        // 角色信任
+        if (effects.trust) {
+          const tKeys = ["chen", "nadya", "belov", "ivan"] as const;
+          for (const k of tKeys) {
+            const delta = effects.trust[k];
+            if (delta !== undefined) {
+              next.trust[k] = clamp(next.trust[k] + delta, 0, 10);
+            }
           }
         }
-      }
 
-      // 合作修正
-      if (effects.cooperationModifier !== undefined) {
-        next.cooperationModifier = clamp(next.cooperationModifier + effects.cooperationModifier, -2, 2);
-      }
+        // 合作修正
+        if (effects.cooperationModifier !== undefined) {
+          next.cooperationModifier = clamp(next.cooperationModifier + effects.cooperationModifier, -2, 2);
+        }
 
-      // 倾向
-      if (effects.returnTendency !== undefined) {
-        next.returnTendency += effects.returnTendency;
-        visibleEffects.push(`归国倾向 ${effects.returnTendency > 0 ? "+" : ""}${effects.returnTendency}`);
-      }
-      if (effects.stayTendency !== undefined) {
-        next.stayTendency += effects.stayTendency;
-        visibleEffects.push(`留苏倾向 ${effects.stayTendency > 0 ? "+" : ""}${effects.stayTendency}`);
-      }
+        // 倾向
+        if (effects.returnTendency !== undefined) {
+          next.returnTendency += effects.returnTendency;
+          visibleEffects.push(`归国倾向 ${effects.returnTendency > 0 ? "+" : ""}${effects.returnTendency}`);
+        }
+        if (effects.stayTendency !== undefined) {
+          next.stayTendency += effects.stayTendency;
+          visibleEffects.push(`留苏倾向 ${effects.stayTendency > 0 ? "+" : ""}${effects.stayTendency}`);
+        }
 
-      // 标记
-      if (effects.addFlags) {
-        for (const f of effects.addFlags) {
-          if (!next.flags.includes(f)) next.flags.push(f);
+        // 标记
+        if (effects.addFlags) {
+          for (const f of effects.addFlags) {
+            if (!next.flags.includes(f)) next.flags.push(f);
+          }
+        }
+        if (effects.removeFlags) {
+          next.flags = next.flags.filter((f) => !effects.removeFlags!.includes(f));
         }
       }
-      if (effects.removeFlags) {
-        next.flags = next.flags.filter((f) => !effects.removeFlags!.includes(f));
-      }
-    }
 
-    // 3. 写入选择历史（含 rollbackSnapshotId）
-    const historyEntry: HistoryEntry = {
-      id: `${state.currentSceneId}_choice_${Date.now()}`,
-      sceneId: state.currentSceneId,
-      type: "choice",
-      text: found.text,
-      visibleEffects,
-      isCritical: found.isCritical,
-      isLocked: found.isCritical,
-      rollbackSnapshotId: snapshotId,
-      createdAt: Date.now(),
-    };
-    next.history.push(historyEntry);
-
-    // 4. 关键选择：写入 lockedCriticalChoiceIds
-    if (found.isCritical) {
-      if (!next.lockedCriticalChoiceIds.includes(found.id)) {
-        next.lockedCriticalChoiceIds.push(found.id);
-      }
-    }
-
-    // 5. 推进到下一场景
-    const prevScene = engine.getScene(state.currentSceneId);
-    next.currentSceneId = found.nextSceneId;
-    next.chapterId = nextScene.chapterId;
-    if (!next.visitedSceneIds.includes(found.nextSceneId)) {
-      next.visitedSceneIds.push(found.nextSceneId);
-    }
-
-    // 6. 写入前一场景文本历史
-    if (prevScene?.content?.text) {
-      const textEntry: HistoryEntry = {
-        id: `${found.nextSceneId}_text_${Date.now()}`,
-        sceneId: prevScene.id,
-        type: prevScene.content.textType === "narration" ? "system" : "text",
-        speakerName: prevScene.content.speakerName,
-        text: prevScene.content.text,
+      // 3. 写入选择历史（含 rollbackSnapshotId）
+      const historyEntry: HistoryEntry = {
+        id: `${state.currentSceneId}_choice_${Date.now()}`,
+        sceneId: state.currentSceneId,
+        type: "choice",
+        text: found.text,
+        visibleEffects,
+        isCritical: found.isCritical,
+        isLocked: found.isCritical,
+        rollbackSnapshotId: snapshotId,
         createdAt: Date.now(),
       };
-      next.history.push(textEntry);
+      next.history.push(historyEntry);
+
+      // 4. 关键选择：写入 lockedCriticalChoiceIds
+      if (found.isCritical) {
+        if (!next.lockedCriticalChoiceIds.includes(found.id)) {
+          next.lockedCriticalChoiceIds.push(found.id);
+        }
+      }
+
+      // 5. 推进到下一场景
+      const prevScene = engine.getScene(state.currentSceneId);
+      next.currentSceneId = found.nextSceneId;
+      next.chapterId = nextScene.chapterId;
+      if (!next.visitedSceneIds.includes(found.nextSceneId)) {
+        next.visitedSceneIds.push(found.nextSceneId);
+      }
+
+      // 6. 写入前一场景文本历史
+      if (prevScene?.content?.text) {
+        const textEntry: HistoryEntry = {
+          id: `${found.nextSceneId}_text_${Date.now()}`,
+          sceneId: prevScene.id,
+          type: prevScene.content.textType === "narration" ? "system" : "text",
+          speakerName: prevScene.content.speakerName,
+          text: prevScene.content.text,
+          createdAt: Date.now(),
+        };
+        next.history.push(textEntry);
+      }
+
+      // 7. 自动存档（关键选择或目标场景有存档点）
+      const shouldAutoSave = found.isCritical || !!nextScene.autoSavePoint;
+      if (shouldAutoSave) {
+        const save = buildSaveEnvelope(next, get().snapshots, gameData.meta.version);
+        writeSave(save);
+      }
+
+      // 8. 同步当前周目历史到图鉴 store
+      const gallery = useEndingGalleryStore.getState();
+      gallery.updateCurrentPlaythroughHistory(next.history);
+
+      // 9. 检测是否触发了结局场景（template 为 ending）
+      const targetScene = engine.getScene(found.nextSceneId);
+      if (targetScene?.template === "ending") {
+        gallery.completePlaythrough(targetScene.id);
+      }
+
+      // 10. 一次性提交所有状态
+      set({ state: next, submittingChoice: false });
+
+      return { ok: true, nextSceneId: found.nextSceneId, visibleEffects };
+    } catch (e) {
+      // 异常时务必释放防重锁
+      console.error("[commitChoice] 事务异常:", e);
+      set({ submittingChoice: false });
+      return { ok: false, reason: "busy" };
     }
-
-    // 7. 自动存档（关键选择或目标场景有存档点）
-    const shouldAutoSave = found.isCritical || !!nextScene.autoSavePoint;
-    if (shouldAutoSave) {
-      const save = buildSaveEnvelope(next, get().snapshots, gameData.meta.version);
-      writeSave(save);
-    }
-
-    // 8. 同步当前周目历史到图鉴 store
-    const gallery = useEndingGalleryStore.getState();
-    gallery.updateCurrentPlaythroughHistory(next.history);
-
-    // 9. 检测是否触发了结局场景（template 为 ending）
-    const targetScene = engine.getScene(found.nextSceneId);
-    if (targetScene?.template === "ending") {
-      gallery.completePlaythrough(targetScene.id);
-    }
-
-    // 10. 一次性提交所有状态
-    set({ state: next, submittingChoice: false });
-
-    return { ok: true, nextSceneId: found.nextSceneId, visibleEffects };
   },
 
   getCurrentScene: () => {
@@ -380,7 +385,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   applyChoiceEffect: (effects) => {
     const { state } = get();
-    if (!state) return;
+    if (!state) return [];
 
     const next = structuredClone(state);
 
@@ -630,6 +635,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const truncatedHistory = state.history.slice(0, entryIndex);
     restoredState.history = truncatedHistory;
 
+    // 清理回滚点之后确认的关键选择锁
+    const keptChoiceIds = new Set<string>();
+    for (const h of truncatedHistory) {
+      if (h.choiceId) keptChoiceIds.add(h.choiceId);
+    }
+    restoredState.lockedCriticalChoiceIds = restoredState.lockedCriticalChoiceIds.filter(
+      (id) => keptChoiceIds.has(id)
+    );
+
     // 6. 清理目标快照之后创建的临时快照
     const targetTime = snapshot.createdAt;
     const keptSnapshots: Record<string, StateSnapshot> = {};
@@ -682,12 +696,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     // 检查该条目之后的历史中是否有已确认的关键选择
-    const afterEntries = state.history.slice(entryIndex + 1);
-    const hasCriticalAfter = afterEntries.some((h) => h.isCritical && h.isLocked);
-
-    if (hasCriticalAfter) {
-      return { canRollback: false, reason: "该选择位于已确认的关键决定之前，无法回退" };
-    }
+    // 允许回滚——回滚时会自动清理对应的 lockedCriticalChoiceIds
+    // const hasCriticalAfter = afterEntries.some((h) => h.isCritical && h.isLocked);
+    // if (hasCriticalAfter) {
+    //   return { canRollback: false, reason: "该选择位于已确认的关键决定之前，无法回退" };
+    // }
 
     return { canRollback: true };
   },

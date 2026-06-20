@@ -47,6 +47,8 @@ export interface SceneChoiceState {
   pendingConfirm: ChoiceDefinition | null;
   /** 是否有选项 */
   hasChoices: boolean;
+  /** 选项提交错误消息（用户可见） */
+  choiceError: string | null;
 }
 
 /** 历史相关状态 */

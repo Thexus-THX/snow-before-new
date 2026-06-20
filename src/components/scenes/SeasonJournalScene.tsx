@@ -30,6 +30,7 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
         sceneName={scene.name}
         onAdvance={() => scene.nextSceneId && onAdvance(scene.nextSceneId)}
         canAdvance={canAdvance}
+        disableClickAdvance
       >
         <p style={{ color: "var(--color-text-dim)", fontSize: 20 }}>
           季节札记内容暂缺
@@ -46,6 +47,7 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
       sceneName={scene.name}
       onAdvance={() => scene.nextSceneId && onAdvance(scene.nextSceneId)}
       canAdvance={canAdvance}
+      disableClickAdvance
     >
       <div className="season-journal-content" style={{
         width: "100%",

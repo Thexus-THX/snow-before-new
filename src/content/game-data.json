@@ -498,7 +498,7 @@
       "name": "第一日·春日实验室",
       "chapterId": "d1_1936_spring",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day01_spring_lab.webp",
+      "background": "/assets/backgrounds/bg_day01_building.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -630,15 +630,6 @@
           "text": "隐瞒异常，先让演示继续完成",
           "isCritical": true,
           "nextSceneId": "d1_concealed_result",
-          "conditions": {
-            "all": [
-              {
-                "type": "statMax",
-                "key": "responsibility",
-                "value": 3
-              }
-            ]
-          },
           "visibleWhenLocked": true,
           "lockedHint": "你的担当不允许你这样做。",
           "effects": {
@@ -712,7 +703,7 @@
       "name": "第一日·结束",
       "chapterId": "d1_1936_spring",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day01_spring_lab.webp",
+      "background": "/assets/backgrounds/bg_day01_night_building.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -984,7 +975,7 @@
       "name": "第三日·秋意渐起",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_postoffice.webp",
+      "background": "/assets/backgrounds/bg_day03_school.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -993,28 +984,28 @@
         "textType": "narration",
         "text": "夏天过去，莫斯科街道两侧的树叶开始转黄。工厂的机器声仍在耳边，但新一轮研究准备已经回到校内。沈怀远今天只有半日空闲——他得在邮局和图书馆之间做一个选择。"
       },
-      "nextSceneId": "d3_location_choice"
+      "nextSceneId": "letter_1936_autumn_family"
     },
     "d3_location_choice": {
       "id": "d3_location_choice",
       "name": "第三日·地点选择",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_postoffice.webp",
+      "background": "/assets/backgrounds/bg_day03_school.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "一封迟到的家书穿过漫长路途，终于到了沈怀远手中。信封边角已经磨损，母亲的笔迹却仍然工整。今天他还能去一个地方——邮局，还是图书馆？"
+        "text": "信读完了，但今天他只能去一个地方——邮局，还是图书馆？"
       },
       "choices": [
         {
           "id": "D3_C1_A",
           "text": "先去邮局了解汇款与寄信",
           "isCritical": false,
-          "nextSceneId": "d3_c2_action",
+          "nextSceneId": "d3_c2b_remittance",
           "effects": {
             "stats": {
               "homesickness": 1
@@ -1028,7 +1019,7 @@
           "id": "D3_C1_B",
           "text": "先去图书馆完成研究准备",
           "isCritical": false,
-          "nextSceneId": "d3_c2_action",
+          "nextSceneId": "d3_library_research",
           "effects": {
             "stats": {
               "knowledge": 1
@@ -1041,9 +1032,9 @@
       ],
       "nextSceneId": "d3_chen_first_conflict_seed"
     },
-    "d3_c2_action": {
-      "id": "d3_c2_action",
-      "name": "第三日·家书应对",
+    "d3_library_research": {
+      "id": "d3_library_research",
+      "name": "第三日·图书馆查阅",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
       "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
@@ -1053,14 +1044,146 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "宿舍里，沈怀远摊开母亲的信。父亲收入减少，兰英的学费还要再设法。母亲仍劝他安心学习，不必急着回来，可字缝里的压力已经遮不住了。"
+        "text": "莫斯科大学图书馆的阅览室比往常安静。沈怀远在无线电工程的书架前停下——上次借阅的几本已被别人抢先拿走，只剩一本德文期刊和一份过期的通讯学报。\n\n他把期刊摊开，边抄边译。信号衰减、天线方向性、短波频段特性——这些术语在纸上排列整齐，像是一张还看不见全貌的拼图。"
+      },
+      "nextSceneId": "d3_library_nadya"
+    },
+    "d3_library_nadya": {
+      "id": "d3_library_nadya",
+      "name": "第三日·娜佳路过",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "「你在抄这个？」娜佳不知什么时候走到了他身后，手里抱着一摞俄文教材。「怀远，这些公式光抄下来没有用——你得有设备去试。」",
+        "portraitAsset": "/assets/characters/char_nadya_neutral.png"
+      },
+      "nextSceneId": "d3_library_choice"
+    },
+    "d3_library_choice": {
+      "id": "d3_library_choice",
+      "name": "第三日·研究讨论",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "nadya",
+        "speakerName": "娜佳",
+        "textType": "dialogue",
+        "text": "她扫了一眼他笔记上的标题。「短波？这方向有意思，但也很花时间。你确定要钻进去？」",
+        "portraitAsset": "/assets/characters/char_nadya_neutral.png"
+      },
+      "choices": [
+        {
+          "id": "D3_LIB_A",
+          "text": "「时间花在值得的事情上就不算浪费。」",
+          "isCritical": false,
+          "nextSceneId": "d3_library_wrap",
+          "effects": {
+            "stats": {
+              "knowledge": 1,
+              "responsibility": 1
+            },
+            "trust": {
+              "nadya": 1
+            },
+            "addFlags": [
+              "d3_library_debate_confident"
+            ]
+          }
+        },
+        {
+          "id": "D3_LIB_B",
+          "text": "「也许吧。但总比什么都不做要强。」",
+          "isCritical": false,
+          "nextSceneId": "d3_library_wrap",
+          "effects": {
+            "stats": {
+              "knowledge": 1
+            },
+            "addFlags": [
+              "d3_library_debate_humble"
+            ]
+          }
+        },
+        {
+          "id": "D3_LIB_C",
+          "text": "「那你觉得什么方向更值得？」",
+          "isCritical": false,
+          "nextSceneId": "d3_library_wrap",
+          "effects": {
+            "stats": {
+              "wellbeing": 1
+            },
+            "trust": {
+              "nadya": 2
+            },
+            "addFlags": [
+              "d3_library_asked_nadya"
+            ]
+          }
+        }
+      ]
+    },
+    "d3_library_wrap": {
+      "id": "d3_library_wrap",
+      "name": "第三日·离开图书馆",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "窗外天色已经偏暗。沈怀远收起笔记，把期刊放回原处。纸上的公式暂时不会替他回答任何问题，但它们至少提供了一个方向。\n\n走出阅览室时，母亲的信还在口袋里——回信还没有写。"
+      },
+      "nextSceneId": "d3_c3_reply"
+    },
+    "d3_c2_action": {
+      "id": "d3_c2_action",
+      "name": "第三日·家书应对",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_school.png",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "沈怀远把信叠好，放回信封。母亲的笔迹还在眼前——父亲收入减少，兰英的学费还要再设法。字缝里的压力已经遮不住了。他必须做一个决定。"
+      },
+      "nextSceneId": "d3_location_choice"
+    },
+    "d3_c2b_remittance": {
+      "id": "d3_c2b_remittance",
+      "name": "第三日·汇款决定",
+      "chapterId": "d3_1936_autumn",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day03_autumn_postoffice.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "家书里提到父亲的收入少了些。虽然母亲没有明说，但兰英的学费还在等——沈怀远得拿个主意。"
       },
       "choices": [
         {
           "id": "D3_C2_A",
           "text": "寄出一部分积蓄，缓解家中压力",
           "isCritical": false,
-          "nextSceneId": "letter_1936_autumn_family",
+          "nextSceneId": "d3_c3_reply",
           "effects": {
             "preparationItems": {
               "funds": -1
@@ -1077,7 +1200,7 @@
           "id": "D3_C2_B",
           "text": "保留积蓄，用于专业资料与未来行动",
           "isCritical": false,
-          "nextSceneId": "letter_1936_autumn_family",
+          "nextSceneId": "d3_c3_reply",
           "effects": {
             "preparationItems": {
               "funds": 1
@@ -1094,7 +1217,7 @@
           "id": "D3_C2_C",
           "text": "请陈绍衡帮忙寻找更稳妥的汇款办法",
           "isCritical": false,
-          "nextSceneId": "letter_1936_autumn_family",
+          "nextSceneId": "d3_c3_reply",
           "effects": {
             "trust": {
               "chen": 1
@@ -1111,7 +1234,7 @@
       "name": "家书·1936年秋",
       "chapterId": "d3_1936_autumn",
       "template": "letter",
-      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "background": "/assets/backgrounds/bg_day03_school.png",
       "showTopStatusBar": false,
       "showDialoguePanel": false,
       "content": {
@@ -1127,14 +1250,14 @@
           "historyPlainText": "母亲来信：父亲收入减少，兰英学费需设法。镇上消息杂，米价起落不定。母亲嘱咐保重身体、学稳本事。"
         }
       },
-      "nextSceneId": "d3_c3_reply"
+      "nextSceneId": "d3_c2_action"
     },
     "d3_c3_reply": {
       "id": "d3_c3_reply",
       "name": "第三日·回信方式",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "background": "/assets/backgrounds/bg_day03_writing.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1196,7 +1319,7 @@
       "name": "第三日·回到宿舍",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "background": "/assets/backgrounds/bg_day03_writing.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1212,7 +1335,7 @@
       "name": "第三日·与陈绍衡夜谈",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "background": "/assets/backgrounds/bg_day03_writing.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1229,7 +1352,7 @@
       "name": "第三日·结束",
       "chapterId": "d3_1936_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day03_autumn_library.webp",
+      "background": "/assets/backgrounds/bg_day03_writing.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -1760,7 +1883,7 @@
       "name": "第六日·关键选择——事变后第一步",
       "chapterId": "d6_1937_summer",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day06_summer_lab_radio.webp",
+      "background": "/assets/backgrounds/bg_day06_issue.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -2697,7 +2820,7 @@
       "background": "/assets/backgrounds/bg_time_note_four_seasons.webp",
       "showTopStatusBar": false,
       "showDialoguePanel": false,
-      "nextSceneId": "prologue_train",
+      "nextSceneId": "__title__",
       "content": {
         "speakerId": "narrator",
         "speakerName": "",
@@ -2817,7 +2940,8 @@
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "「这不是抄写错误。」娜佳把铅笔点在记录表上，「你看，这三组数值偏离的方向一致。如果只是手误，不会这么整齐。」\n\n沈怀远低头看了片刻，才意识到她说得对。\n\n娜佳没有得意，只把表格推近一点：「所以我才问你，要先看设备，还是先核记录。两个方向都可能错，也都可能救我们一次。」"
+        "text": "「这不是抄写错误。」娜佳把铅笔点在记录表上，「你看，这三组数值偏离的方向一致。如果只是手误，不会这么整齐。」\n\n沈怀远低头看了片刻，才意识到她说得对。\n\n娜佳没有得意，只把表格推近一点：「所以我才问你，要先看设备，还是先核记录。两个方向都可能错，也都可能救我们一次。」",
+        "portraitAsset": "/assets/characters/char_nadya_concerned.png"
       }
     },
     "d2_ivan_worker_lesson": {
@@ -2832,7 +2956,8 @@
         "speakerId": "ivan",
         "speakerName": "伊万",
         "textType": "dialogue",
-        "text": "「学生总喜欢问图纸对不对。」伊万把一只外壳有划痕的设备放到桌上，「工人问的是，明天它还能不能用。」\n\n他敲了敲金属外壳，声音很闷。\n\n「你们在学校里把错误叫误差。到了工厂，误差会变成返工，变成事故，变成某个人手里一台坏掉的机器。」"
+        "text": "「学生总喜欢问图纸对不对。」伊万把一只外壳有划痕的设备放到桌上，「工人问的是，明天它还能不能用。」\n\n他敲了敲金属外壳，声音很闷。\n\n「你们在学校里把错误叫误差。到了工厂，误差会变成返工，变成事故，变成某个人手里一台坏掉的机器。」",
+        "portraitAsset": "/assets/characters/char_ivan_skeptical.png"
       },
       "nextSceneId": "d2_c1_factory"
     },
@@ -2849,7 +2974,8 @@
         "speakerId": "chen",
         "speakerName": "陈绍衡",
         "textType": "dialogue",
-        "text": "「我今天又去问了回国路线。」陈绍衡把围巾摘下来，声音压得很低，「不一定立刻走，但总要知道路在哪里。」\n\n沈怀远看向他：「你已经在准备了？」\n\n陈绍衡笑了一下，却没有笑意：「怀远，不准备的人，等真要走的时候，连第一步都迈不出去。」"
+        "text": "「我今天又去问了回国路线。」陈绍衡把围巾摘下来，声音压得很低，「不一定立刻走，但总要知道路在哪里。」\n\n沈怀远看向他：「你已经在准备了？」\n\n陈绍衡笑了一下，却没有笑意：「怀远，不准备的人，等真要走的时候，连第一步都迈不出去。」",
+        "portraitAsset": "/assets/characters/char_chen_shaoheng_tense.png"
       }
     },
     "d3_reply_unsent": {
@@ -2880,7 +3006,8 @@
         "speakerId": "chen",
         "speakerName": "陈绍衡",
         "textType": "dialogue",
-        "text": "「你刚才答得很漂亮。」陈绍衡说。\n\n沈怀远听出他话里还有别的意思：「但你不满意。」\n\n「我不是不满意漂亮话。」陈绍衡望向已经熄灯的展示厅，「我是怕我们说了太久'将来'，等真需要的时候，手里还是只有讲稿。」"
+        "text": "「你刚才答得很漂亮。」陈绍衡说。\n\n沈怀远听出他话里还有别的意思：「但你不满意。」\n\n「我不是不满意漂亮话。」陈绍衡望向已经熄灯的展示厅，「我是怕我们说了太久'将来'，等真需要的时候，手里还是只有讲稿。」",
+        "portraitAsset": "/assets/characters/char_chen_shaoheng_tense.png"
       },
       "nextSceneId": "d5_end"
     },
@@ -2889,7 +3016,7 @@
       "name": "第六日·电波碎片",
       "chapterId": "d6_1937_summer",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day06_summer_lab_radio.webp",
+      "background": "/assets/backgrounds/bg_day06_news.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
@@ -2905,14 +3032,15 @@
       "name": "第六日·娜佳的理解",
       "chapterId": "d6_1937_summer",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day06_summer_lab_radio.webp",
+      "background": "/assets/backgrounds/bg_day06_war.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "「我以前以为，故乡只是一个人来的地方。」娜佳看着桌上的报纸，声音很轻，「现在我明白，它也可能是一个人必须回去的地方。」\n\n她没有问沈怀远会不会走。这个问题太早，也太迟。\n\n「如果你要准备，」她说，「至少不要一个人准备。」"
+        "text": "「我以前以为，故乡只是一个人来的地方。」娜佳看着桌上的报纸，声音很轻，「现在我明白，它也可能是一个人必须回去的地方。」\n\n她没有问沈怀远会不会走。这个问题太早，也太迟。\n\n「如果你要准备，」她说，「至少不要一个人准备。」",
+        "portraitAsset": "/assets/characters/char_nadya_concerned.png"
       },
       "nextSceneId": "d6_k1_first_action"
     },
@@ -2921,14 +3049,15 @@
       "name": "第七日·分歧",
       "chapterId": "d7_1937_autumn",
       "template": "standardDialogue",
-      "background": "/assets/backgrounds/bg_day07_autumn_dorm.webp",
+      "background": "/assets/backgrounds/bg_day07_rain.png",
       "showTopStatusBar": true,
       "showDialoguePanel": true,
       "content": {
         "speakerId": "chen",
         "speakerName": "陈绍衡",
         "textType": "dialogue",
-        "text": "「你总说要稳妥。」陈绍衡压低声音，「可稳妥到最后，会不会只剩下留下？」\n\n沈怀远抬头：「你以为我不想回去？」\n\n「我怕你想得太久。」\n\n两人都沉默了。秋雨敲在窗玻璃上。沈怀远忽然明白，他们争的并不是谁更爱国，而是谁更能承受做错的后果。"
+        "text": "「你总说要稳妥。」陈绍衡压低声音，「可稳妥到最后，会不会只剩下留下？」\n\n沈怀远抬头：「你以为我不想回去？」\n\n「我怕你想得太久。」\n\n两人都沉默了。秋雨敲在窗玻璃上。沈怀远忽然明白，他们争的并不是谁更爱国，而是谁更能承受做错的后果。",
+        "portraitAsset": "/assets/characters/char_chen_shaoheng_tense.png"
       },
       "nextSceneId": "d7_c1_priority"
     },
@@ -2944,7 +3073,8 @@
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "娜佳把一条围巾放到他手边。\n\n「不是礼物。」她说，「只是莫斯科的冬天太冷。」\n\n沈怀远想说些什么，却发现那些句子都显得过轻。娜佳先移开目光，像是在替他保留沉默的余地。\n\n「如果你回去，」她说，「记得把电波调得清楚一点。这样，也许我能在很远的地方听见。」"
+        "text": "娜佳把一条围巾放到他手边。\n\n「不是礼物。」她说，「只是莫斯科的冬天太冷。」\n\n沈怀远想说些什么，却发现那些句子都显得过轻。娜佳先移开目光，像是在替他保留沉默的余地。\n\n「如果你回去，」她说，「记得把电波调得清楚一点。这样，也许我能在很远的地方听见。」",
+        "portraitAsset": "/assets/characters/char_nadya_farewell.png"
       },
       "nextSceneId": "letter_1937_winter_family"
     },

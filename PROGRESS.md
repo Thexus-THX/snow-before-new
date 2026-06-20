@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（部署前清理与精简）
+> 最后更新：2026-06-21（P3D UI 增强与系统打磨）
 
 ---
 
@@ -622,6 +622,41 @@
 |------|---------|
 | `d6_radio_fragments` | `bg_day06_summer_news.webp` |
 | `d7_chen_quarrel_full` | `bg_day07_autumn_preparation.webp` |
+
+### ✅ P3D UI 增强与系统打磨（2026-06-21）
+
+#### 状态栏按钮
+- **设置按钮**：`/settings?from=game`，返回时可回到当前游戏进度
+- **标题按钮**：点击弹出二次确认弹窗，防止误触
+- SettingsPage：从游戏进入显示"返回游戏"，从标题进入显示"返回标题"
+
+#### 关键选择回滚修复
+- 关键选择也创建快照，回滚时正确恢复 `lockedCriticalChoiceIds`
+- 放宽关键选择边界检查，回滚时自动清理对应的锁
+- 从设置返回游戏时保留当前进度（检查 store 中已有状态）
+
+#### 人物立绘补全
+| 场景 | 角色 | 立绘 |
+|------|------|------|
+| `d1_nadya_record_argument` | 娜佳 | `char_nadya_concerned.png` |
+| `d2_ivan_worker_lesson` | 伊万 | `char_ivan_skeptical.png` |
+| `d3_chen_first_conflict_seed` | 陈绍衡 | `char_chen_shaoheng_tense.png` |
+| `d5_chen_after_tech_use` | 陈绍衡 | `char_chen_shaoheng_tense.png` |
+| `d6_nadya_understands_distance` | 娜佳 | `char_nadya_concerned.png` |
+| `d7_chen_quarrel_full` | 陈绍衡 | `char_chen_shaoheng_tense.png` |
+| `d8_nadya_farewell` | 娜佳 | `char_nadya_farewell.png` |
+
+#### 素材更新
+- Day6 娜佳场景背景：`bg_day06_war.png`
+- Day7 陈绍衡分歧背景：`bg_day07_rain.png`
+
+#### 结局修复
+- `thank_you` → `__title__`（回到标题页，不再回到序章）
+
+#### 测试更新
+- 5 个测试修复：`__title__` 特殊路由识别、回滚边界放宽、StatusBar mock
+- 陈绍衡立绘文件名修正（`char_chen_tense.png` → `char_chen_shaoheng_tense.png`）
+- tsc ✅ | 17/17 文件 177/177 测试 ✅
 
 ### ✅ 部署前清理与精简（2026-06-20）
 

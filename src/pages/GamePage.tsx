@@ -39,6 +39,7 @@ export default function GamePage() {
   const [showingChoices, setShowingChoices] = useState(false);
   const [pendingConfirm, setPendingConfirm] = useState<ChoiceDefinition | null>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [choiceError, setChoiceError] = useState<string | null>(null);
 
   useEffect(() => {
     // 防止 StrictMode 双重初始化
@@ -66,9 +67,12 @@ export default function GamePage() {
           startNewGame();
         }
       } else {
-        // 无启动意图（直接访问 /game）：
-        // 优先继续有效存档，没有有效存档才新建
-        if (gd && hasValidSave(gd)) {
+        // 无启动意图（直接访问 /game 或从设置返回）：
+        // 如果 store 中已有游戏状态（从设置返回），直接使用
+        const currentState = useGameStore.getState().state;
+        if (currentState) {
+          // 已有状态，无需重新初始化
+        } else if (gd && hasValidSave(gd)) {
           const result = continueGame();
           if (!result.success) {
             startNewGame();
@@ -90,6 +94,7 @@ export default function GamePage() {
   useEffect(() => {
     setShowingChoices(false);
     setPendingConfirm(null);
+    setChoiceError(null);
   }, [state?.currentSceneId]);
 
   const currentScene = getCurrentScene();
@@ -128,19 +133,39 @@ export default function GamePage() {
   }, [currentScene, hasChoices, showingChoices, advanceScene, recordHistoryEntry, navigate]);
 
   const handleSelectChoice = useCallback((choice: ChoiceDefinition) => {
+    setChoiceError(null);
     if (choice.isCritical) { setPendingConfirm(choice); return; }
     // 普通选择：直接通过 commitChoice 原子事务处理
     const result = commitChoice(choice);
     if (!result.ok) {
       console.warn("[GamePage] commitChoice 失败:", result.reason);
+      const messages: Record<string, string> = {
+        busy: "正在处理中，请稍候…",
+        "invalid-choice": "该选项当前不可用",
+        locked: "该选项条件未满足",
+        "already-applied": "该关键选择已提交",
+        "missing-scene": "下一场景数据缺失",
+        error: "处理选项时发生错误",
+      };
+      setChoiceError(messages[result.reason] ?? `未知错误 (${result.reason})`);
     }
   }, [commitChoice]);
 
   const handleConfirmCritical = useCallback((choice: ChoiceDefinition) => {
+    setChoiceError(null);
     // 关键选择：通过 commitChoice 原子事务处理
     const result = commitChoice(choice);
     if (!result.ok) {
       console.warn("[GamePage] 关键选择提交失败:", result.reason);
+      const messages: Record<string, string> = {
+        busy: "正在处理中，请稍候…",
+        "invalid-choice": "该选项当前不可用",
+        locked: "该选项条件未满足",
+        "already-applied": "该关键选择已提交",
+        "missing-scene": "下一场景数据缺失",
+        error: "处理选项时发生错误",
+      };
+      setChoiceError(messages[result.reason] ?? `未知错误 (${result.reason})`);
     }
     setPendingConfirm(null);
   }, [commitChoice]);
@@ -155,7 +180,7 @@ export default function GamePage() {
   const history = getHistory();
 
   // 场景音频
-  useSceneAudio(currentScene);
+  useSceneAudio(currentScene ?? undefined);
 
   // 加载/错误
   if (loading) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-secondary)",fontSize:24}}>正在加载…</div></GameViewport>);
@@ -178,6 +203,7 @@ export default function GamePage() {
         showingChoices={showingChoices}
         pendingConfirm={pendingConfirm}
         hasChoices={hasChoices}
+        choiceError={choiceError}
         history={history}
         showHistory={showHistory}
       />

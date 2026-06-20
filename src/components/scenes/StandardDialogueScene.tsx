@@ -37,6 +37,7 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
     showingChoices,
     pendingConfirm,
     hasChoices,
+    choiceError,
     history,
     showHistory,
   } = props;
@@ -73,6 +74,7 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
       pendingConfirm={pendingConfirm}
       onConfirm={onConfirmCritical}
       onCancelConfirm={onCancelConfirm}
+      error={choiceError}
     />
   ) : (
     showDialogue && scene.content && (

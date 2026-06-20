@@ -25,8 +25,10 @@ describe("P1C 全流程数据审计", () => {
   // ---- 3. 所有 nextSceneId 存在 ----
   it("3. 所有 nextSceneId 存在", () => {
     const missing: string[] = [];
+    // 特殊路由（不在 scenes 中）
+    const specialRoutes = new Set(["__title__"]);
     for (const [id, scene] of Object.entries(scenes)) {
-      if (scene.nextSceneId && !scenes[scene.nextSceneId]) {
+      if (scene.nextSceneId && !scenes[scene.nextSceneId] && !specialRoutes.has(scene.nextSceneId)) {
         missing.push(`${id} -> ${scene.nextSceneId}`);
       }
     }
@@ -66,10 +68,9 @@ describe("P1C 全流程数据审计", () => {
     expect(scenes["ending_foreign_lamp"].template).toBe("ending");
   });
 
-  it("8. journey_review → thank_you → prologue_train 链完整", () => {
+  it("8. journey_review → thank_you → __title__ 链完整", () => {
     expect(scenes["journey_review"].nextSceneId).toBe("thank_you");
-    expect(scenes["thank_you"].nextSceneId).toBe("prologue_train");
-    expect(scenes["prologue_train"]).toBeDefined();
+    expect(scenes["thank_you"].nextSceneId).toBe("__title__");
   });
 
   // ---- 9. 没有死胡同（无 nextSceneId 且无 choices） ----

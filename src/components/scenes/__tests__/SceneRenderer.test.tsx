@@ -9,11 +9,21 @@
  */
 import { describe, it, expect, vi } from "vitest";
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import SceneRenderer from "@/components/scenes/SceneRenderer";
 import type { SceneDefinition, GameState } from "@/schemas/types";
 import { GameEngine } from "@/engine/gameEngine";
 import gameDataRaw from "@/content/game-data.json";
 import { validateGameData } from "@/schemas/gameSchema";
+
+// Mock useNavigate for StatusBar
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom");
+  return {
+    ...actual,
+    useNavigate: () => vi.fn(),
+  };
+});
 
 // 使用真实 game-data.json 以确保 Zod 校验通过
 const validated = validateGameData(gameDataRaw);

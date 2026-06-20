@@ -265,14 +265,14 @@ describe("gameStore 回滚", () => {
       );
       expect(firstChoiceEntry).toBeDefined();
 
-      // canRollbackEntry 应返回 false
+      // P3C: 放宽关键选择边界——回滚时自动清理 lockedCriticalChoiceIds
+      // canRollbackEntry 现在允许跨越关键选择回滚
       const canRoll = useGameStore.getState().canRollbackEntry(firstChoiceEntry!);
-      expect(canRoll.canRollback).toBe(false);
-      expect(canRoll.reason).toContain("关键决定");
+      expect(canRoll.canRollback).toBe(true);
 
-      // rollbackToHistoryEntry 也应拒绝
+      // rollbackToHistoryEntry 应该成功（边界已放宽）
       const result = useGameStore.getState().rollbackToHistoryEntry(firstChoiceEntry!);
-      expect(result.success).toBe(false);
+      expect(result.success).toBe(true);
     });
 
     it("关键选择本身不可回滚", () => {
