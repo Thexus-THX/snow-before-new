@@ -341,21 +341,76 @@ export default function TitlePage() {
 
   const BG_URL = "/assets/backgrounds/bg_day08_winter_station.webp";
 
+  // 共享按钮样式工厂
+  const btnBase: React.CSSProperties = {
+    width: 340,
+    height: 54,
+    fontSize: 18,
+    fontWeight: 600,
+    letterSpacing: "0.14em",
+    fontFamily: "var(--font-display), serif",
+    border: "1px solid rgba(174,132,70,0.38)",
+    borderRadius: 2,
+    cursor: "pointer",
+    transition: "all 0.22s ease",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0 auto",
+  };
+
+  const primaryBtnStyle = (): React.CSSProperties => ({
+    ...btnBase,
+    color: "#e6d8b8",
+    background: "rgba(58,42,24,0.78)",
+    border: "1px solid rgba(200,156,80,0.55)",
+  });
+
+  const secondaryBtnStyle = (): React.CSSProperties => ({
+    ...btnBase,
+    color: "#c4b494",
+    background: "rgba(45,34,22,0.72)",
+  });
+
+  const primaryHover = (el: HTMLElement) => {
+    el.style.background = "rgba(80,56,30,0.88)";
+    el.style.borderColor = "rgba(220,170,90,0.7)";
+    el.style.color = "#f0e2c8";
+  };
+  const primaryLeave = (el: HTMLElement) => {
+    el.style.background = "rgba(58,42,24,0.78)";
+    el.style.borderColor = "rgba(200,156,80,0.55)";
+    el.style.color = "#e6d8b8";
+  };
+  const secondaryHover = (el: HTMLElement) => {
+    el.style.background = "rgba(72,52,30,0.86)";
+    el.style.borderColor = "rgba(200,156,80,0.55)";
+    el.style.color = "#e0d0b0";
+  };
+  const secondaryLeave = (el: HTMLElement) => {
+    el.style.background = "rgba(45,34,22,0.72)";
+    el.style.borderColor = "rgba(174,132,70,0.38)";
+    el.style.color = "#c4b494";
+  };
+  const pressDown = (el: HTMLElement) => { el.style.transform = "translateY(1px)"; };
+  const pressUp = (el: HTMLElement) => { el.style.transform = ""; };
+  const focusIn = (el: HTMLElement) => { el.style.outline = "2px solid rgba(200,160,100,0.5)"; el.style.outlineOffset = "2px"; };
+  const focusOut = (el: HTMLElement) => { el.style.outline = "none"; };
+
   return (
     <>
-      {/* 外层电影感延展背景 */}
+      {/* 全屏电影感延展背景 */}
       <div
         style={{
           position: "fixed",
           inset: 0,
           zIndex: -1,
           background: `url(${BG_URL}) center/cover no-repeat #0d1520`,
-          filter: "blur(12px)",
-          transform: "scale(1.04)",
+          filter: "blur(16px)",
+          transform: "scale(1.08)",
           opacity: 0.45,
         }}
       />
-      {/* 延展背景上的暗色遮罩 */}
       <div
         style={{
           position: "fixed",
@@ -378,7 +433,7 @@ export default function TitlePage() {
             position: "relative",
           }}
         >
-          {/* 暗色遮罩 */}
+          {/* 主画面暗色遮罩 */}
           <div
             style={{
               position: "absolute",
@@ -388,248 +443,141 @@ export default function TitlePage() {
             }}
           />
 
-          {/* 火车灯光 Canvas */}
-          <canvas
-            ref={lightCanvasRef}
-            width={CANVAS_W}
-            height={CANVAS_H}
-            style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 0,
-              pointerEvents: "none",
-            }}
-          />
+          {/* 火车灯光 */}
+          <canvas ref={lightCanvasRef} width={CANVAS_W} height={CANVAS_H}
+            style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }} />
 
-          {/* 烟雾 Canvas */}
-          <canvas
-            ref={smokeCanvasRef}
-            width={CANVAS_W}
-            height={CANVAS_H}
-            style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 0,
-              pointerEvents: "none",
-            }}
-          />
+          {/* 烟雾 */}
+          <canvas ref={smokeCanvasRef} width={CANVAS_W} height={CANVAS_H}
+            style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }} />
 
-          {/* 像素雪花 Canvas */}
-          <canvas
-            ref={snowCanvasRef}
-            width={CANVAS_W}
-            height={CANVAS_H}
-            style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 2,
-              pointerEvents: "none",
-            }}
-          />
+          {/* 雪花 */}
+          <canvas ref={snowCanvasRef} width={CANVAS_W} height={CANVAS_H}
+            style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }} />
 
-          {/* 标题与按钮区域 */}
+          {/* ===== 标题 + 菜单面板 ===== */}
           <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+
             {/* 标题 */}
-            <h1
-              style={{
-                fontSize: 72,
-                fontWeight: 400,
-                letterSpacing: 20,
-                marginBottom: 28,
-                fontFamily: "var(--font-display)",
-                color: "var(--color-text-primary)",
-                textShadow: "0 1px 8px rgba(20,30,60,0.6), 0 4px 20px rgba(0,0,0,0.4)",
-              }}
-            >
+            <h1 style={{
+              fontSize: 74,
+              fontWeight: 500,
+              letterSpacing: 20,
+              marginBottom: 24,
+              fontFamily: "var(--font-display)",
+              color: "var(--color-text-primary)",
+              textShadow: "0 3px 10px rgba(0,0,0,0.65), 0 1px 4px rgba(20,30,60,0.5)",
+            }}>
               雪落之前
             </h1>
 
             {/* 副标题 */}
-            <p
-              style={{
-                fontSize: 20,
-                color: "var(--color-text-secondary)",
-                marginBottom: 72,
-                letterSpacing: "0.22em",
-                opacity: 0.85,
-              }}
-            >
+            <p style={{
+              fontSize: 20,
+              color: "var(--color-text-secondary)",
+              marginBottom: 64,
+              letterSpacing: "0.2em",
+              opacity: 0.82,
+            }}>
               风雪到来以前，他们仍在选择归途
             </p>
 
-            {/* 按钮组 */}
-            <div
-              style={{
+            {/* ===== 档案面板 ===== */}
+            <div style={{
+              width: 410,
+              padding: "28px 32px 24px",
+              background: "rgba(20, 16, 12, 0.58)",
+              border: "1px solid rgba(174, 132, 70, 0.45)",
+              borderRadius: 3,
+              boxShadow: "inset 0 0 24px rgba(0,0,0,0.45), 0 18px 50px rgba(0,0,0,0.45)",
+              backdropFilter: "none",
+            }}>
+              {/* 面板内按钮组 */}
+              <div style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                gap: 14,
-                padding: "32px 0",
-                background: "radial-gradient(ellipse at center, rgba(20,16,10,0.35) 0%, transparent 70%)",
-              }}
-            >
-              {/* 开始新游戏 */}
-              <button
-                onClick={handleNewGame}
-                style={{
-                  width: 300,
-                  padding: "12px 0",
-                  fontSize: 16,
-                  letterSpacing: "0.2em",
-                  fontFamily: "var(--font-display), serif",
-                  color: "#d8c8a8",
-                  background: "rgba(40,32,22,0.7)",
-                  border: "1px solid #5a4a30",
-                  borderRadius: 2,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(55,44,30,0.8)";
-                  e.currentTarget.style.borderColor = "#8a7040";
-                  e.currentTarget.style.color = "#eadcc0";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(40,32,22,0.7)";
-                  e.currentTarget.style.borderColor = "#5a4a30";
-                  e.currentTarget.style.color = "#d8c8a8";
-                }}
-                onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
-                onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
-                onFocus={(e) => { e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)"; e.currentTarget.style.outlineOffset = "2px"; }}
-                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
-              >
-                开始新游戏
-              </button>
+                gap: 13,
+                position: "relative",
+                zIndex: 1,
+              }}>
+                {/* 开始新游戏 — primary */}
+                <button onClick={handleNewGame}
+                  style={primaryBtnStyle()}
+                  onMouseEnter={(e) => primaryHover(e.currentTarget)}
+                  onMouseLeave={(e) => primaryLeave(e.currentTarget)}
+                  onMouseDown={(e) => pressDown(e.currentTarget)}
+                  onMouseUp={(e) => pressUp(e.currentTarget)}
+                  onFocus={(e) => focusIn(e.currentTarget)}
+                  onBlur={(e) => focusOut(e.currentTarget)}
+                >
+                  开始新游戏
+                </button>
 
-              {/* 继续旅程 */}
-              <button
-                onClick={saveExists ? handleContinue : undefined}
-                disabled={!saveExists}
-                style={{
-                  width: 300,
-                  padding: "12px 0",
-                  fontSize: 16,
-                  letterSpacing: "0.2em",
-                  fontFamily: "var(--font-display), serif",
-                  color: saveExists ? "#c8b898" : "rgba(160,140,120,0.35)",
-                  background: saveExists ? "rgba(35,30,22,0.55)" : "rgba(35,30,22,0.2)",
-                  border: saveExists ? "1px solid #4a3e2a" : "1px solid rgba(80,70,50,0.15)",
-                  borderRadius: 2,
-                  cursor: saveExists ? "pointer" : "default",
-                  transition: saveExists ? "all 0.2s ease" : "none",
-                  opacity: saveExists ? 1 : 0.45,
-                }}
-                onMouseEnter={(e) => {
-                  if (!saveExists) return;
-                  e.currentTarget.style.background = "rgba(50,40,28,0.7)";
-                  e.currentTarget.style.borderColor = "#7a6038";
-                  e.currentTarget.style.color = "#ddceb0";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(35,30,22,0.55)";
-                  e.currentTarget.style.borderColor = "#4a3e2a";
-                  e.currentTarget.style.color = "#c8b898";
-                }}
-                onMouseDown={(e) => {
-                  if (!saveExists) return;
-                  e.currentTarget.style.transform = "translateY(1px)";
-                }}
-                onMouseUp={(e) => {
-                  if (!saveExists) return;
-                  e.currentTarget.style.transform = "";
-                }}
-                onFocus={(e) => {
-                  if (!saveExists) return;
-                  e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)";
-                  e.currentTarget.style.outlineOffset = "2px";
-                }}
-                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
-              >
-                继续旅程
-              </button>
+                {/* 继续旅程 — secondary / disabled */}
+                <button
+                  onClick={saveExists ? handleContinue : undefined}
+                  disabled={!saveExists}
+                  style={{
+                    ...secondaryBtnStyle(),
+                    opacity: saveExists ? 1 : 0.38,
+                    cursor: saveExists ? "pointer" : "not-allowed",
+                  }}
+                  onMouseEnter={(e) => { if (saveExists) secondaryHover(e.currentTarget); }}
+                  onMouseLeave={(e) => { if (saveExists) secondaryLeave(e.currentTarget); }}
+                  onMouseDown={(e) => { if (saveExists) pressDown(e.currentTarget); }}
+                  onMouseUp={(e) => { if (saveExists) pressUp(e.currentTarget); }}
+                  onFocus={(e) => { if (saveExists) focusIn(e.currentTarget); }}
+                  onBlur={(e) => focusOut(e.currentTarget)}
+                >
+                  继续旅程
+                </button>
 
-              {/* 设置 */}
-              <button
-                onClick={handleSettings}
-                style={{
-                  width: 300,
-                  padding: "12px 0",
-                  fontSize: 16,
-                  letterSpacing: "0.2em",
-                  fontFamily: "var(--font-display), serif",
-                  color: "#c8b898",
-                  background: "rgba(35,30,22,0.55)",
-                  border: "1px solid #4a3e2a",
-                  borderRadius: 2,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(50,40,28,0.7)";
-                  e.currentTarget.style.borderColor = "#7a6038";
-                  e.currentTarget.style.color = "#ddceb0";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(35,30,22,0.55)";
-                  e.currentTarget.style.borderColor = "#4a3e2a";
-                  e.currentTarget.style.color = "#c8b898";
-                }}
-                onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
-                onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
-                onFocus={(e) => { e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)"; e.currentTarget.style.outlineOffset = "2px"; }}
-                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
-              >
-                设置
-              </button>
+                {/* 设置 — secondary */}
+                <button onClick={handleSettings}
+                  style={secondaryBtnStyle()}
+                  onMouseEnter={(e) => secondaryHover(e.currentTarget)}
+                  onMouseLeave={(e) => secondaryLeave(e.currentTarget)}
+                  onMouseDown={(e) => pressDown(e.currentTarget)}
+                  onMouseUp={(e) => pressUp(e.currentTarget)}
+                  onFocus={(e) => focusIn(e.currentTarget)}
+                  onBlur={(e) => focusOut(e.currentTarget)}
+                >
+                  设置
+                </button>
 
-              {/* 结局图鉴 */}
-              <button
-                onClick={handleEndingGallery}
-                style={{
-                  width: 300,
-                  padding: "12px 0",
-                  fontSize: 16,
-                  letterSpacing: "0.2em",
-                  fontFamily: "var(--font-display), serif",
-                  color: "#c8b898",
-                  background: "rgba(35,30,22,0.55)",
-                  border: "1px solid #4a3e2a",
-                  borderRadius: 2,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(50,40,28,0.7)";
-                  e.currentTarget.style.borderColor = "#7a6038";
-                  e.currentTarget.style.color = "#ddceb0";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(35,30,22,0.55)";
-                  e.currentTarget.style.borderColor = "#4a3e2a";
-                  e.currentTarget.style.color = "#c8b898";
-                }}
-                onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
-                onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
-                onFocus={(e) => { e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)"; e.currentTarget.style.outlineOffset = "2px"; }}
-                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
-              >
-                结局图鉴
-              </button>
+                {/* 结局图鉴 — secondary */}
+                <button onClick={handleEndingGallery}
+                  style={secondaryBtnStyle()}
+                  onMouseEnter={(e) => secondaryHover(e.currentTarget)}
+                  onMouseLeave={(e) => secondaryLeave(e.currentTarget)}
+                  onMouseDown={(e) => pressDown(e.currentTarget)}
+                  onMouseUp={(e) => pressUp(e.currentTarget)}
+                  onFocus={(e) => focusIn(e.currentTarget)}
+                  onBlur={(e) => focusOut(e.currentTarget)}
+                >
+                  结局图鉴
+                </button>
+              </div>
             </div>
+            {/* 面板底部分隔线 */}
+            <div style={{
+              width: 410,
+              height: 1,
+              margin: "0 auto",
+              background: "linear-gradient(90deg, transparent, rgba(174,132,70,0.2), transparent)",
+              marginTop: 0,
+            }} />
           </div>
 
           {/* 底部版本号 */}
-          <p
-            style={{
-              position: "absolute",
-              bottom: 32,
-              color: "rgba(160,140,110,0.35)",
-              fontSize: 13,
-              letterSpacing: 2,
-              zIndex: 1,
-            }}
-          >
+          <p style={{
+            position: "absolute",
+            bottom: 32,
+            color: "rgba(150,130,105,0.32)",
+            fontSize: 12,
+            letterSpacing: 2,
+            zIndex: 1,
+          }}>
             雪落之前 · V1
           </p>
         </div>
