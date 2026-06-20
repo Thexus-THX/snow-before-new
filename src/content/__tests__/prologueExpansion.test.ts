@@ -56,13 +56,13 @@ describe("P5A 序章扩写", () => {
     }
   });
 
-  it("三个 prologue_choice 分支汇入 prologue_nadya_first_help", () => {
-    const branches = ["prologue_letter_result", "prologue_radio_result", "prologue_people_result"];
-    for (const bid of branches) {
-      const scene = scenes[bid];
-      expect(scene, `${bid} missing`).toBeDefined();
-      expect(scene.nextSceneId).toBe("prologue_nadya_first_help");
-    }
+  it("三个 prologue_choice 分支汇入主线", () => {
+    // letter/radio → prologue_meet_nadya → prologue_nadya_first_help
+    expect(scenes["prologue_letter_result"].nextSceneId).toBe("prologue_meet_nadya");
+    expect(scenes["prologue_radio_result"].nextSceneId).toBe("prologue_meet_nadya");
+    expect(scenes["prologue_meet_nadya"].nextSceneId).toBe("prologue_nadya_first_help");
+    // people 已有娜佳认识，直接汇入
+    expect(scenes["prologue_people_result"].nextSceneId).toBe("prologue_nadya_first_help");
   });
 
   it("prologue_choice 原有效果仍保留", () => {

@@ -358,7 +358,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "站台广播响起时，沈怀远一个词也没听懂。\n\n那些卷着舌音的俄语从头顶掠过，像另一种天气。身旁有人催促，他只好跟着人流向前走。行李箱很沉，手心被冻得发疼。\n\n他第一次清楚地意识到，远行并不只是离开家门，而是连一句问路的话都要重新学起。"
+        "text": "站台广播响起时，沈怀远一个词也没听懂。\n\n那些卷着舌音的俄语从头顶掠过，像另一种天气。身旁有人催促，他只好跟着人流向前走。\n\n他第一次清楚地意识到，远行并不只是离开家门，而是连一句问路的话都要重新学起。"
       },
       "nextSceneId": "prologue_customs_and_registration"
     },
@@ -454,7 +454,7 @@
         "textType": "narration",
         "text": "沈怀远拆开信封。母亲的字迹工整而克制，只说家中一切尚可，要他安心求学。兰英在末尾添了两行小字，问异乡是不是常下雪。纸上的墨迹微微晕开，不知是旅途潮气，还是有人写信时停笔太久。"
       },
-      "nextSceneId": "prologue_nadya_first_help"
+      "nextSceneId": "prologue_meet_nadya"
     },
     "prologue_radio_result": {
       "id": "prologue_radio_result",
@@ -470,7 +470,7 @@
         "textType": "narration",
         "text": "他走向长椅，俯身观察那台无线电设备。面板上的俄文标识仍显陌生，旋钮转动时的阻尼却与书中描述相合。手指触到冰冷的金属外壳时，沈怀远忽然意识到，未来数年里，他最常相伴的也许正是这种低低的电流声。"
       },
-      "nextSceneId": "prologue_nadya_first_help"
+      "nextSceneId": "prologue_meet_nadya"
     },
     "prologue_people_result": {
       "id": "prologue_people_result",
@@ -488,6 +488,22 @@
       },
       "nextSceneId": "prologue_nadya_first_help"
     },
+    "prologue_meet_nadya": {
+      "id": "prologue_meet_nadya",
+      "name": "序章·偶遇",
+      "chapterId": "prologue_1931",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_prologue_1931_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "收好东西，沈怀远抬起头，发现不远处一位金发姑娘正朝他这边看了一眼。她手里抱着一本翻旧的无线电教材，朝他点了点头，用略带口音的中文说了一句「你好」。他愣了愣，也回了一句——那是他在这个陌生站台上第一次听懂的话。"
+      },
+      "nextSceneId": "prologue_nadya_first_help"
+    },
     "prologue_nadya_first_help": {
       "id": "prologue_nadya_first_help",
       "name": "序章·娜佳的指引",
@@ -500,7 +516,7 @@
         "speakerId": "nadya",
         "speakerName": "娜佳",
         "textType": "dialogue",
-        "text": "「你要去无线电学院的宿舍？这边。」\n\n她指了指站台外的方向，又看了一眼他手里的登记条。\n\n「先别把这张纸收得太深。出了车站还要查一次。」\n\n沈怀远慢了一拍才听明白她在帮自己。他想道谢，对方却已经放慢语速，又把那句话重复了一遍。\n\n「别担心。第一次来这里的人，都会觉得这些牌子像一堵墙。」",
+        "text": "「你要去无线电学院的宿舍？这边。」\n\n她指了指站台外的方向，又看了一眼他手里的登记条。\n\n「先别把这张纸收得太深。出了车站还要查一次。」\n\n沈怀远慢了一拍才听明白她在帮自己。对方已经放慢语速，又把那句话重复了一遍。",
         "portraitAsset": "/assets/characters/char_nadya_warm.png"
       },
       "nextSceneId": "prologue_first_radio_room"
@@ -517,7 +533,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "入学后的第一个傍晚，沈怀远被带进无线电教室。墙边的设备还没有全部通电，金属外壳在灯下泛着冷光。\n\n有人旋动旋钮，耳机里忽然传出一阵断续的杂音。那声音并不好听，却让他停住了脚步。\n\n电波看不见，也握不住，却能越过城市、雪原和国境，比一个人的脚步走得更远。那一刻，他第一次觉得，自己选择的并不只是一门技术。"
+        "text": "入学后的第一个傍晚，沈怀远被带进无线电教室。墙边的设备还没有全部通电，金属外壳在灯下泛着冷光。\n\n有人旋动旋钮，耳机里忽然传出一阵断续的杂音。那声音并不好听，却让他停住了脚步。\n\n电波看不见，却能越过城市、雪原和国境，比脚步走得更远。那一刻，他第一次觉得，自己选择的并不只是一门技术。"
       },
       "nextSceneId": "prologue_dorm_first_night"
     },
@@ -3111,7 +3127,7 @@
         "speakerId": "narrator",
         "speakerName": "",
         "textType": "narration",
-        "text": "后来的几年里，沈怀远学会了在清晨排队领热汤，把俄语笔记写得比中文还整齐，也在电流杂音里辨认真正的信号。\n\n有时他在实验楼外看见娜佳抱着资料匆匆走过，在图书馆里遇见陈绍衡隔着桌灯点头。异乡没有变成家，只是渐渐有了可以辨认的方向。"
+        "text": "后来的几年里，沈怀远学会了在清晨排队领热汤，把俄语笔记写得比中文还整齐，也在电流杂音里辨认真正的信号。\n\n有时他在实验楼外看见娜佳抱着资料匆匆走过，在图书馆里遇见陈绍衡隔着桌灯点头。\n\n异乡没有变成家，只是渐渐有了可以辨认的方向。"
       },
       "nextSceneId": "prologue_time_skip"
     },
