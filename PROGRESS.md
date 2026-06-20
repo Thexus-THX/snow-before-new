@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-20（P3B 全文润色与人物语气统一）
+> 最后更新：2026-06-20（P3C 剧情衔接修复与场景过渡补全）
 
 ---
 
@@ -578,6 +578,50 @@
 - 结局条件变化：**否**
 - 美术/音频素材变化：**否**
 - tsc ✅ | build ✅
+
+### ✅ P3C 剧情衔接修复与场景过渡补全（2026-06-20）
+
+#### 素材更新
+- **Day4 背景图**：`bg_day04_winter_field_station.webp` → `.png`，5 处引用全部修正
+- **序章宿舍**：`prologue_dorm_first_night` 背景换为 `bg_day00_bedroom.png`
+- **序章求学蒙太奇**：`prologue_study_montage_1931_1936` 背景换为 `bg_day00_timepast.png`
+- **Day4 立绘移除**：`d4_k1_invitation` 移除别洛夫立绘（背景图已含人物）
+
+#### 音效接入
+- **序章火车汽笛**：`prologue_train` 进入时触发 `sfx.train_whistle_distant`
+- `useSceneAudio` 增强：`enterSfx` 在每次场景切换时检查，同场景不重复
+
+#### 新增过渡场景（5 个）
+
+| 场景 ID | 位置 | 作用 |
+|---------|------|------|
+| `d1_spring_arrival` | 1931家书 → Day1实验室 | 跨5年过渡 |
+| `d3_autumn_arrival` | Day2札记 → Day3邮局 | 夏→秋过渡 |
+| `d3_evening_transition` | Day3回信 → 陈绍衡夜谈 | 晚上回宿舍过渡 |
+| `d4_test_complete` | Day4选择 → 别洛夫邀请 | 测试完成过渡 |
+| `d5_spring_arrival` | Day4札记 → Day5展示 | 冬→春过渡 |
+
+#### 第八日流程修复
+- `d8_final_intro` → `d8_c1_priority`（先选优先级，不再直接跳到娜佳告别）
+- "见娜佳"选项 → `d8_nadya_farewell` → `letter_1937_winter_family`（修复死循环）
+- `d5_chen_after_tech_use` 补充缺失的 `nextSceneId` → `d5_end`
+
+#### JSON 引号修复
+- P3A 节点中嵌套的半角 `"` 全部替换为 `「」`，修复 JSON 解析错误
+
+#### 数据验证
+- 总场景数：**77** → **82**（+5 过渡场景）
+- 新增选择：**0**
+- 新增关键选择：**0**
+- choice effects 变化：**否**
+- 结局条件变化：**否**
+- tsc ✅ | build ✅
+
+#### ⚠️ 待补充背景图
+| 场景 | 缺失文件 |
+|------|---------|
+| `d6_radio_fragments` | `bg_day06_summer_news.webp` |
+| `d7_chen_quarrel_full` | `bg_day07_autumn_preparation.webp` |
 
 ## 待实现
 

@@ -17,6 +17,10 @@ export function getSceneAudio(sceneId: string): SceneAudioConfig {
 
   // 序章 → bgm.first_station（introLoop, bgm_09）
   if (sceneId.startsWith("prologue_")) {
+    // 序章第一个车站场景：播放远处火车汽笛
+    if (sceneId === "prologue_train") {
+      return { bgm: "bgm.first_station", ambience: ["amb.station_winter"], enterSfx: "sfx.train_whistle_distant" };
+    }
     return { bgm: "bgm.first_station", ambience: ["amb.station_winter"] };
   }
 

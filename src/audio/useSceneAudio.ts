@@ -20,12 +20,19 @@ const DEBUG = import.meta.env.DEV;
 export function useSceneAudio(scene: SceneDefinition | undefined): void {
   // 初始化为当前正在播放的 BGM ID，避免从 TitlePage 进入时重播同 ID
   const prevBgmId = useRef<string | null>(audioManager.getCurrentBgmId());
+  const prevSceneId = useRef<string | null>(null);
 
   useEffect(() => {
     if (!scene) return;
 
     const config = getSceneAudio(scene.id);
     const newBgmId = config.bgm ?? null;
+
+    // 进入 SFX：每个场景切换时触发一次（同场景不重复）
+    if (config.enterSfx && scene.id !== prevSceneId.current) {
+      audioManager.playSfx(config.enterSfx);
+    }
+    prevSceneId.current = scene.id;
 
     // 只有 BGM ID 变化时才切换
     if (newBgmId !== prevBgmId.current) {
@@ -45,11 +52,6 @@ export function useSceneAudio(scene: SceneDefinition | undefined): void {
         audioManager.playAmbience(config.ambience);
       } else {
         audioManager.stopAmbience();
-      }
-
-      // 进入 SFX
-      if (config.enterSfx) {
-        audioManager.playSfx(config.enterSfx);
       }
     }
   }, [scene]);
