@@ -339,163 +339,301 @@ export default function TitlePage() {
     navigate("/ending-gallery");
   };
 
+  const BG_URL = "/assets/backgrounds/bg_day08_winter_station.webp";
+
   return (
-    <GameViewport>
+    <>
+      {/* 外层电影感延展背景 */}
       <div
         style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "url(/assets/backgrounds/bg_day08_winter_station.webp) center/100% 100% no-repeat #0d1520",
-          position: "relative",
+          position: "fixed",
+          inset: 0,
+          zIndex: -1,
+          background: `url(${BG_URL}) center/cover no-repeat #0d1520`,
+          filter: "blur(12px)",
+          transform: "scale(1.04)",
+          opacity: 0.45,
         }}
-      >
-        {/* 背景图缺失时的占位提示 */}
+      />
+      {/* 延展背景上的暗色遮罩 */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: -1,
+          background: "rgba(0,0,0,0.55)",
+        }}
+      />
+
+      <GameViewport>
         <div
           style={{
-            position: "absolute",
-            inset: 0,
+            width: "100%",
+            height: "100%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            border: "2px dashed rgba(120,100,80,0.3)",
-            margin: 24,
-            borderRadius: 4,
-            pointerEvents: "none",
-            zIndex: 0,
+            background: `url(${BG_URL}) center/100% 100% no-repeat #0d1520`,
+            position: "relative",
           }}
         >
-          <p style={{ color: "rgba(180,160,140,0.4)", fontSize: 14, letterSpacing: 2 }}>
-            /assets/backgrounds/bg_day08_winter_station.webp
-          </p>
-        </div>
-
-        {/* 暗色遮罩 */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(180deg, rgba(10,8,6,0.35) 0%, rgba(10,8,6,0.55) 40%, rgba(10,8,6,0.7) 100%)",
-            zIndex: 0,
-          }}
-        />
-
-        {/* 火车灯光 Canvas（在背景之上、遮罩之下） */}
-        <canvas
-          ref={lightCanvasRef}
-          width={CANVAS_W}
-          height={CANVAS_H}
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* 烟雾 Canvas（在雪花之下，背景之上） */}
-        <canvas
-          ref={smokeCanvasRef}
-          width={CANVAS_W}
-          height={CANVAS_H}
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* 像素雪花 Canvas */}
-        <canvas
-          ref={snowCanvasRef}
-          width={CANVAS_W}
-          height={CANVAS_H}
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* 标题内容 */}
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
-          <h1
+          {/* 暗色遮罩 */}
+          <div
             style={{
-              fontSize: 72,
-              fontWeight: 400,
-              letterSpacing: 20,
-              marginBottom: 32,
-              fontFamily: "var(--font-display)",
-              color: "var(--color-text-primary)",
-              textShadow: "0 2px 12px rgba(0,0,0,0.5)",
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(180deg, rgba(10,8,6,0.35) 0%, rgba(10,8,6,0.55) 40%, rgba(10,8,6,0.7) 100%)",
+              zIndex: 0,
             }}
-          >
-            雪落之前
-          </h1>
+          />
 
+          {/* 火车灯光 Canvas */}
+          <canvas
+            ref={lightCanvasRef}
+            width={CANVAS_W}
+            height={CANVAS_H}
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* 烟雾 Canvas */}
+          <canvas
+            ref={smokeCanvasRef}
+            width={CANVAS_W}
+            height={CANVAS_H}
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* 像素雪花 Canvas */}
+          <canvas
+            ref={snowCanvasRef}
+            width={CANVAS_W}
+            height={CANVAS_H}
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* 标题与按钮区域 */}
+          <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+            {/* 标题 */}
+            <h1
+              style={{
+                fontSize: 72,
+                fontWeight: 400,
+                letterSpacing: 20,
+                marginBottom: 28,
+                fontFamily: "var(--font-display)",
+                color: "var(--color-text-primary)",
+                textShadow: "0 1px 8px rgba(20,30,60,0.6), 0 4px 20px rgba(0,0,0,0.4)",
+              }}
+            >
+              雪落之前
+            </h1>
+
+            {/* 副标题 */}
+            <p
+              style={{
+                fontSize: 20,
+                color: "var(--color-text-secondary)",
+                marginBottom: 72,
+                letterSpacing: "0.22em",
+                opacity: 0.85,
+              }}
+            >
+              风雪到来以前，他们仍在选择归途
+            </p>
+
+            {/* 按钮组 */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 14,
+                padding: "32px 0",
+                background: "radial-gradient(ellipse at center, rgba(20,16,10,0.35) 0%, transparent 70%)",
+              }}
+            >
+              {/* 开始新游戏 */}
+              <button
+                onClick={handleNewGame}
+                style={{
+                  width: 300,
+                  padding: "12px 0",
+                  fontSize: 16,
+                  letterSpacing: "0.2em",
+                  fontFamily: "var(--font-display), serif",
+                  color: "#d8c8a8",
+                  background: "rgba(40,32,22,0.7)",
+                  border: "1px solid #5a4a30",
+                  borderRadius: 2,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(55,44,30,0.8)";
+                  e.currentTarget.style.borderColor = "#8a7040";
+                  e.currentTarget.style.color = "#eadcc0";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(40,32,22,0.7)";
+                  e.currentTarget.style.borderColor = "#5a4a30";
+                  e.currentTarget.style.color = "#d8c8a8";
+                }}
+                onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
+                onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
+                onFocus={(e) => { e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)"; e.currentTarget.style.outlineOffset = "2px"; }}
+                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
+              >
+                开始新游戏
+              </button>
+
+              {/* 继续旅程 */}
+              <button
+                onClick={saveExists ? handleContinue : undefined}
+                disabled={!saveExists}
+                style={{
+                  width: 300,
+                  padding: "12px 0",
+                  fontSize: 16,
+                  letterSpacing: "0.2em",
+                  fontFamily: "var(--font-display), serif",
+                  color: saveExists ? "#c8b898" : "rgba(160,140,120,0.35)",
+                  background: saveExists ? "rgba(35,30,22,0.55)" : "rgba(35,30,22,0.2)",
+                  border: saveExists ? "1px solid #4a3e2a" : "1px solid rgba(80,70,50,0.15)",
+                  borderRadius: 2,
+                  cursor: saveExists ? "pointer" : "default",
+                  transition: saveExists ? "all 0.2s ease" : "none",
+                  opacity: saveExists ? 1 : 0.45,
+                }}
+                onMouseEnter={(e) => {
+                  if (!saveExists) return;
+                  e.currentTarget.style.background = "rgba(50,40,28,0.7)";
+                  e.currentTarget.style.borderColor = "#7a6038";
+                  e.currentTarget.style.color = "#ddceb0";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(35,30,22,0.55)";
+                  e.currentTarget.style.borderColor = "#4a3e2a";
+                  e.currentTarget.style.color = "#c8b898";
+                }}
+                onMouseDown={(e) => {
+                  if (!saveExists) return;
+                  e.currentTarget.style.transform = "translateY(1px)";
+                }}
+                onMouseUp={(e) => {
+                  if (!saveExists) return;
+                  e.currentTarget.style.transform = "";
+                }}
+                onFocus={(e) => {
+                  if (!saveExists) return;
+                  e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)";
+                  e.currentTarget.style.outlineOffset = "2px";
+                }}
+                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
+              >
+                继续旅程
+              </button>
+
+              {/* 设置 */}
+              <button
+                onClick={handleSettings}
+                style={{
+                  width: 300,
+                  padding: "12px 0",
+                  fontSize: 16,
+                  letterSpacing: "0.2em",
+                  fontFamily: "var(--font-display), serif",
+                  color: "#c8b898",
+                  background: "rgba(35,30,22,0.55)",
+                  border: "1px solid #4a3e2a",
+                  borderRadius: 2,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(50,40,28,0.7)";
+                  e.currentTarget.style.borderColor = "#7a6038";
+                  e.currentTarget.style.color = "#ddceb0";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(35,30,22,0.55)";
+                  e.currentTarget.style.borderColor = "#4a3e2a";
+                  e.currentTarget.style.color = "#c8b898";
+                }}
+                onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
+                onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
+                onFocus={(e) => { e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)"; e.currentTarget.style.outlineOffset = "2px"; }}
+                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
+              >
+                设置
+              </button>
+
+              {/* 结局图鉴 */}
+              <button
+                onClick={handleEndingGallery}
+                style={{
+                  width: 300,
+                  padding: "12px 0",
+                  fontSize: 16,
+                  letterSpacing: "0.2em",
+                  fontFamily: "var(--font-display), serif",
+                  color: "#c8b898",
+                  background: "rgba(35,30,22,0.55)",
+                  border: "1px solid #4a3e2a",
+                  borderRadius: 2,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(50,40,28,0.7)";
+                  e.currentTarget.style.borderColor = "#7a6038";
+                  e.currentTarget.style.color = "#ddceb0";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(35,30,22,0.55)";
+                  e.currentTarget.style.borderColor = "#4a3e2a";
+                  e.currentTarget.style.color = "#c8b898";
+                }}
+                onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(1px)"; }}
+                onMouseUp={(e) => { e.currentTarget.style.transform = ""; }}
+                onFocus={(e) => { e.currentTarget.style.outline = "2px solid rgba(180,150,100,0.4)"; e.currentTarget.style.outlineOffset = "2px"; }}
+                onBlur={(e) => { e.currentTarget.style.outline = "none"; }}
+              >
+                结局图鉴
+              </button>
+            </div>
+          </div>
+
+          {/* 底部版本号 */}
           <p
             style={{
-              fontSize: 20,
-              color: "var(--color-text-secondary)",
-              marginBottom: 80,
-              letterSpacing: 6,
+              position: "absolute",
+              bottom: 32,
+              color: "rgba(160,140,110,0.35)",
+              fontSize: 13,
+              letterSpacing: 2,
+              zIndex: 1,
             }}
           >
-            风雪到来以前，他们仍在选择归途
+            雪落之前 · V1
           </p>
-
-        {/* 按钮组 */}
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-
-          {/* 开始新游戏 */}
-          <button onClick={handleNewGame} className="primaryButton">
-            开 始 新 游 戏
-          </button>
-
-          {/* 继续旅程 */}
-          <button
-            onClick={saveExists ? handleContinue : undefined}
-            disabled={!saveExists}
-            className="secondaryButton"
-          >
-            继 续 旅 程
-          </button>
-
-          {/* 设置 */}
-          <button onClick={handleSettings} className="secondaryButton">
-            设　　置
-          </button>
-
-          {/* 结局图鉴 */}
-          <button
-            onClick={handleEndingGallery}
-            className="secondaryButton"
-          >
-            结 局 图 鉴
-          </button>
         </div>
-        </div>
-
-        {/* 底部版权/版本 */}
-        <p
-          style={{
-            position: "absolute",
-            bottom: 32,
-            color: "var(--color-text-dim)",
-            fontSize: 13,
-            letterSpacing: 2,
-            zIndex: 1,
-          }}
-        >
-          雪落之前 · V1
-        </p>
-      </div>
-    </GameViewport>
+      </GameViewport>
+    </>
   );
 }
