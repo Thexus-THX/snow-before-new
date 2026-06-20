@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-21（P3D UI 增强与系统打磨）
+> 最后更新：2026-06-21（P3C 选择数值与结局深度重构）
 
 ---
 
@@ -622,6 +622,64 @@
 |------|---------|
 | `d6_radio_fragments` | `bg_day06_summer_news.webp` |
 | `d7_chen_quarrel_full` | `bg_day07_autumn_preparation.webp` |
+
+### ✅ P3C 选择数值与结局深度重构（2026-06-21）
+
+#### contact 修复
+- **D6_K1_A**：打听归国路线 → contact +1
+- **D7_C1_A**：确认路线票证 → contact +1
+- **D8_C1_B**：确认最后路线细节 → contact +1 + flag_farewell_chen
+- 完整归国中 `contact >= 1` 现在可达
+
+#### 新增 flags（14 个）
+| flag | 来源 | 影响 |
+|------|------|------|
+| `flag_reported_lab_anomaly` | D1 报告异常 | 回顾文本 |
+| `flag_concealed_lab_anomaly` | D1 隐瞒异常 | 回顾文本，降低信任 |
+| `flag_factory_full_recheck` | D2 全面返检 | 回顾文本 |
+| `flag_factory_rushed_delivery` | D2 按期交付 | 回顾文本，降低信任 |
+| `flag_accepted_long_term_research` | D4 接受长期邀请 | 解锁继续研究 |
+| `flag_named_domestic_concern` | D4 提到国内 | 归国合理性增强 |
+| `flag_clean_materials` | D4/D7 合规资料 | 解锁高级结局 |
+| `flag_restricted_materials` | D7 私自带资料 | **锁定高级归国/留下** |
+| `flag_public_tech_value` | D5 民用价值 | 解锁留下支援 |
+| `flag_defense_tech_value` | D5 技术先进 | stayTendency +1 |
+| `flag_lugouqiao_route_started` | D6 打听路线 | 归国路线增强 |
+| `flag_lugouqiao_waited` | D6 等待消息 | 留下文本增强 |
+| `flag_belov_compliant_help` | D7 坦白获帮助 | 完整归国条件 |
+| `flag_prioritized_safety` | D7 放弃资料保安全 | 新增第4选项 |
+| `flag_farewell_nadya` | D8 见娜佳 | 结局回响 |
+| `flag_farewell_chen` | D8 确认路线 | 归国协助 |
+| `flag_formal_handover` | D8 研究交接 | 留下支援 |
+| `flag_family_told_departure` | D8 坦诚家书 | 归国倾向 |
+| `flag_family_tech_note` | D8 夹技术笔记 | 留下倾向 |
+| `flag_balanced_tech_view` | D5 追问用途 | 回顾文本 |
+| `flag_consulted_elders` | D6 与导师商量 | 合作修正 |
+
+#### 关键选择深度化
+- **D1_K1 隐瞒异常**：短期收益（学识+1 身心+1）+ 长期污点（flag_concealed_lab_anomaly）
+- **D2_K1 按期交付**：短期收益（身心+1）+ 长期污点（flag_factory_rushed_delivery）
+- **D4_K1**：接受邀请 → stayTendency+2；提国内 → returnTendency+1；要成果 → technicalMaterials+1
+- **D7_K1 私自带资料**：短期诱惑（technicalMaterials+2）+ 严重代价（担当-3 别洛夫-3 flag_restricted_materials）
+- **D7_K1 新增选项**：放弃资料确保安全（flag_prioritized_safety）
+- **D6_K1**：打听路线 → returnTendency+2；等待 → stayTendency+1
+
+#### 结局条件重构
+- **完整归国**：+returnTendency >= 2 + not flag_restricted_materials
+- **同伴归国**：+contact >= 1 + returnTendency >= 1 + not flag_restricted_materials
+- **留下支援**：+responsibility >= 7 + not restricted + (stayTendency/flag_public_tech/flag_accepted_long_term)
+- **继续研究**：stayTendency >= 2 OR flag_accepted_long_term_research
+- 仓促归国/等待时机保留 fallback，条件不满足时走降级文本
+
+#### 新增场景
+- **`d8_readiness_report`**：最终选择前的准备报告，反映玩家积累的状态
+
+#### 数据验证
+- 新增主结局：**否**
+- 新增素材：**否**
+- 新增场景：**1**（d8_readiness_report）
+- 删除场景：**0**
+- tsc ✅ | 17/17 测试 ✅ | build ✅
 
 ### ✅ P3D UI 增强与系统打磨（2026-06-21）
 

@@ -16,12 +16,13 @@ import { GameEngine } from "@/engine/gameEngine";
 import gameDataRaw from "@/content/game-data.json";
 import { validateGameData } from "@/schemas/gameSchema";
 
-// Mock useNavigate for StatusBar
+// Mock useNavigate for StatusBar - must be before any imports that use it
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
+  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
   return {
     ...actual,
     useNavigate: () => vi.fn(),
+    MemoryRouter: actual.MemoryRouter,
   };
 });
 

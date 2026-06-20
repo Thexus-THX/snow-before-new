@@ -601,7 +601,8 @@
               "belov": 1
             },
             "addFlags": [
-              "d1_reported_fault"
+              "d1_reported_fault",
+              "flag_reported_lab_anomaly"
             ]
           },
           "confirmationText": "停止测试意味着今天的进度全部中断，导师也会知道你提前发现了问题。确定要立刻报告吗？"
@@ -620,7 +621,8 @@
               "nadya": 1
             },
             "addFlags": [
-              "d1_team_repair"
+              "d1_team_repair",
+              "flag_reported_lab_anomaly"
             ]
           },
           "confirmationText": "先排查再汇报，可能争取到一点时间修正问题。但如果导师认为你在拖延，后果也不小。确定要这样做吗？"
@@ -634,13 +636,16 @@
           "lockedHint": "你的担当不允许你这样做。",
           "effects": {
             "stats": {
+              "knowledge": 1,
+              "wellbeing": 1,
               "responsibility": -2
             },
             "trust": {
               "belov": -2
             },
             "addFlags": [
-              "d1_concealed_fault"
+              "d1_concealed_fault",
+              "flag_concealed_lab_anomaly"
             ]
           },
           "confirmationText": "隐瞒意味着冒险——如果演示中途出现更大故障，后果将由你一人承担。你确定要让演示继续吗？"
@@ -829,13 +834,14 @@
             "stats": {
               "knowledge": 1,
               "responsibility": 2,
-              "wellbeing": -1
+              "wellbeing": -2
             },
             "trust": {
               "ivan": 2
             },
             "addFlags": [
-              "d2_full_reinspection"
+              "d2_full_reinspection",
+              "flag_factory_full_recheck"
             ]
           },
           "confirmationText": "全面返检意味着延迟交付，厂方会非常不满。但放任缺陷产品出厂，后果可能更严重。确定要坚持吗？"
@@ -848,7 +854,8 @@
           "effects": {
             "stats": {
               "knowledge": 1,
-              "responsibility": 1
+              "responsibility": 1,
+              "wellbeing": -1
             },
             "trust": {
               "ivan": 1
@@ -866,13 +873,15 @@
           "nextSceneId": "d2_ignored_result",
           "effects": {
             "stats": {
+              "wellbeing": 1,
               "responsibility": -2
             },
             "trust": {
               "ivan": -2
             },
             "addFlags": [
-              "d2_ignored_quality_risk"
+              "d2_ignored_quality_risk",
+              "flag_factory_rushed_delivery"
             ]
           },
           "confirmationText": "按期交付不会得罪任何人。但如果设备在真正需要时失灵，你也无法假装没有见过这些数据。确定不再追查吗？"
@@ -1512,9 +1521,9 @@
             "trust": {
               "belov": 2
             },
-            "stayTendency": 1,
+            "stayTendency": 2,
             "addFlags": [
-              "accepted_long_project"
+              "flag_accepted_long_term_research"
             ]
           },
           "confirmationText": "接受邀请，意味着你将在苏联再停留数年。研究前途会更加明确，回国的路也会更远。确定要接受吗？"
@@ -1532,8 +1541,9 @@
             "trust": {
               "belov": 1
             },
+            "returnTendency": 1,
             "addFlags": [
-              "deferred_long_project"
+              "flag_named_domestic_concern"
             ]
           },
           "confirmationText": "迟疑会让导师失望，但坦诚自己的牵挂，也许是一种更成熟的回答。确定要这样说吗？"
@@ -1551,8 +1561,11 @@
             "trust": {
               "belov": 1
             },
+            "preparationItems": {
+              "technicalMaterials": 1
+            },
             "addFlags": [
-              "asked_about_returning_knowledge"
+              "flag_clean_materials"
             ]
           },
           "confirmationText": "这个问题可能会让导师察觉到你的去意。但如果不问，你也许永远不会知道答案。确定要问吗？"
@@ -1706,8 +1719,10 @@
             "stats": {
               "knowledge": 1
             },
+            "stayTendency": 1,
             "addFlags": [
-              "d5_focused_on_excellence"
+              "d5_focused_on_excellence",
+              "flag_defense_tech_value"
             ]
           }
         },
@@ -1723,8 +1738,10 @@
             "trust": {
               "ivan": 1
             },
+            "returnTendency": 1,
             "addFlags": [
-              "d5_emphasized_civil_use"
+              "d5_emphasized_civil_use",
+              "flag_public_tech_value"
             ]
           }
         },
@@ -1741,7 +1758,7 @@
               "chen": 1
             },
             "addFlags": [
-              "d5_questioned_technology_use"
+              "flag_balanced_tech_view"
             ]
           }
         }
@@ -1900,7 +1917,8 @@
           "nextSceneId": "d6_end",
           "effects": {
             "preparationItems": {
-              "route": 1
+              "route": 1,
+              "contact": 1
             },
             "stats": {
               "responsibility": 1,
@@ -1909,9 +1927,10 @@
             "trust": {
               "chen": 1
             },
-            "returnTendency": 1,
+            "returnTendency": 2,
             "addFlags": [
-              "started_return_route"
+              "started_return_route",
+              "flag_lugouqiao_route_started"
             ]
           },
           "confirmationText": "打听路线意味着你真的在考虑回去。这一步走出去，就不能假装什么都没发生。确定要开始吗？"
@@ -1922,15 +1941,13 @@
           "isCritical": true,
           "nextSceneId": "d6_end",
           "effects": {
-            "preparationItems": {
-              "technicalMaterials": 1
-            },
             "stats": {
               "knowledge": 1,
-              "responsibility": 1
+              "wellbeing": 1
             },
+            "stayTendency": 1,
             "addFlags": [
-              "started_organizing_materials"
+              "flag_lugouqiao_waited"
             ]
           },
           "confirmationText": "无论回去还是留下，整理好的资料都是有用的。但这需要时间，而你不知道时间还有多少。确定先做这件事吗？"
@@ -1941,18 +1958,16 @@
           "isCritical": true,
           "nextSceneId": "d6_end",
           "effects": {
-            "preparationItems": {
-              "contact": 1
-            },
             "trust": {
-              "chen": 1
+              "nadya": 1,
+              "belov": 1
             },
             "stats": {
               "responsibility": 1
             },
-            "returnTendency": 1,
+            "cooperationModifier": 1,
             "addFlags": [
-              "started_building_contacts"
+              "flag_consulted_elders"
             ]
           },
           "confirmationText": "找到可靠的人，比独自行动更安全。但你要确保找到的是对的人。确定吗？"
@@ -2058,7 +2073,8 @@
           "nextSceneId": "d7_k1_materials",
           "effects": {
             "preparationItems": {
-              "route": 1
+              "route": 1,
+              "contact": 1
             },
             "trust": {
               "chen": 1
@@ -2158,10 +2174,12 @@
               "belov": 2
             },
             "preparationItems": {
-              "documents": 1
+              "documents": 1,
+              "contact": 1
             },
             "addFlags": [
-              "told_belov_return_plan"
+              "told_belov_return_plan",
+              "flag_belov_compliant_help"
             ]
           },
           "confirmationText": "坦诚意味着信任，但也意味着你的归国计划不再是秘密。只有在导师真正可靠时，这一步才是安全的。确定吗？",
@@ -2173,14 +2191,15 @@
           "isCritical": true,
           "nextSceneId": "d7_end",
           "effects": {
-            "preparationItems": {
-              "technicalMaterials": 1
-            },
             "stats": {
               "responsibility": 1
             },
+            "preparationItems": {
+              "technicalMaterials": 1
+            },
             "addFlags": [
-              "kept_only_public_notes"
+              "kept_only_public_notes",
+              "flag_clean_materials"
             ]
           },
           "confirmationText": "选择合规，意味着你放弃了一部分研究成果。但你会带着干净的手离开。确定吗？"
@@ -2191,17 +2210,18 @@
           "isCritical": true,
           "nextSceneId": "d7_end",
           "effects": {
+            "stats": {
+              "responsibility": -3
+            },
+            "trust": {
+              "belov": -3
+            },
             "preparationItems": {
               "technicalMaterials": 2
             },
-            "stats": {
-              "responsibility": -2
-            },
-            "trust": {
-              "belov": -2
-            },
             "addFlags": [
-              "took_restricted_materials"
+              "took_restricted_materials",
+              "flag_restricted_materials"
             ]
           },
           "confirmationText": "这是最危险的选择。一旦被发现，你将失去导师的信任，甚至面临更严重的后果。确定要冒这个险吗？"
@@ -2221,6 +2241,44 @@
             ]
           },
           "confirmationText": "放弃多年研究成果并不容易。但人比资料更重要。确定要这样做吗？"
+        },
+        {
+          "id": "D7_K1_D",
+          "text": "放弃整理资料，优先确保行动安全",
+          "isCritical": true,
+          "nextSceneId": "d7_end",
+          "effects": {
+            "stats": {
+              "wellbeing": 1,
+              "responsibility": 1
+            },
+            "preparationItems": {
+              "technicalMaterials": -1
+            },
+            "addFlags": [
+              "flag_prioritized_safety"
+            ]
+          },
+          "confirmationText": "放弃带走技术资料意味着失去一部分研究成果，但你的旅途会更轻便、更安全。确定吗？"
+        },
+        {
+          "id": "D7_K1_D",
+          "text": "放弃整理资料，优先确保行动安全",
+          "isCritical": true,
+          "nextSceneId": "d7_end",
+          "effects": {
+            "stats": {
+              "wellbeing": 1,
+              "responsibility": 1
+            },
+            "preparationItems": {
+              "technicalMaterials": -1
+            },
+            "addFlags": [
+              "flag_prioritized_safety"
+            ]
+          },
+          "confirmationText": "放弃带走技术资料意味着失去一部分研究成果，但你的旅途会更轻便、更安全。确定吗？"
         }
       ],
       "autoSavePoint": "criticalChoice"
@@ -2309,7 +2367,8 @@
               "documents": 1
             },
             "addFlags": [
-              "d8_finished_handover"
+              "d8_finished_handover",
+              "flag_formal_handover"
             ]
           }
         },
@@ -2320,13 +2379,15 @@
           "nextSceneId": "letter_1937_winter_family",
           "effects": {
             "preparationItems": {
-              "route": 1
+              "route": 1,
+              "contact": 1
             },
             "trust": {
               "chen": 1
             },
             "addFlags": [
-              "d8_met_chen_before_departure"
+              "d8_met_chen_before_departure",
+              "flag_farewell_chen"
             ]
           }
         },
@@ -2343,7 +2404,8 @@
               "wellbeing": 1
             },
             "addFlags": [
-              "d8_met_nadya_before_decision"
+              "d8_met_nadya_before_decision",
+              "flag_farewell_nadya"
             ]
           }
         },
@@ -2409,11 +2471,13 @@
           "nextSceneId": "journal_day08_winter_1937",
           "effects": {
             "stats": {
-              "responsibility": 2,
+              "responsibility": 1,
               "homesickness": 1
             },
+            "returnTendency": 1,
             "addFlags": [
-              "family_will_write_honestly"
+              "family_told_departure",
+              "flag_family_told_departure"
             ]
           },
           "confirmationText": "坦诚意味着家人会知道你可能面对的风险。他们会担心，但也会理解。确定要如实写吗？"
@@ -2425,11 +2489,13 @@
           "nextSceneId": "journal_day08_winter_1937",
           "effects": {
             "stats": {
-              "wellbeing": 1,
-              "responsibility": -1
+              "wellbeing": 1
+            },
+            "preparationItems": {
+              "documents": 1
             },
             "addFlags": [
-              "family_will_reassure_only"
+              "flag_short_letter"
             ]
           },
           "confirmationText": "报平安能让他们安心，但你也知道这不是全部真相。确定吗？"
@@ -2441,11 +2507,14 @@
           "nextSceneId": "journal_day08_winter_1937",
           "effects": {
             "stats": {
-              "responsibility": -1,
-              "wellbeing": -1
+              "homesickness": 1
+            },
+            "stayTendency": 1,
+            "preparationItems": {
+              "technicalMaterials": 1
             },
             "addFlags": [
-              "family_no_final_reply"
+              "flag_family_tech_note"
             ]
           },
           "confirmationText": "不写回信也许是最务实的选择，但家人会继续等待一封不会抵达的信。确定吗？"
@@ -2532,7 +2601,7 @@
               {
                 "type": "prepMin",
                 "key": "route",
-                "value": 2
+                "value": 1
               },
               {
                 "type": "prepMin",
@@ -2560,18 +2629,22 @@
                 "value": 6
               },
               {
-                "type": "statMin",
-                "key": "wellbeing",
-                "value": 3
+                "type": "reliableCountMin",
+                "value": 2
+              },
+              {
+                "type": "tendencyMin",
+                "key": "return",
+                "value": 2
               },
               {
                 "type": "notFlag",
-                "value": "took_restricted_materials"
+                "value": "flag_restricted_materials"
               }
             ]
           },
           "visibleWhenLocked": true,
-          "lockedHint": "需要确认的路线、票证、整理好的技术资料、可靠联系人和充足的知识与担当，且没有私自带走受限制资料。",
+          "lockedHint": "需要确认的路线、票证、整理好的技术资料、可靠联系人、充足的知识与担当、明确的归国倾向，且没有私自带受限资料。",
           "effects": {
             "addFlags": [
               "ending_electric_wave_prepared"
@@ -2594,11 +2667,25 @@
                 "type": "prepMin",
                 "key": "route",
                 "value": 1
+              },
+              {
+                "type": "prepMin",
+                "key": "contact",
+                "value": 1
+              },
+              {
+                "type": "tendencyMin",
+                "key": "return",
+                "value": 1
+              },
+              {
+                "type": "notFlag",
+                "value": "flag_restricted_materials"
               }
             ]
           },
           "visibleWhenLocked": true,
-          "lockedHint": "需要至少一位可靠同伴的帮助，以及基本路线信息。",
+          "lockedHint": "需要至少一位可靠同伴的帮助、基本路线信息、联系人，以及明确的归国倾向。私自带资料者无法获得同伴支持。",
           "effects": {
             "addFlags": [
               "ending_electric_wave_supported"
@@ -2651,7 +2738,7 @@
               {
                 "type": "statMin",
                 "key": "responsibility",
-                "value": 6
+                "value": 7
               },
               {
                 "type": "prepMin",
@@ -2661,11 +2748,30 @@
               {
                 "type": "reliableCountMin",
                 "value": 2
+              },
+              {
+                "type": "notFlag",
+                "value": "flag_restricted_materials"
+              }
+            ],
+            "any": [
+              {
+                "type": "tendencyMin",
+                "key": "stay",
+                "value": 1
+              },
+              {
+                "type": "flag",
+                "value": "flag_public_tech_value"
+              },
+              {
+                "type": "flag",
+                "value": "flag_accepted_long_term_research"
               }
             ]
           },
           "visibleWhenLocked": true,
-          "lockedHint": "需要足够的知识、担当、技术资料积累，以及至少两位可靠同伴的支持。",
+          "lockedHint": "需要足够的知识、担当、技术资料、两位可靠同伴，且至少满足以下任一：有留下倾向、支持民用技术、已接受长期研究邀请。私自带资料者无法选择此路径。",
           "effects": {
             "addFlags": [
               "ending_foreign_lamp_support"
@@ -2683,7 +2789,21 @@
               "ending_foreign_lamp_research"
             ]
           },
-          "confirmationText": "研究是你最熟悉的道路。把它完成，未来也许还有别的可能。确定吗？"
+          "confirmationText": "研究是你最熟悉的道路。把它完成，未来也许还有别的可能。确定吗？",
+          "conditions": {
+            "any": [
+              {
+                "type": "tendencyMin",
+                "key": "stay",
+                "value": 2
+              },
+              {
+                "type": "flag",
+                "value": "flag_accepted_long_term_research"
+              }
+            ]
+          },
+          "lockedHint": "需要明确的留下倾向或已接受长期研究邀请。"
         },
         {
           "id": "FINAL_STAY_DELAY",
@@ -3091,6 +3211,22 @@
         "speakerName": "",
         "textType": "narration",
         "text": "车站的钟声响起时，沈怀远没有立刻抬头。\n\n他想起初到苏联的雪夜，第一次听懂的信号，工厂里翻旧的检测记录，家书上反复停笔留下的墨痕。\n\n原来一个人走到选择面前，并不是忽然变得勇敢，而是许多细小的时刻早已把他推到了这里。"
+      },
+      "nextSceneId": "d8_readiness_report"
+    },
+    "d8_readiness_report": {
+      "id": "d8_readiness_report",
+      "name": "第八日·出发前准备报告",
+      "chapterId": "d8_1937_winter",
+      "template": "standardDialogue",
+      "background": "/assets/backgrounds/bg_day08_winter_station.webp",
+      "showTopStatusBar": true,
+      "showDialoguePanel": true,
+      "content": {
+        "speakerId": "narrator",
+        "speakerName": "",
+        "textType": "narration",
+        "text": "出发前，沈怀远重新清点了手中的东西：路线、票证、资料、联系人、还能信任的人。有些已经准备好，有些仍然空缺。这些空缺不会阻止他做选择，却会改变选择抵达的地方。"
       },
       "nextSceneId": "d8_k2_final"
     }
