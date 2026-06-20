@@ -479,7 +479,7 @@ export default function TitlePage() {
               letterSpacing: "0.2em",
               opacity: 0.82,
             }}>
-              风雪到来以前，他们仍在选择归途
+              风雪未至，归途已远
             </p>
 
             {/* ===== 档案面板 ===== */}
