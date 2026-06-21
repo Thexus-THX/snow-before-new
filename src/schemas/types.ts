@@ -318,6 +318,7 @@ export interface HistoryEntry {
   isCritical?: boolean;
   isLocked?: boolean;
   rollbackSnapshotId?: string; // 可回滚快照 ID
+  choiceId?: string; // 关联的选择定义 ID
   createdAt: number;
 }
 
