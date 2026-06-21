@@ -534,3 +534,1446 @@ textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-secondary);
 }
+
+/* ============================================================ */
+/* 移动端适配                                                      */
+/* ============================================================ */
+@media (pointer: coarse), (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #root { overflow: auto; overflow-x: hidden; }
+
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .game-viewport {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    background: #000;
+  }
+
+  /* StatusBar 裁切修复：覆盖 CSS 变量替代 72px→父容器裁切 */
+  .standard-dialogue-scene {
+    --top-status-height: 42px;
+  }
+
+  button { min-height: 44px; }
+  .hud-bar button { min-height: auto !important; }
+
+  /* 特殊场景壳 */
+  .special-scene-shell {
+    touch-action: manipulation;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ===== 特殊场景 document 卡片布局 ===== */
+  /* 所有特殊场景内容容器：强制移动端文档卡片 */
+  .chapter-intro-content,
+  .ending-content,
+  .historical-event-content,
+  .season-journal-content {
+    max-width: 90vw !important;
+    padding: 16px 14px !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  /* HistoricalEvent 内部报纸框架 */
+  .historical-event-content > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 20px 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* SeasonJournal 内部札记面板（桌面端专用，移动端走 JSX 分支） */
+
+  /* ===== SeasonJournal 移动端文档卡片 ===== */
+  .mobile-season-summary {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 85vh;
+  }
+
+  .mobile-season-summary-card {
+    width: min(88vw, 520px);
+    background: rgba(26, 22, 16, 0.94);
+    border: 1px solid rgba(74, 56, 40, 0.5);
+    border-radius: 3px;
+    padding: 20px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 8px 36px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+  }
+
+  .mobile-season-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(58, 40, 24, 0.4);
+    flex-wrap: wrap;
+  }
+
+  .mobile-season-stat {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile-season-stat-label {
+    font-size: 12px;
+    color: var(--color-text-dim);
+    letter-spacing: 1px;
+  }
+
+  .mobile-season-stat-value {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .mobile-season-body {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .mobile-season-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    white-space: pre-line;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    margin: 0;
+  }
+
+  .mobile-season-keepsakes {
+    border-top: 1px solid rgba(58, 40, 24, 0.3);
+    padding-top: 8px;
+  }
+
+  .mobile-season-keepsakes-title {
+    font-size: 12px;
+    color: var(--color-text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .mobile-season-keepsakes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-season-keepsakes-list li {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+    padding-left: 12px;
+    border-left: 2px solid var(--color-text-amber);
+  }
+
+  .mobile-season-next {
+    width: min(260px, 58vw);
+    min-height: 42px;
+    margin: 10px auto 0;
+    padding: 0 24px;
+    font-size: 15px;
+    font-family: var(--font-display), serif;
+    letter-spacing: 2px;
+    background: rgba(42, 34, 24, 0.8);
+    border: 1px solid rgba(90, 74, 58, 0.5);
+    border-radius: 2px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .mobile-season-next:active {
+    background: rgba(60, 48, 32, 0.9);
+  }
+
+  /* 信纸（桌面端专用，移动端走 JSX 分支） */
+  .letter-container {
+    /* 桌面端样式不受 mobile CSS 影响 */
+  }
+
+  /* ===== LetterScene 移动端 fullscreen overlay ===== */
+  .mobile-letter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(8px + env(safe-area-inset-top, 0px))
+             calc(12px + env(safe-area-inset-right, 0px))
+             calc(8px + env(safe-area-inset-bottom, 0px))
+             calc(12px + env(safe-area-inset-left, 0px));
+    box-sizing: border-box;
+    background: rgba(8, 6, 4, 0.78);
+    overflow: hidden;
+  }
+
+  .mobile-letter-card {
+    width: min(88vw, 640px);
+    max-height: calc(100dvh - 24px);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 18px 24px 14px;
+    background: rgba(210, 182, 138, 0.96);
+    border: 1px solid rgba(80, 48, 24, 0.45);
+    border-radius: 2px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    color: #2a1a0e;
+    font-family: var(--font-body), serif;
+  }
+
+  .mobile-letter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    flex-shrink: 0;
+    padding-bottom: 8px;
+  }
+
+  .mobile-letter-salutation {
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .mobile-letter-date {
+    opacity: 0.6;
+    letter-spacing: 1px;
+    font-size: 13px;
+  }
+
+  .mobile-letter-body {
+    flex: 1;
+    min-height: 0;
+    margin: 8px 0;
+    overflow-y: auto;
+    font-size: 15px;
+    line-height: 1.75;
+    white-space: pre-line;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 0 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-letter-postscript {
+    flex-shrink: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0.75;
+    border-top: 1px solid rgba(80, 48, 24, 0.2);
+    padding-top: 6px;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  .mobile-letter-signature {
+    flex-shrink: 0;
+    text-align: right;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+
+  .mobile-letter-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 42px;
+    border-top: 1px solid rgba(80, 48, 24, 0.2);
+    padding-top: 8px;
+  }
+
+  .mobile-letter-pagenum {
+    font-size: 13px;
+    opacity: 0.6;
+    letter-spacing: 1px;
+  }
+
+  .mobile-letter-button {
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 14px;
+    font-family: var(--font-body), serif;
+    background: rgba(58, 42, 26, 0.08);
+    border: 1px solid rgba(80, 48, 24, 0.35);
+    border-radius: 2px;
+    color: inherit;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.15s;
+  }
+
+  .mobile-letter-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .mobile-letter-button:active:not(:disabled) {
+    background: rgba(58, 42, 26, 0.18);
+  }
+
+  /* 特殊场景文本: 强制自动换行 + 移动端字号 */
+  .special-scene-shell p,
+  .special-scene-shell h1,
+  .special-scene-shell h2,
+  .special-scene-shell h3,
+  .special-scene-shell span,
+  .special-scene-shell div {
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .special-scene-shell p,
+  .special-scene-shell h1,
+  .special-scene-shell h2,
+  .special-scene-shell h3,
+  .special-scene-shell span {
+    white-space: normal !important;
+  }
+  /* 保留 pre-wrap 元素中的预设换行（札记正文、信纸正文） */
+  .special-scene-shell [style*="pre-wrap"] {
+    white-space: pre-wrap !important;
+  }
+
+  .historical-event-content p,
+  .season-journal-content p,
+  .chapter-intro-content p,
+  .ending-content p {
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+  }
+
+  .historical-event-content h2,
+  .chapter-intro-content h1,
+  .ending-content h1 {
+    font-size: 22px !important;
+    letter-spacing: 4px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* HistoricalEvent 图片 */
+  .historical-event-content img {
+    max-width: 100% !important;
+    max-height: 200px !important;
+  }
+
+  /* SeasonJournal 状态标签行 */
+  .season-journal-content [style*="flexWrap: wrap"] {
+    gap: 16px !important;
+  }
+
+  /* SpecialSceneShell "点击继续"提示上移 */
+  .special-scene-shell [style*="bottom: 48px"] {
+    bottom: 24px !important;
+  }
+
+  /* SeasonJournal "进入下一季"按钮 */
+  .season-journal-content button {
+    font-size: 16px !important;
+    padding: 10px 32px !important;
+    min-height: 44px !important;
+  }
+
+  /* ChapterIntro 内层背景说明段落宽度约束 */
+  .chapter-intro-content p[style*="maxWidth"] {
+    max-width: 100% !important;
+  }
+
+  /* ===== FreeLayoutScene 移动端文档卡片 ===== */
+  /* 创作说明、时间说明/两度春夏秋冬、旅程回顾、致谢 */
+  .mobile-free-layout-card {
+    width: 88vw;
+    max-width: 520px;
+    background: rgba(22, 16, 10, 0.85);
+    border: 1px solid rgba(176, 132, 72, 0.35);
+    border-radius: 3px;
+    padding: 32px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 85vh;
+  }
+
+  .mobile-free-layout-title {
+    font-family: var(--font-display), serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    line-height: 1.35;
+    text-align: center;
+    margin: 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mobile-free-layout-separator {
+    width: 140px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+
+  .mobile-free-layout-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mobile-free-layout-text {
+    font-family: var(--font-body), serif;
+    font-size: 16px;
+    line-height: 1.75;
+    text-align: center;
+    margin: 0;
+    white-space: pre-line;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mobile-free-layout-image {
+    max-width: 100%;
+    max-height: 160px;
+    object-fit: contain;
+    border-radius: 2px;
+    display: block;
+  }
+
+  /* Fallback 路径 */
+  .free-layout-fallback {
+    max-width: 86vw !important;
+    padding: 16px 14px !important;
+    box-sizing: border-box !important;
+  }
+  .free-layout-fallback h1 {
+    font-size: 22px !important;
+    letter-spacing: 4px !important;
+  }
+  .free-layout-fallback p {
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* 弹窗 */
+  [style*="position: fixed"] > [style*="borderRadius"],
+  [style*="z-index: 100"] > div:not([onclick]) {
+    max-width: 90vw !important;
+    max-height: 80dvh !important;
+    overflow-y: auto;
+  }
+
+  /* 历史面板 */
+  [class*="history"] {
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+  }
+
+  /* 主/次按钮 */
+  .primaryButton, .secondaryButton {
+    width: 260px !important;
+    height: 52px !important;
+    font-size: 18px !important;
+    letter-spacing: 6px !important;
+  }
+
+  .titlepage-blur-bg { opacity: 0.35 !important; filter: blur(10px) !important; }
+
+  /* 安全区 */
+  .safe-pad-top    { padding-top: env(safe-area-inset-top, 0px); }
+  .safe-pad-bottom { padding-bottom: env(safe-area-inset-bottom, 16px); }
+  .safe-pad-left   { padding-left: env(safe-area-inset-left, 0px); }
+  .safe-pad-right  { padding-right: env(safe-area-inset-right, 0px); }
+
+  /* 标题页/设置页/弹窗面板缩小 */
+  [data-mobile="1"] [style*="width: 410px"],
+  [data-mobile="1"] [style*="width: 400px"],
+  [data-mobile="1"] [style*="width: 420px"],
+  [data-mobile="1"] [style*="width: 380px"] { width: 88vw !important; max-width: 360px !important; padding: 20px 18px !important; }
+  [data-mobile="1"] [style*="width: 700px"],
+  [data-mobile="1"] [style*="width: 680px"],
+  [data-mobile="1"] [style*="width: 620px"] { width: 92vw !important; max-width: 520px !important; padding: 24px 18px !important; }
+  [data-mobile="1"] h1 { font-size: 36px !important; letter-spacing: 10px !important; }
+  [data-mobile="1"] [style*="fontSize: 20px"] { font-size: 15px !important; letter-spacing: 0.12em !important; }
+
+  /* ===== 场景区 ===== */
+  .scene-area {
+    height: auto !important;
+    min-height: 180px;
+    flex: 1 1 auto !important;
+  }
+
+  .standard-dialogue-scene {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100dvh;
+  }
+  .standard-dialogue-scene .mobile-scene-area {
+    flex: 1;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .standard-dialogue-scene .mobile-scene-area .scene-area {
+    flex: 1 !important;
+    min-height: 0;
+  }
+  .standard-dialogue-scene .mobile-dialogue-area {
+    flex-shrink: 0;
+    max-height: 55vh;
+  }
+
+  /* ===== 对话框 ===== */
+  .dialoguePanel {
+    width: 100% !important; height: auto !important;
+    min-height: 110px; padding: 12px 16px 16px;
+    position: relative !important;
+    left: auto !important; bottom: auto !important;
+  }
+  .dialoguePanel__name {
+    left: 16px !important; top: 8px !important;
+    font-size: 16px !important; height: 28px !important; padding: 0 10px !important;
+  }
+  .dialoguePanel__text {
+    left: 16px !important; right: 16px !important;
+    top: 40px !important; bottom: auto !important;
+    min-height: 48px; font-size: 16px !important;
+    line-height: 1.45 !important; position: relative !important; padding-bottom: 6px;
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-y: auto;
+  }
+  .dialoguePanel__hint {
+    right: 16px !important; bottom: 4px !important; font-size: 11px !important;
+  }
+
+  /* ===== 选择面板 ===== */
+  .choicePanel {
+    width: 100% !important; height: auto !important;
+    min-height: 100px; padding: 8px 14px !important; gap: 6px !important;
+    position: relative !important;
+    left: auto !important; bottom: auto !important;
+  }
+
+  /* 关键选择确认提示 */
+  .choice-confirm-panel {
+    width: min(86vw, 720px) !important;
+    max-height: 34dvh;
+    margin: 0 auto;
+    padding: 10px 18px 8px !important;
+    box-sizing: border-box !important;
+    overflow: hidden;
+  }
+  .choice-confirm-text {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    max-width: 100% !important;
+    margin: 0 0 10px !important;
+  }
+  .choice-confirm-actions {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important;
+    flex-wrap: nowrap !important;
+  }
+  .choice-confirm-button {
+    min-height: 44px !important;
+    width: 150px !important;
+    padding: 0 16px !important;
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+  }
+  .choiceButton {
+    height: 44px !important; padding: 0 14px !important; font-size: 16px !important;
+  }
+  .choiceButton::before { left: 8px !important; }
+
+  /* hover→active */
+  .choiceButton:hover:not(:disabled) { background: inherit; border-color: inherit; }
+  .choiceButton:active:not(:disabled) {
+    background: linear-gradient(180deg, rgba(65, 52, 34, 0.96), rgba(45, 36, 24, 0.96)) !important;
+    border-color: rgba(200, 165, 80, 0.7) !important;
+  }
+  .primaryButton:hover:not(:disabled) { filter: none; }
+  .primaryButton:active:not(:disabled) { filter: brightness(1.12); }
+  .secondaryButton:hover:not(:disabled) { filter: none; }
+  .secondaryButton:active:not(:disabled) { filter: brightness(1.15); }
+
+  .mobile-dialogue-area {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* ===== 结局图鉴页面 ===== */
+  .gallery-page {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-y: auto !important;
+    padding-top: 20px !important;
+    padding-bottom: 30px !important;
+  }
+  .gallery-page h1 {
+    font-size: 26px !important;
+    letter-spacing: 6px !important;
+    margin-bottom: 6px !important;
+  }
+  .gallery-page > p:first-of-type {
+    font-size: 12px !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 16px !important;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 8px 12px !important;
+    max-width: 100vw !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+  .gallery-card {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4/3;
+    min-height: 150px;
+  }
+
+  /* 图鉴详情弹窗 */
+  .gallery-detail-overlay {
+    align-items: flex-start !important;
+    padding: 8px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gallery-detail-panel {
+    width: 95vw !important;
+    max-width: 520px !important;
+    max-height: none !important;
+    padding: 16px 12px !important;
+    gap: 12px !important;
+    margin: 6px auto !important;
+  }
+  .gallery-detail-body {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .gallery-detail-image {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-height: 180px !important;
+  }
+  .gallery-detail-image img {
+    min-height: 180px !important;
+  }
+  .gallery-detail-text {
+    min-width: auto !important;
+  }
+  .gallery-detail-text p {
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+  }
+  .gallery-detail-panel h3 {
+    font-size: 14px !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 10px !important;
+  }
+  .gallery-timeline [style*="width: 200px"] {
+    width: 160px !important;
+  }
+
+  /* 详情弹窗关闭按钮 */
+  .gallery-detail-panel button {
+    width: 32px !important;
+    height: 32px !important;
+    min-height: auto !important;
+    font-size: 18px !important;
+    top: 8px !important;
+    right: 8px !important;
+  }
+
+  /* 设置页操作按钮自适应 */
+  [data-mobile="1"] .settings-actions {
+    flex-wrap: wrap;
+  }
+  [data-mobile="1"] .settings-actions > button {
+    flex: 1;
+    min-width: 130px;
+    width: auto !important;
+    height: 48px !important;
+    font-size: 15px !important;
+  }
+
+  /* ===== 全局移动端文本防横向溢出 ===== */
+  .game-viewport * {
+    max-width: 100vw;
+  }
+  .game-viewport img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* ========================================= */
+  /* 横屏专用                                   */
+  /* ========================================= */
+  @media (orientation: landscape) {
+    .standard-dialogue-scene {
+      --top-status-height: 42px;
+    }
+    .hud-bar {
+      position: relative !important;
+      flex-shrink: 0;
+      z-index: 1 !important;
+      order: -1;
+    }
+    .hud-bar button {
+      min-height: 40px !important;
+    }
+    .standard-dialogue-scene .mobile-scene-area {
+      flex: 1 1 0; min-height: 0;
+    }
+    .standard-dialogue-scene .mobile-dialogue-area {
+      flex-shrink: 0; max-height: 46vh;
+    }
+    .scene-area {
+      height: auto !important; min-height: 0 !important;
+      flex: 1 1 0 !important;
+    }
+    .dialoguePanel {
+      min-height: 90px; padding: 8px 14px 12px;
+    }
+    .dialoguePanel__name {
+      font-size: 14px !important; top: 6px !important; height: 22px !important;
+    }
+    .dialoguePanel__text {
+      font-size: 15px !important; top: 30px !important; min-height: 36px;
+    }
+    .choicePanel {
+      min-height: 80px; padding: 6px 12px !important; gap: 6px !important;
+    }
+    .choiceButton {
+      height: 44px !important; font-size: 15px !important;
+    }
+    /* 横屏图鉴 */
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+    .gallery-detail-body {
+      flex-direction: row !important;
+    }
+    .gallery-detail-image {
+      flex: 0 0 280px !important;
+      width: 280px !important;
+    }
+    .gallery-detail-panel {
+      max-width: 90vw !important;
+    }
+    /* 横屏文档卡片稍宽 */
+    .chapter-intro-content,
+    .ending-content,
+    .historical-event-content,
+    .season-journal-content {
+      max-width: 80vw !important;
+    }
+    /* 横屏家书卡片稍宽 */
+    .mobile-letter-card {
+      width: min(80vw, 640px);
+    }
+    /* 横屏 FreeLayout 卡片稍宽 */
+    .mobile-free-layout-card {
+      max-width: 600px;
+    }
+    /* 横屏 SettingsPage 面板 */
+    .settings-panel {
+      max-height: calc(100dvh - 32px);
+    }
+  }
+
+  /* 矮屏横屏 SettingsPage (≤560px) */
+  @media (orientation: landscape) and (max-height: 560px) {
+    .settings-page {
+      padding: 8px 16px;
+    }
+    .settings-panel {
+      width: min(88vw, 720px) !important;
+      max-height: calc(100dvh - 16px);
+      padding: 14px 18px 10px !important;
+    }
+    .settings-header h1 {
+      font-size: 20px !important;
+      margin-bottom: 6px !important;
+    }
+    .settings-content {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .settings-actions {
+      padding-top: 8px;
+      gap: 12px;
+    }
+    .settings-actions button {
+      min-height: 40px;
+      padding: 0 20px;
+      font-size: 14px;
+    }
+  }
+
+  /* 移动端紧凑 SettingsPage */
+  @media (pointer: coarse) and (orientation: landscape) and (max-height: 430px) {
+    .settings-panel {
+      width: 90vw !important;
+      max-height: calc(100dvh - 12px);
+      padding: 10px 14px 8px !important;
+    }
+    .settings-header h1 {
+      font-size: 18px !important;
+      margin-bottom: 4px !important;
+    }
+    .settings-content {
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .settings-actions button {
+      min-height: 40px;
+      font-size: 14px;
+    }
+  }
+
+  /* ========================================= */
+  /* 中横屏 (371–440px): 844×390, 915×412, 932×430 */
+  /* ========================================= */
+  @media (orientation: landscape) and (max-height: 440px) and (min-height: 371px) {
+    .standard-dialogue-scene {
+      --top-status-height: 40px;
+    }
+    .hud-bar button { min-height: 40px !important; }
+    .hud-bar span, .hud-bar button { font-size: 12px !important; }
+    .standard-dialogue-scene .mobile-dialogue-area { max-height: 44vh; }
+    .dialoguePanel {
+      min-height: 84px; padding: 6px 12px 10px;
+    }
+    .dialoguePanel__name {
+      font-size: 13px !important; top: 5px !important; height: 20px !important; padding: 0 8px !important;
+    }
+    .dialoguePanel__text {
+      font-size: 15px !important; top: 28px !important; min-height: 34px;
+    }
+    .choicePanel {
+      min-height: 72px; padding: 6px 10px !important; gap: 6px !important;
+    }
+    .choiceButton {
+      height: 44px !important; font-size: 14px !important;
+    }
+    /* 中横屏图鉴 */
+    .gallery-page h1 { font-size: 22px !important; letter-spacing: 4px !important; }
+    .gallery-grid {
+      gap: 10px !important; padding: 8px 12px !important;
+    }
+    .gallery-card { min-height: 140px; }
+    .gallery-detail-image { flex: 0 0 260px !important; width: 260px !important; }
+    .gallery-detail-image img { min-height: 160px !important; }
+    /* 中横屏文档卡片 */
+    .chapter-intro-content,
+    .ending-content,
+    .historical-event-content,
+    .season-journal-content {
+      max-width: 82vw !important;
+    }
+    .historical-event-content > div,
+    .season-journal-content > div {
+      padding: 18px 14px !important;
+    }
+  }
+
+  /* ========================================= */
+  /* 紧凑横屏 (高度 ≤ 370px): 740×360, 800×360   */
+  /* ========================================= */
+  @media (orientation: landscape) and (max-height: 370px) {
+    .standard-dialogue-scene {
+      --top-status-height: 40px;
+    }
+    .hud-bar span { font-size: 12px !important; }
+    .hud-bar button { font-size: 12px !important; min-height: 40px !important; }
+    .standard-dialogue-scene .mobile-dialogue-area { max-height: 42vh; }
+    .dialoguePanel {
+      min-height: 78px; padding: 5px 10px 8px;
+    }
+    .dialoguePanel__name {
+      font-size: 13px !important; top: 4px !important; height: 18px !important; padding: 0 6px !important;
+    }
+    .dialoguePanel__text {
+      font-size: 15px !important; top: 26px !important; min-height: 30px;
+    }
+    .choicePanel {
+      min-height: 68px; padding: 4px 10px !important; gap: 4px !important;
+    }
+    .choiceButton {
+      height: 44px !important; font-size: 14px !important; padding: 0 12px !important;
+    }
+    /* 紧凑横屏图鉴 */
+    .gallery-page h1 { font-size: 20px !important; letter-spacing: 4px !important; margin-bottom: 2px !important; }
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 8px !important;
+      padding: 6px 10px !important;
+    }
+    .gallery-card { min-height: 120px; }
+    .gallery-detail-image { flex: 0 0 220px !important; width: 220px !important; }
+    .gallery-detail-image img { min-height: 140px !important; }
+    .gallery-detail-text p { font-size: 12px !important; line-height: 1.5 !important; }
+    /* 紧凑横屏文档卡片 */
+    .chapter-intro-content,
+    .ending-content,
+    .historical-event-content,
+    .season-journal-content {
+      max-width: 86vw !important;
+      padding: 12px 10px !important;
+    }
+    .historical-event-content > div,
+    .season-journal-content > div {
+      padding: 14px 10px !important;
+    }
+    .historical-event-content p,
+    .season-journal-content p,
+    .chapter-intro-content p,
+    .ending-content p {
+      font-size: 14px !important;
+      line-height: 1.6 !important;
+    }
+    .historical-event-content h2,
+    .chapter-intro-content h1,
+    .ending-content h1 {
+      font-size: 18px !important;
+      letter-spacing: 3px !important;
+    }
+    /* 紧凑横屏家书 */
+    .mobile-letter-card {
+      width: 92vw;
+      max-height: calc(100dvh - 12px);
+      padding: 12px 18px 10px;
+    }
+    .mobile-letter-header {
+      font-size: 13px;
+    }
+    .mobile-letter-body {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 6px 0;
+    }
+    .mobile-letter-signature {
+      font-size: 14px;
+    }
+    .mobile-letter-footer {
+      min-height: 38px;
+      gap: 10px;
+    }
+    .mobile-letter-button {
+      min-height: 36px;
+      padding: 0 14px;
+      font-size: 13px;
+    }
+    /* 紧凑确认提示 */
+    .choice-confirm-panel {
+      width: 90vw !important;
+      max-height: 36dvh;
+      padding: 8px 14px 6px !important;
+    }
+    .choice-confirm-text {
+      font-size: 14px !important;
+      line-height: 1.45 !important;
+      margin-bottom: 8px !important;
+    }
+    .choice-confirm-actions {
+      gap: 14px !important;
+    }
+    .choice-confirm-button {
+      min-height: 40px !important;
+      width: 132px !important;
+      font-size: 14px !important;
+      padding: 0 12px !important;
+    }
+    /* 紧凑 FreeLayout */
+    .mobile-free-layout-card {
+      max-width: 88vw;
+      padding: 20px 14px 18px;
+      gap: 10px;
+    }
+    /* 紧凑 season summary */
+    .mobile-season-summary-card {
+      width: 90vw;
+      padding: 14px 12px 12px;
+      gap: 8px;
+    }
+    .mobile-season-stats {
+      gap: 14px;
+    }
+    .mobile-season-stat-value {
+      font-size: 14px;
+    }
+    .mobile-season-text {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .mobile-season-next {
+      width: min(230px, 56vw);
+      min-height: 40px;
+      margin-top: 8px;
+      font-size: 14px;
+      padding: 0 20px;
+    }
+    .mobile-free-layout-title {
+      font-size: 20px;
+      letter-spacing: 3px;
+    }
+    .mobile-free-layout-text {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .mobile-free-layout-body {
+      gap: 8px;
+    }
+  }
+
+  /* ========================================= */
+  /* 竖屏（由 MobileLandscapeHint 接管）        */
+  /* ========================================= */
+  @media (orientation: portrait) {
+    .standard-dialogue-scene .mobile-scene-area {
+      height: 38vh; min-height: 160px; flex-shrink: 0;
+    }
+    .standard-dialogue-scene .mobile-dialogue-area {
+      flex: 1; overflow-y: auto;
+    }
+    .hud-bar { display: none !important; }
+    .scene-area {
+      height: 100% !important; min-height: 160px !important;
+    }
+    .dialoguePanel { min-height: 110px; padding: 12px 16px 16px; }
+    .dialoguePanel__text { font-size: 17px !important; min-height: 50px; }
+    /* 竖屏图鉴 */
+    .gallery-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+      padding: 8px 16px !important;
+    }
+    .gallery-card {
+      aspect-ratio: 16/9;
+      min-height: 180px;
+    }
+    .gallery-detail-body {
+      flex-direction: column !important;
+    }
+    .gallery-detail-image {
+      flex: 0 0 auto !important;
+      width: 100% !important;
+    }
+    .gallery-detail-panel {
+      max-width: 95vw !important;
+      padding: 14px 10px !important;
+    }
+  }
+}
+
+/* ============================================================ */
+/* SettingsPage 面板结构（全局，独立于 mobile MQ）               */
+/* ============================================================ */
+.settings-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.settings-header {
+  flex-shrink: 0;
+}
+
+.settings-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.settings-actions {
+  flex-shrink: 0;
+}
+
+/* 矮屏横屏 SettingsPage (≤560px) — 两列紧凑布局 */
+@media (orientation: landscape) and (max-height: 560px) {
+  .settings-page {
+    width: 100vw !important;
+    height: 100dvh !important;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    box-sizing: border-box;
+  }
+  .settings-panel {
+    width: min(88vw, 760px) !important;
+    height: calc(100dvh - 16px);
+    max-height: calc(100dvh - 16px);
+    padding: 12px 18px 10px !important;
+    overflow: hidden;
+  }
+  .settings-header h1 {
+    font-size: 20px !important;
+    line-height: 1.1;
+    margin: 0 0 6px !important;
+    letter-spacing: 4px !important;
+  }
+  .settings-content {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2px 14px;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  /* 压缩 slider 行高度 */
+  .settings-content [style*="height: 46"] {
+    height: 28px !important;
+    gap: 8px !important;
+  }
+  .settings-content [style*="height: 28"] {
+    height: 18px !important;
+  }
+  .settings-content [style*="fontSize: 18"] {
+    font-size: 12px !important;
+  }
+  .settings-content [style*="fontSize: 15"] {
+    font-size: 11px !important;
+  }
+  /* 压缩 section title */
+  .settings-content [style*="fontSize: 17"] {
+    font-size: 13px !important;
+    margin-bottom: 2px !important;
+    margin-top: 2px !important;
+  }
+  /* 隐藏分割线装饰 */
+  .settings-content [style*="height: 1"] {
+    margin: 0 !important;
+    opacity: 0.2;
+  }
+  /* 文字速度按钮压缩 */
+  .settings-content button[style*="padding: 9px 20px"] {
+    padding: 5px 14px !important;
+    font-size: 13px !important;
+  }
+  .settings-actions {
+    padding-top: 6px;
+    gap: 12px;
+  }
+  .settings-actions button {
+    min-height: 38px;
+    padding: 0 22px;
+    font-size: 14px;
+  }
+}
+
+/* 紧凑横屏 SettingsPage (JSX 独立分支，兼容 Playwright 非触屏测试) */
+@media (orientation: landscape) and (max-height: 430px) {
+  .settings-page--compact {
+    width: 100vw !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    box-sizing: border-box;
+  }
+
+  .settings-panel--compact {
+    width: min(92vw, 760px);
+    height: calc(100dvh - 12px);
+    max-height: calc(100dvh - 12px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 8px 12px;
+    box-sizing: border-box;
+  }
+
+  .settings-panel--compact .settings-header {
+    flex-shrink: 0;
+  }
+
+  .settings-panel--compact .settings-header h1 {
+    font-size: 17px;
+    line-height: 1.1;
+    margin: 0 0 5px;
+  }
+
+  .settings-compact-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .settings-compact-column {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+  }
+
+  .settings-compact-title {
+    font-size: 12px;
+    line-height: 1.15;
+    opacity: 0.72;
+    margin-bottom: 2px;
+  }
+
+  .settings-compact-row {
+    min-height: 24px;
+    display: grid;
+    grid-template-columns: 52px 1fr 34px;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    line-height: 1.15;
+  }
+
+  .settings-compact-row input[type="range"] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .settings-compact-value {
+    font-size: 11px;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .settings-compact-inline {
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .settings-compact-speed {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .settings-compact-speed button {
+    min-height: 28px;
+    padding: 0 9px;
+    font-size: 12px;
+  }
+
+  .settings-panel--compact .settings-actions {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 6px;
+  }
+
+  .settings-panel--compact .settings-actions button {
+    min-height: 34px;
+    padding: 0 18px;
+    font-size: 13px;
+  }
+}
+
+/* ============================================================ */
+/* TitlePage 移动端横屏（独立于 pointer:coarse MQ，兼容 Playwright） */
+/* ============================================================ */
+
+/* 横屏 ≤560px：初步适配 */
+@media (orientation: landscape) and (max-height: 560px) {
+  .title-page {
+    overflow: hidden !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  /* 隐藏粒子 canvas（避免 1920×1080 导致溢出滚动） */
+  .title-page > canvas {
+    display: none !important;
+  }
+
+  .title-page h1 {
+    font-size: 30px !important;
+    letter-spacing: 10px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .title-page h1 + p {
+    font-size: 14px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .title-menu-panel {
+    width: min(42vw, 360px) !important;
+    padding: 16px 18px 14px !important;
+  }
+
+  .title-menu {
+    gap: 8px !important;
+  }
+
+  .title-menu button {
+    width: 100% !important;
+    height: 38px !important;
+    font-size: 14px !important;
+  }
+
+  .title-version-text {
+    bottom: 6px !important;
+    font-size: 10px !important;
+  }
+
+}
+
+/* 横屏 ≤430px：932×430 */
+@media (orientation: landscape) and (max-height: 430px) {
+  .title-page h1 {
+    font-size: 26px !important;
+    letter-spacing: 8px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .title-page h1 + p {
+    font-size: 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .title-menu-panel {
+    width: min(36vw, 320px) !important;
+    padding: 12px 14px 10px !important;
+  }
+
+  .title-menu {
+    gap: 6px !important;
+  }
+
+  .title-menu button {
+    height: 34px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* 横屏 ≤370px：740×360 紧凑 */
+@media (orientation: landscape) and (max-height: 370px) {
+  .title-page h1 {
+    font-size: 22px !important;
+    letter-spacing: 6px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .title-page h1 + p {
+    font-size: 11px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .title-menu-panel {
+    width: min(38vw, 280px) !important;
+    padding: 10px 12px 8px !important;
+  }
+
+  .title-menu {
+    gap: 5px !important;
+  }
+
+  .title-menu button {
+    height: 30px !important;
+    font-size: 12px !important;
+  }
+
+  .title-version-text {
+    bottom: 3px !important;
+    font-size: 9px !important;
+  }
+}
+
+/* ============================================================ */
+/* TitlePage body class：标题页全局禁用滚动                      */
+/* ============================================================ */
+body.body--title-page,
+body.body--title-page #root,
+body.body--title-page .game-viewport {
+  overflow: hidden !important;
+}
+

@@ -20,6 +20,7 @@ export default function SceneArea({ scene, onClick, clickable }: SceneAreaProps)
 
   return (
     <div
+      className="scene-area"
       onClick={clickable ? onClick : undefined}
       style={{
         width: "100%",

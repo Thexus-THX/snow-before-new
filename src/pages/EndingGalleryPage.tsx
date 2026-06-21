@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
+import MobileLandscapeHint from "@/components/common/MobileLandscapeHint";
 import { useGameStore } from "@/app/stores/gameStore";
 import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
 
@@ -34,8 +35,11 @@ export default function EndingGalleryPage() {
     : null;
 
   return (
-    <GameViewport>
+    <>
+      <MobileLandscapeHint />
+      <GameViewport>
       <div
+        className="gallery-page"
         style={{
           width: 1920,
           height: 1080,
@@ -95,6 +99,7 @@ export default function EndingGalleryPage() {
 
         {/* 结局网格 - 档案册卡片风格 */}
         <div
+          className="gallery-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
@@ -114,6 +119,7 @@ export default function EndingGalleryPage() {
             return (
               <div
                 key={ending.id}
+                className="gallery-card"
                 onClick={() =>
                   unlocked
                     ? setSelectedEndingId(isSelected ? null : ending.id)
@@ -290,6 +296,7 @@ export default function EndingGalleryPage() {
         {/* ===== 全屏详情弹窗：点击背景后放大展示 ===== */}
         {selectedEnding && unlockRecord && (
           <div
+            className="gallery-detail-overlay"
             onClick={() => setSelectedEndingId(null)}
             style={{
               position: "fixed",
@@ -303,6 +310,7 @@ export default function EndingGalleryPage() {
             }}
           >
             <div
+              className="gallery-detail-panel"
               onClick={(e) => e.stopPropagation()}
               style={{
                 width: 1400,
@@ -346,6 +354,7 @@ export default function EndingGalleryPage() {
 
               {/* 上半部分：放大背景 + 标题 + 描述 */}
               <div
+                className="gallery-detail-body"
                 style={{
                   display: "flex",
                   gap: 32,
@@ -354,6 +363,7 @@ export default function EndingGalleryPage() {
               >
                 {/* 放大后的结局背景图 */}
                 <div
+                  className="gallery-detail-image"
                   style={{
                     flex: "0 0 600",
                     borderRadius: 3,
@@ -411,6 +421,7 @@ export default function EndingGalleryPage() {
 
                 {/* 右侧：结局描述 */}
                 <div
+                  className="gallery-detail-text"
                   style={{
                     flex: 1,
                     display: "flex",
@@ -467,7 +478,7 @@ export default function EndingGalleryPage() {
               />
 
               {/* 下半部分：横向故事线 —— 关键转折点 */}
-              <div>
+              <div className="gallery-timeline">
                 <h3
                   style={{
                     fontSize: 16,
@@ -661,6 +672,7 @@ export default function EndingGalleryPage() {
           雪落之前 · 结局图鉴
         </p>
       </div>
-    </GameViewport>
+      </GameViewport>
+    </>
   );
 }

@@ -6,26 +6,32 @@ import { audioManager } from "@/audio/AudioManager";
 /**
  * LetterScene — 家书阅读场景
  *
- * 数据来源：scene.content.letter
- * - date / salutation / pages (1-3) / postscript / signature
- * - paperAsset / historyPlainText
- *
- * 要求：
- * - 信纸居中显示，1-3 页翻页
- * - 进入新信件时页码重置为 0
- * - 前一页/后一页按钮不触发场景推进
- * - 最后一页才显示"收起信件"按钮
- * - 不使用滚动条，正文固定安全边距
- * - 日期、称呼、正文、附言、署名分区
- * - 页码显示 1 / N
+ * 桌面端：SpecialSceneShell + 信纸背景图居中显示
+ * 移动端：全屏 overlay + 文档卡片流式布局
  */
 export default function LetterScene(props: LetterSceneProps) {
   const { scene, onAdvance } = props;
   const letter = scene.content?.letter;
 
-  // 页码（从 0 开始）
   const [currentPage, setCurrentPage] = useState(0);
   const openedRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 移动端检测
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth <= 768;
+      const coarse = typeof matchMedia === "function" && matchMedia("(pointer: coarse)").matches;
+      setIsMobile(mobile || coarse);
+    };
+    check();
+    window.addEventListener("resize", check);
+    window.addEventListener("orientationchange", check);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("orientationchange", check);
+    };
+  }, []);
 
   // 进入新信件时页码重置 + 播放拆信 SFX
   useEffect(() => {
@@ -74,6 +80,79 @@ export default function LetterScene(props: LetterSceneProps) {
   const isLastPage = currentPage === totalPages - 1;
   const pageText = letter.pages[currentPage];
 
+  // ===== 移动端：全屏 overlay + 文档卡片 =====
+  if (isMobile) {
+    return (
+      <div className="mobile-letter-overlay">
+        <div className="mobile-letter-card">
+          {/* 头部：称呼 + 日期 */}
+          <div className="mobile-letter-header">
+            {letter.salutation && (
+              <span className="mobile-letter-salutation">{letter.salutation}</span>
+            )}
+            {letter.date && (
+              <span className="mobile-letter-date">{letter.date}</span>
+            )}
+          </div>
+
+          {/* 正文区域 */}
+          <div className="mobile-letter-body">
+            {pageText}
+          </div>
+
+          {/* 附言（仅最后一页） */}
+          {isLastPage && letter.postscript && (
+            <div className="mobile-letter-postscript">
+              {letter.postscript}
+            </div>
+          )}
+
+          {/* 署名（仅最后一页） */}
+          {isLastPage && letter.signature && (
+            <div className="mobile-letter-signature">
+              {letter.signature}
+            </div>
+          )}
+
+          {/* 底部翻页 */}
+          <div className="mobile-letter-footer">
+            <button
+              className="mobile-letter-button"
+              onClick={(e) => { e.stopPropagation(); goPrev(); }}
+              disabled={currentPage === 0}
+            >
+              ← 前页
+            </button>
+
+            <span className="mobile-letter-pagenum">
+              {currentPage + 1} / {totalPages}
+            </span>
+
+            {isLastPage ? (
+              <button
+                className="mobile-letter-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  scene.nextSceneId && onAdvance(scene.nextSceneId);
+                }}
+              >
+                收起信件
+              </button>
+            ) : (
+              <button
+                className="mobile-letter-button"
+                onClick={(e) => { e.stopPropagation(); goNext(); }}
+              >
+                后页 →
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ===== 桌面端：保持原有信纸布局 =====
   return (
     <SpecialSceneShell
       scene={scene}
@@ -95,7 +174,6 @@ export default function LetterScene(props: LetterSceneProps) {
         color: "#3a2a1a",
         fontFamily: "var(--font-body)",
       }}>
-        {/* 日期 */}
         {letter.date && (
           <div style={{
             fontSize: "var(--font-size-status)",
@@ -108,7 +186,6 @@ export default function LetterScene(props: LetterSceneProps) {
           </div>
         )}
 
-        {/* 称呼 */}
         {letter.salutation && (
           <div style={{
             fontSize: "var(--font-size-dialogue)",
@@ -120,7 +197,6 @@ export default function LetterScene(props: LetterSceneProps) {
           </div>
         )}
 
-        {/* 正文 */}
         <div style={{
           flex: 1,
           fontSize: "var(--font-size-dialogue)",
@@ -133,7 +209,6 @@ export default function LetterScene(props: LetterSceneProps) {
           {pageText}
         </div>
 
-        {/* 附言（仅最后一页） */}
         {isLastPage && letter.postscript && (
           <div style={{
             fontSize: "var(--font-size-status)",
@@ -147,7 +222,6 @@ export default function LetterScene(props: LetterSceneProps) {
           </div>
         )}
 
-        {/* 署名（仅最后一页） */}
         {isLastPage && letter.signature && (
           <div style={{
             fontSize: "var(--font-size-dialogue)",
@@ -160,7 +234,6 @@ export default function LetterScene(props: LetterSceneProps) {
           </div>
         )}
 
-        {/* 底部翻页区域 */}
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -170,7 +243,6 @@ export default function LetterScene(props: LetterSceneProps) {
           paddingTop: "var(--space-md)",
           borderTop: "1px solid #c8b898",
         }}>
-          {/* 前一页按钮 */}
           <button
             onClick={(e) => { e.stopPropagation(); goPrev(); }}
             disabled={currentPage === 0}
@@ -189,7 +261,6 @@ export default function LetterScene(props: LetterSceneProps) {
             ← 前页
           </button>
 
-          {/* 页码 */}
           <span style={{
             fontSize: "var(--font-size-status)",
             color: "#5a4a3a",
@@ -198,7 +269,6 @@ export default function LetterScene(props: LetterSceneProps) {
             {currentPage + 1} / {totalPages}
           </span>
 
-          {/* 后一页 / 收起信件按钮 */}
           {isLastPage ? (
             <button
               onClick={(e) => {

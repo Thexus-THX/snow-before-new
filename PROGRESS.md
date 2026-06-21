@@ -1,6 +1,6 @@
 # 《雪落之前》V1 开发进度
 
-> 最后更新：2026-06-21（P5A-Day0 序章扩写与美术接入）
+> 最后更新：2026-06-22（P3E 移动端横屏布局专项修复）
 
 ---
 
@@ -784,7 +784,36 @@
 - 陈绍衡立绘文件名修正（`char_chen_tense.png` → `char_chen_shaoheng_tense.png`）
 - tsc ✅ | 17/17 文件 177/177 测试 ✅
 
-### ✅ 部署前清理与精简（2026-06-20）
+### ✅ P3E 移动端横屏布局专项修复（2026-06-22）
+
+#### SettingsPage 紧凑横屏独立 JSX 分支
+- **根本问题**：旧方案用 `[style*="height: 50"]` 等脆弱 CSS 属性选择器硬压，932×430 仍溢出 39px 裁切
+- **修复**：
+  - `isCompactLandscape` 检测（landscape + h≤430）→ 独立 JSX 分支
+  - 真正左右列 DOM：左列 4 个音频 slider，右列语音/静音/文字速度
+  - 删除 15 个 `[style*=]` 脆弱选择器，替换为 `.settings-compact-*` 清洁 CSS
+  - 桌面路径 SliderRow 50→46, padding 48→40, gap/margin 微调消除 1110×519 溢出
+- 验收：1110×519 / 932×430 / 740×360 全部 `scrollHeight ≤ clientHeight`，零裁切零滚动
+
+#### TitlePage 移动端横屏适配
+- **根本问题**：`background-size: 100% 100%` 拉伸变形、1920×1080 canvas 导致滚动条、74px 标题过大
+- **修复**：
+  - 添加 `.title-page` / `.title-menu-panel` / `.title-menu` 等 className
+  - 背景 `100% 100%` → `cover`（保持比例，轻微裁切边缘）
+  - canvas 粒子效果在 ≤560px 横屏隐藏（避免 1920×1080 溢出）
+  - 3 层 CSS 断点：≤560px / ≤430px / ≤370px，逐步压缩 title/按钮/间距
+  - `body--title-page` class + 全局 `overflow: hidden !important` 彻底消除滚动条
+- 验收：4 尺寸无滚动无裁切，桌面 1920×1080 保持原样（canvas 粒子正常）
+
+#### 修改文件
+| 文件 | 改动 |
+|------|------|
+| `src/pages/SettingsPage.tsx` | +isCompactLandscape 检测 + 130 行紧凑左右列 JSX |
+| `src/pages/TitlePage.tsx` | +body--title-page class effect, +5 个 className |
+| `src/styles/global.css` | -80 行脆弱选择器, +170 行清洁 CSS（Settings compact + Title landscape） |
+
+#### 测试
+- 18/18 文件 193/193 测试 ✅ | build ✅
 
 #### 功能逻辑审查
 - **endingGalleryStore 集成**：`startNewGame()` → 新周目，`commitChoice()` → 同步历史 + 检测结局，`SettingsPage` → 清零，链路完整

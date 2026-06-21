@@ -28,10 +28,11 @@ export default function ChoicePanel({
   // 如果正在等待二次确认，显示确认对话框
   if (pendingConfirm) {
     return (
-      <div className="choicePanel" style={{ alignItems: "center", gap: 24 }}>
+      <div className="choicePanel choice-confirm-panel" style={{ alignItems: "center", gap: 24 }}>
 
         {/* 确认提示文案 */}
         <p
+          className="choice-confirm-text"
           style={{
             color: "var(--color-text-primary)",
             fontSize: "var(--font-size-dialogue)",
@@ -43,8 +44,9 @@ export default function ChoicePanel({
         </p>
 
         {/* 确认/取消按钮 */}
-        <div style={{ display: "flex", gap: 32 }}>
+        <div className="choice-confirm-actions" style={{ display: "flex", gap: 32 }}>
           <button
+            className="choice-confirm-button"
             onClick={() => onConfirm(pendingConfirm)}
             style={{
               padding: "12px 48px",
@@ -59,6 +61,7 @@ export default function ChoicePanel({
             确认选择
           </button>
           <button
+            className="choice-confirm-button"
             onClick={onCancelConfirm}
             style={{
               padding: "12px 48px",

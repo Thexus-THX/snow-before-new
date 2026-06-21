@@ -30,7 +30,7 @@ export default function EndingScene(props: EndingSceneProps) {
         onAdvance={() => scene.nextSceneId && onAdvance(scene.nextSceneId)}
         canAdvance={canAdvance}
       >
-        <div style={{
+        <div className="ending-content" style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

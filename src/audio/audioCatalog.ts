@@ -13,6 +13,23 @@
 import type { AudioChannel } from "./audioTypes";
 
 // ============================================================
+// 格式选择（OGG 优先，MP3 fallback）
+// ============================================================
+
+/**
+ * 根据浏览器能力选择最佳音频源。
+ * OGG 支持 → 返回 ogg；不支持但 mp3 存在 → 返回 mp3；
+ * 都不支持 → 返回 ogg（让浏览器静默失败）。
+ */
+export function preferredSrc(oggPath: string, mp3Path?: string): string {
+  const audio = document.createElement("audio");
+  const canOgg = audio.canPlayType("audio/ogg; codecs=vorbis") !== "";
+  if (canOgg) return oggPath;
+  if (mp3Path && audio.canPlayType("audio/mpeg") !== "") return mp3Path;
+  return oggPath; // 静音降级
+}
+
+// ============================================================
 // 类型
 // ============================================================
 
@@ -30,6 +47,10 @@ export interface BgmDefinition {
   path: string | null;
   /** introLoop：loop 路径 */
   loopPath?: string | null;
+  /** MP3 fallback intro 路径（可选） */
+  fallbackPath?: string | null;
+  /** MP3 fallback loop 路径（可选） */
+  fallbackLoopPath?: string | null;
   loop: boolean;
   /** 默认音量（独立于 master/bgmVolume，曲目自身音量系数） */
   defaultVolume: number;
@@ -45,6 +66,8 @@ export interface AudioTrack {
   id: string;
   type: "ambience" | "sfx" | "voice";
   path: string | null;
+  /** MP3 fallback 路径（可选） */
+  fallbackPath?: string | null;
   loop: boolean;
   defaultVolume: number;
   enabled: boolean;
@@ -68,6 +91,7 @@ export const BGM_CATALOG: BgmDefinition[] = [
     type: "bgm",
     mode: "singleFullTrack",
     path: `${BGM_BASE}/bgm_01_prologue_station.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_01_prologue_station.mp3`,
     loop: true,
     defaultVolume: 0.48,
     fadeInMs: 2500,  // 开始页专用 2.5s
@@ -84,6 +108,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_09_first_station_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_09_first_station_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_09_first_station_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_09_first_station_loop.mp3`,
     loop: true,
     defaultVolume: 0.42,
     fadeInMs: 2000,
@@ -98,6 +124,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_02_lab_spring_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_02_lab_spring_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_02_lab_spring_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_02_lab_spring_loop.mp3`,
     loop: true,
     defaultVolume: 0.36,
     fadeInMs: 2000,
@@ -112,6 +140,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_03_factory_summer_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_03_factory_summer_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_03_factory_summer_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_03_factory_summer_loop.mp3`,
     loop: true,
     defaultVolume: 0.38,
     fadeInMs: 2000,
@@ -126,6 +156,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_04_autumn_letter_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_04_autumn_letter_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_04_autumn_letter_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_04_autumn_letter_loop.mp3`,
     loop: true,
     defaultVolume: 0.40,
     fadeInMs: 2000,
@@ -140,6 +172,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_05_winter_field_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_05_winter_field_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_05_winter_field_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_05_winter_field_loop.mp3`,
     loop: true,
     defaultVolume: 0.45,
     fadeInMs: 2000,
@@ -154,6 +188,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_06_lugouqiao_tension_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_06_lugouqiao_tension_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_06_lugouqiao_tension_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_06_lugouqiao_tension_loop.mp3`,
     loop: true,
     defaultVolume: 0.44,
     fadeInMs: 2000,
@@ -168,6 +204,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_07_ending_return_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_07_ending_return_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_07_ending_return_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_07_ending_return_loop.mp3`,
     loop: false, // 不强制无限循环
     defaultVolume: 0.46,
     fadeInMs: 2000,
@@ -182,6 +220,8 @@ export const BGM_CATALOG: BgmDefinition[] = [
     mode: "introLoop",
     path: `${BGM_BASE}/bgm_08_ending_foreign_lamp_intro.ogg`,
     loopPath: `${BGM_BASE}/bgm_08_ending_foreign_lamp_loop.ogg`,
+    fallbackPath: `${BGM_BASE}/bgm_08_ending_foreign_lamp_intro.mp3`,
+    fallbackLoopPath: `${BGM_BASE}/bgm_08_ending_foreign_lamp_loop.mp3`,
     loop: false, // 不强制无限循环
     defaultVolume: 0.46,
     fadeInMs: 2000,
@@ -201,9 +241,9 @@ const AMB_BASE = "/assets/audio/ambience";
 export const OTHER_CATALOG: AudioTrack[] = [
   // Ambience（4 缺失，2 存在）
   { id: "amb.station_winter", type: "ambience", path: null, loop: true, defaultVolume: 0.35, enabled: false, missing: true, description: "冬日车站环境音（待提供）" },
-  { id: "amb.lab_radio", type: "ambience", path: `${AMB_BASE}/amb_lab_radio_loop.ogg`, loop: true, defaultVolume: 0.35, enabled: true, missing: false, description: "实验室无线电环境音" },
+  { id: "amb.lab_radio", type: "ambience", path: `${AMB_BASE}/amb_lab_radio_loop.ogg`, fallbackPath: `${AMB_BASE}/amb_lab_radio_loop.mp3`, loop: true, defaultVolume: 0.35, enabled: true, missing: false, description: "实验室无线电环境音" },
   { id: "amb.factory_machines", type: "ambience", path: null, loop: true, defaultVolume: 0.35, enabled: false, missing: true, description: "工厂机器环境音（待提供）" },
-  { id: "amb.snowfield_wind", type: "ambience", path: `${AMB_BASE}/amb_snowfield_wind_loop.ogg`, loop: true, defaultVolume: 0.40, enabled: true, missing: false, description: "雪地风声环境音" },
+  { id: "amb.snowfield_wind", type: "ambience", path: `${AMB_BASE}/amb_snowfield_wind_loop.ogg`, fallbackPath: `${AMB_BASE}/amb_snowfield_wind_loop.mp3`, loop: true, defaultVolume: 0.40, enabled: true, missing: false, description: "雪地风声环境音" },
   { id: "amb.dorm_quiet", type: "ambience", path: null, loop: true, defaultVolume: 0.30, enabled: false, missing: true, description: "宿舍安静环境音（待提供）" },
   { id: "amb.archive_room", type: "ambience", path: null, loop: true, defaultVolume: 0.30, enabled: false, missing: true, description: "档案室环境音（待提供）" },
 
@@ -211,10 +251,10 @@ export const OTHER_CATALOG: AudioTrack[] = [
   { id: "sfx.ui_click", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "UI 点击音效（待提供）" },
   { id: "sfx.choice_confirm", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "关键选择确认音效（待提供）" },
   { id: "sfx.choice_locked", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "锁定选项音效（待提供）" },
-  { id: "sfx.letter_open", type: "sfx", path: `${AMB_BASE}/sfx_letter_open.ogg`, loop: false, defaultVolume: 0.65, enabled: true, missing: false, description: "拆信音效" },
-  { id: "sfx.page_turn", type: "sfx", path: `${AMB_BASE}/sfx_page_turn.ogg`, loop: false, defaultVolume: 0.55, enabled: true, missing: false, description: "翻页音效" },
+  { id: "sfx.letter_open", type: "sfx", path: `${AMB_BASE}/sfx_letter_open.ogg`, fallbackPath: `${AMB_BASE}/sfx_letter_open.mp3`, loop: false, defaultVolume: 0.65, enabled: true, missing: false, description: "拆信音效" },
+  { id: "sfx.page_turn", type: "sfx", path: `${AMB_BASE}/sfx_page_turn.ogg`, fallbackPath: `${AMB_BASE}/sfx_page_turn.mp3`, loop: false, defaultVolume: 0.55, enabled: true, missing: false, description: "翻页音效" },
   { id: "sfx.radio_static_short", type: "sfx", path: null, loop: false, defaultVolume: 0.50, enabled: false, missing: true, description: "短无线电静电音效（待提供）" },
-  { id: "sfx.train_whistle_distant", type: "sfx", path: `${AMB_BASE}/sfx_train_whistle_distant.ogg`, loop: false, defaultVolume: 0.60, enabled: true, missing: false, description: "远处火车汽笛" },
+  { id: "sfx.train_whistle_distant", type: "sfx", path: `${AMB_BASE}/sfx_train_whistle_distant.ogg`, fallbackPath: `${AMB_BASE}/sfx_train_whistle_distant.mp3`, loop: false, defaultVolume: 0.60, enabled: true, missing: false, description: "远处火车汽笛" },
   { id: "sfx.stamp_paper", type: "sfx", path: null, loop: false, defaultVolume: 0.60, enabled: false, missing: true, description: "盖章音效（待提供）" },
 
   // Voice（预留）

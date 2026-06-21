@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, type ReactNode } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
+import MobileLandscapeHint from "@/components/common/MobileLandscapeHint";
 import { useSettingsStore } from "@/app/stores/settingsStore";
 import { useEndingGalleryStore } from "@/app/stores/endingGalleryStore";
 import { clearSave } from "@/engine/saveManager";
@@ -21,6 +22,23 @@ export default function SettingsPage() {
   } = useSettingsStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  // ── 紧凑横屏检测（landscape + h≤430 直接启用，兼容 Playwright 非触屏测试） ──
+  const [isCompactLandscape, setIsCompactLandscape] = useState(false);
+  useEffect(() => {
+    const check = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      setIsCompactLandscape(w > h && h <= 430);
+    };
+    check();
+    window.addEventListener("resize", check);
+    window.addEventListener("orientationchange", check);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("orientationchange", check);
+    };
+  }, []);
 
   useEffect(() => {
     audioManager.setMasterVolume(masterVolume);
@@ -56,7 +74,7 @@ export default function SettingsPage() {
     label: string; value: number; onChange: (v: number) => void;
     disabled?: boolean; showPercent?: boolean;
   }) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16, height: 50, opacity: disabled ? 0.42 : 1 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 14, height: 46, opacity: disabled ? 0.42 : 1 }}>
       <span style={{ width: 84, color: COLORS.label, fontSize: 18, fontWeight: 600, letterSpacing: "0.06em", flexShrink: 0 }}>
         {label}
       </span>
@@ -134,7 +152,7 @@ export default function SettingsPage() {
   // ===== 分割线 =====
   const Divider = () => (
     <div style={{
-      height: 1, margin: "6px 0",
+      height: 1, margin: "4px 0",
       background: `linear-gradient(90deg, transparent, ${COLORS.panelBorder}, transparent)`,
     }} />
   );
@@ -150,9 +168,225 @@ export default function SettingsPage() {
     </div>
   );
 
+  // ── 紧凑横屏确认弹窗（复用） ──
+  const ResetConfirmOverlay = () =>
+    !showResetConfirm ? null : (
+      <div
+        onClick={() => setShowResetConfirm(false)}
+        style={{
+          position: "fixed", inset: 0, zIndex: 100,
+          background: "rgba(0,0,0,0.75)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            width: 400, padding: "28px 32px", borderRadius: 3,
+            border: `1px solid ${COLORS.dangerBorder}`,
+            background: "#14100c",
+            boxShadow: "0 16px 56px rgba(0,0,0,0.7)",
+            display: "flex", flexDirection: "column", gap: 18, alignItems: "center",
+          }}
+        >
+          <div style={{
+            width: 40, height: 40, borderRadius: "50%",
+            border: `2px solid #b85448`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <span style={{ fontSize: 22, color: "#c45a46", fontWeight: 700 }}>!</span>
+          </div>
+          <h3 style={{
+            margin: 0, fontSize: 17, fontFamily: "var(--font-display), serif",
+            color: "#e8d4c4", letterSpacing: 3, textAlign: "center",
+          }}>
+            确认清零存档？
+          </h3>
+          <p style={{
+            margin: 0, fontSize: 13, color: "#9a8070", lineHeight: 1.7, textAlign: "center",
+          }}>
+            此操作将清除所有游戏存档进度<br />
+            包括结局图鉴解锁记录和多周目历史<br />
+            <span style={{ color: "#b85448" }}>此操作无法撤销</span>
+          </p>
+          <div style={{ display: "flex", gap: 14 }}>
+            <button
+              onClick={() => setShowResetConfirm(false)}
+              style={{
+                padding: "8px 26px", fontSize: 14,
+                border: `1px solid ${COLORS.btnBorder}`, borderRadius: 2,
+                background: COLORS.btnBg, color: COLORS.label, cursor: "pointer",
+              }}
+            >
+              取消
+            </button>
+            <button
+              onClick={() => {
+                clearSave();
+                useEndingGalleryStore.getState().resetAllData();
+                setShowResetConfirm(false);
+              }}
+              style={{
+                padding: "8px 26px", fontSize: 14, fontWeight: 500,
+                border: `1px solid ${COLORS.dangerBorder}`, borderRadius: 2,
+                background: "rgba(80, 30, 30, 0.4)", color: "#d47a68", cursor: "pointer",
+              }}
+            >
+              确定
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+
+  // ── 紧凑横屏：独立 JSX 分支，真正左右列 D O M ──
+  if (isCompactLandscape) {
+    const cs = {
+      sliderTrack: "#3a3028",
+      sliderFill: "#c8a860",
+    };
+
+    const CompactRangeThumb = () => (
+      <style>{`
+        .settings-compact-row input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none; width: 14px; height: 14px;
+          background: #d4b878; border: 1px solid #a08050;
+          border-radius: 2px; cursor: pointer;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+      `}</style>
+    );
+
+    const CompactSlider = ({ label, value, onChange, disabled }: {
+      label: string; value: number; onChange: (v: number) => void; disabled?: boolean;
+    }) => (
+      <div className="settings-compact-row" style={{ opacity: disabled ? 0.42 : 1 }}>
+        <span style={{ color: COLORS.label, fontSize: 12, whiteSpace: "nowrap" }}>{label}</span>
+        <div style={{ flex: 1, position: "relative", height: 14, display: "flex", alignItems: "center", minWidth: 0 }}>
+          <div style={{ position: "absolute", left: 0, right: 0, height: 3, background: cs.sliderTrack, borderRadius: 1 }} />
+          <div style={{ position: "absolute", left: 0, height: 3, width: `${value * 100}%`, background: cs.sliderFill, borderRadius: 1 }} />
+          <input
+            type="range" min={0} max={100} value={Math.round(value * 100)}
+            onChange={(e) => onChange(Number(e.target.value) / 100)}
+            disabled={disabled}
+            style={{ position: "absolute", left: 0, right: 0, height: 14, WebkitAppearance: "none", background: "transparent", cursor: disabled ? "not-allowed" : "pointer", margin: 0 }}
+          />
+        </div>
+        <span className="settings-compact-value">{Math.round(value * 100)}%</span>
+      </div>
+    );
+
+    const CompactCheckbox = ({ checked, onChange }: { checked: boolean; onChange: () => void }) => (
+      <div
+        onClick={onChange}
+        style={{
+          width: 16, height: 16, borderRadius: 2, flexShrink: 0,
+          border: `1px solid ${checked ? COLORS.gold : COLORS.panelBorder}`,
+          background: checked ? "rgba(200, 168, 96, 0.3)" : "rgba(30, 24, 16, 0.5)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "pointer", transition: "all 0.2s",
+        }}
+      >
+        {checked && <span style={{ color: COLORS.gold, fontSize: 10, lineHeight: 1 }}>✓</span>}
+      </div>
+    );
+
+    const backLabel = fromGame ? "返回游戏" : "返回标题";
+
+    return (
+      <>
+        <MobileLandscapeHint />
+        <GameViewport>
+          <div className="settings-page settings-page--compact">
+            <section className="settings-panel settings-panel--compact">
+              <header className="settings-header">
+                <h1>设置</h1>
+              </header>
+
+              <div className="settings-compact-grid">
+                {/* 左列：音频 slider */}
+                <div className="settings-compact-column">
+                  <div className="settings-compact-title">音频</div>
+                  <CompactRangeThumb />
+                  <CompactSlider label="主音量" value={masterVolume} onChange={setMasterVolume} />
+                  <CompactSlider label="音乐" value={musicVolume} onChange={setMusicVolume} disabled={isMuted} />
+                  <CompactSlider label="环境音" value={ambienceVolume} onChange={setAmbienceVolume} disabled={isMuted} />
+                  <CompactSlider label="音效" value={sfxVolume} onChange={setSfxVolume} disabled={isMuted} />
+                </div>
+
+                {/* 右列：阅读 / 操作 */}
+                <div className="settings-compact-column">
+                  <div className="settings-compact-title">阅读 / 操作</div>
+
+                  {/* 语音 */}
+                  <div className="settings-compact-inline" style={{ opacity: 0.55 }}>
+                    <span style={{ fontSize: 12 }}>语音</span>
+                    <span style={{ fontSize: 11, fontStyle: "italic" }}>暂未启用</span>
+                  </div>
+
+                  {/* 静音 */}
+                  <div className="settings-compact-inline">
+                    <span style={{ fontSize: 12 }}>静音</span>
+                    <CompactCheckbox checked={isMuted} onChange={toggleMute} />
+                    <span style={{ fontSize: 11, color: COLORS.textDim }}>
+                      {isMuted ? "已静音" : "未静音"}
+                    </span>
+                  </div>
+
+                  {/* 文字速度 */}
+                  <div className="settings-compact-inline">
+                    <span style={{ fontSize: 12 }}>文字速度</span>
+                    <div className="settings-compact-speed">
+                      {(["slow", "normal", "fast"] as const).map((s, i) => {
+                        const selected = textSpeed === s;
+                        return (
+                          <button
+                            key={s}
+                            onClick={() => setTextSpeed(s)}
+                            style={{
+                              padding: "0 9px", minHeight: 28, fontSize: 12,
+                              fontFamily: "var(--font-display), serif",
+                              border: `1px solid ${selected ? COLORS.gold : COLORS.panelBorder}`,
+                              borderRadius: i === 0 ? "2px 0 0 2px" : i === 2 ? "0 2px 2px 0" : 0,
+                              borderLeftWidth: i === 1 ? 0 : 1,
+                              background: selected ? "rgba(200, 168, 96, 0.18)" : COLORS.btnBg,
+                              color: selected ? COLORS.gold : COLORS.label,
+                              cursor: "pointer", transition: "all 0.2s",
+                            }}
+                          >
+                            {s === "slow" ? "慢" : s === "normal" ? "标准" : "快"}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <footer className="settings-actions">
+                <button onClick={() => navigate(fromGame ? "/game" : "/")}>{backLabel}</button>
+                <button
+                  onClick={() => setShowResetConfirm(true)}
+                  style={{ color: "#c47868", background: "rgba(45, 22, 22, 0.45)", borderColor: COLORS.dangerBorder }}
+                >
+                  清空存档
+                </button>
+              </footer>
+            </section>
+          </div>
+
+          <ResetConfirmOverlay />
+        </GameViewport>
+      </>
+    );
+  }
+
+  // ── 桌面 / 普通移动端：原始布局 ──
   return (
-    <GameViewport>
-      <div style={{
+    <>
+      <MobileLandscapeHint />
+      <GameViewport>
+        <div className="settings-page" style={{
         width: 1920, height: 1080,
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
@@ -160,9 +394,9 @@ export default function SettingsPage() {
         color: "#e8dfcf",
       }}>
         {/* ===== 设置面板 ===== */}
-        <div style={{
+        <div className="settings-panel" style={{
           width: 700,
-          padding: "48px 56px 40px",
+          padding: "40px 56px 34px",
           background: COLORS.panelBg,
           border: `1px solid ${COLORS.panelBorder}`,
           borderRadius: 3,
@@ -170,21 +404,24 @@ export default function SettingsPage() {
           display: "flex", flexDirection: "column", gap: 0,
         }}>
           {/* 标题 */}
+          <div className="settings-header">
           <h1 style={{
             fontSize: 42, fontWeight: 400, letterSpacing: 8,
-            marginBottom: 22, textAlign: "center",
+            marginBottom: 16, textAlign: "center",
             fontFamily: "var(--font-display), serif",
             color: "var(--color-text-primary)",
             textShadow: "0 3px 10px rgba(0,0,0,0.65)",
           }}>
             设置
           </h1>
+          </div>
           <Divider />
 
+          <div className="settings-content">
           {/* ===== 音频组 ===== */}
           <SectionTitle text="音频" />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 4 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 4 }}>
             <SliderRow label="主音量" value={masterVolume} onChange={setMasterVolume} />
             <SliderRow label="音乐" value={musicVolume} onChange={setMusicVolume} disabled={isMuted} />
             <SliderRow label="环境音" value={ambienceVolume} onChange={setAmbienceVolume} disabled={isMuted} />
@@ -262,8 +499,9 @@ export default function SettingsPage() {
 
           {/* ===== 操作组 ===== */}
           <SectionTitle text="操作" />
+          </div>{/* /settings-content */}
 
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 8 }}>
+          <div className="settings-actions" style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 8 }}>
             {/* 返回按钮 */}
             <button
               onClick={() => navigate(fromGame ? "/game" : "/")}
@@ -320,75 +558,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* ===== 确认弹窗 ===== */}
-        {showResetConfirm && (
-          <div
-            onClick={() => setShowResetConfirm(false)}
-            style={{
-              position: "fixed", inset: 0, zIndex: 100,
-              background: "rgba(0,0,0,0.75)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: 400, padding: "28px 32px", borderRadius: 3,
-                border: `1px solid ${COLORS.dangerBorder}`,
-                background: "#14100c",
-                boxShadow: "0 16px 56px rgba(0,0,0,0.7)",
-                display: "flex", flexDirection: "column", gap: 18, alignItems: "center",
-              }}
-            >
-              <div style={{
-                width: 40, height: 40, borderRadius: "50%",
-                border: `2px solid #b85448`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
-                <span style={{ fontSize: 22, color: "#c45a46", fontWeight: 700 }}>!</span>
-              </div>
-              <h3 style={{
-                margin: 0, fontSize: 17, fontFamily: "var(--font-display), serif",
-                color: "#e8d4c4", letterSpacing: 3, textAlign: "center",
-              }}>
-                确认清零存档？
-              </h3>
-              <p style={{
-                margin: 0, fontSize: 13, color: "#9a8070", lineHeight: 1.7, textAlign: "center",
-              }}>
-                此操作将清除所有游戏存档进度<br />
-                包括结局图鉴解锁记录和多周目历史<br />
-                <span style={{ color: "#b85448" }}>此操作无法撤销</span>
-              </p>
-              <div style={{ display: "flex", gap: 14 }}>
-                <button
-                  onClick={() => setShowResetConfirm(false)}
-                  style={{
-                    padding: "8px 26px", fontSize: 14,
-                    border: `1px solid ${COLORS.btnBorder}`, borderRadius: 2,
-                    background: COLORS.btnBg, color: COLORS.label, cursor: "pointer",
-                  }}
-                >
-                  取消
-                </button>
-                <button
-                  onClick={() => {
-                    clearSave();
-                    useEndingGalleryStore.getState().resetAllData();
-                    setShowResetConfirm(false);
-                  }}
-                  style={{
-                    padding: "8px 26px", fontSize: 14, fontWeight: 500,
-                    border: `1px solid ${COLORS.dangerBorder}`, borderRadius: 2,
-                    background: "rgba(80, 30, 30, 0.4)", color: "#d47a68", cursor: "pointer",
-                  }}
-                >
-                  确定
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <ResetConfirmOverlay />
 
         {/* 底部 */}
         <p style={{
@@ -398,6 +568,7 @@ export default function SettingsPage() {
           雪落之前 · 设置
         </p>
       </div>
-    </GameViewport>
+      </GameViewport>
+    </>
   );
 }

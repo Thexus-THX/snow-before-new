@@ -9,7 +9,7 @@
  * 缺失音频安全跳过，不报错。
  */
 import type { IAudioManager, BgmState } from "./audioTypes";
-import { getBgmById, getTrackById } from "./audioCatalog";
+import { getBgmById, getTrackById, preferredSrc } from "./audioCatalog";
 import type { BgmDefinition } from "./audioCatalog";
 
 const DEBUG = import.meta.env.DEV;
@@ -37,6 +37,8 @@ class AudioManagerImpl implements IAudioManager {
   private unlocked = false;
   private muted = false;
   private paused = false;
+  /** 标记 BGM 是否因自动播放限制而未启动（需在 unlock 后重试） */
+  private bgmPendingUnlock = false;
 
   // ---- 音量 ----
   private masterVolume = 0.8;
@@ -99,6 +101,7 @@ class AudioManagerImpl implements IAudioManager {
       return;
     }
 
+    this.bgmPendingUnlock = false;
     const old = this.bgmElement;
     const oldLoop = this.bgmLoopElement;
 
@@ -135,7 +138,8 @@ class AudioManagerImpl implements IAudioManager {
       const track = getTrackById(id);
       if (!track || track.type === "bgm" || !track.enabled || track.missing || !track.path) continue;
       try {
-        const audio = new Audio(track.path);
+        const ambSrc = preferredSrc(track.path, track.fallbackPath ?? undefined);
+        const audio = new Audio(ambSrc);
         audio.loop = true;
         audio.volume = this.paused ? 0 : this.getEffectiveAmbienceVolume();
         audio.play().catch(() => {});
@@ -162,7 +166,13 @@ class AudioManagerImpl implements IAudioManager {
     if (!track || track.type === "bgm" || !track.enabled || track.missing || !track.path) return;
     if (this.paused || this.muted) return;
     try {
-      const audio = new Audio(track.path);
+      // 限制 SFX 实例数，防止快速点击堆积
+      if (this.sfxPool.length > 12) {
+        const oldest = this.sfxPool.shift();
+        if (oldest) { oldest.pause(); oldest.currentTime = 0; }
+      }
+      const sfxSrc = preferredSrc(track.path, track.fallbackPath ?? undefined);
+      const audio = new Audio(sfxSrc);
       audio.volume = this.getEffectiveSfxVolume();
       audio.play().catch(() => {});
       audio.addEventListener("ended", () => {
@@ -182,7 +192,8 @@ class AudioManagerImpl implements IAudioManager {
     if (!track || track.type === "bgm" || !track.enabled || track.missing || !track.path) return;
     this.stopVoice();
     try {
-      const audio = new Audio(track.path);
+      const voiceSrc = preferredSrc(track.path, track.fallbackPath ?? undefined);
+      const audio = new Audio(voiceSrc);
       audio.loop = false;
       audio.volume = this.paused ? 0 : this.getEffectiveVoiceVolume();
       audio.play().catch(() => {});
@@ -251,8 +262,37 @@ class AudioManagerImpl implements IAudioManager {
   unlock(): void {
     if (this.unlocked) return;
     this.unlocked = true;
-    if (this.bgmElement?.paused && this.currentBgmId) this.bgmElement.play().catch(() => {});
-    for (const el of this.ambienceElements.values()) { if (el.paused) el.play().catch(() => {}); }
+
+    // 1. 尝试通过 Web Audio API 解锁（移动端最可靠）
+    try {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      if (ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+      }
+      // 播放极短静音脉冲，确保音频上下文被激活
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      gain.gain.value = 0.001;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(0);
+      osc.stop(ctx.currentTime + 0.01);
+    } catch { /* AudioContext 不可用，回退到 HTMLAudioElement 方式 */ }
+
+    // 2. 重试被自动播放限制阻止的 BGM
+    if (this.bgmPendingUnlock && this.bgmElement && this.currentBgmId) {
+      this.bgmElement.play().catch(() => {});
+      this.bgmPendingUnlock = false;
+      debugLog(`BGM "${this.currentBgmId}" unlock 后重试`);
+    }
+
+    // 3. 恢复其他已暂停的 BGM 和环境音
+    if (this.bgmElement?.paused && this.currentBgmId && !this.bgmPendingUnlock) {
+      this.bgmElement.play().catch(() => {});
+    }
+    for (const el of this.ambienceElements.values()) {
+      if (el.paused) el.play().catch(() => {});
+    }
   }
 
   getCurrentBgmId(): string | null { return this.currentBgmId; }
@@ -268,19 +308,30 @@ class AudioManagerImpl implements IAudioManager {
     if (!def.path) return;
 
     try {
-      const audio = new Audio(def.path);
+      const src = preferredSrc(def.path, def.fallbackPath ?? undefined);
+      const audio = new Audio(src);
       audio.volume = 0;
 
       if (def.mode === "singleFullTrack") {
-        // 单文件完整播放
         audio.loop = def.loop;
       } else {
-        // introLoop：intro 不循环，播完后切换到 loop
         audio.loop = false;
         this.setupIntroToLoop(audio, def);
       }
 
-      audio.play().catch(() => {});
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            this.bgmPendingUnlock = false;
+          })
+          .catch(() => {
+            // 自动播放被阻止（移动端）：标记等待 unlock 重试
+            this.bgmPendingUnlock = true;
+            debugLog(`BGM "${def.id}" 自动播放被阻止，等待用户交互后重试`);
+          });
+      }
+
       this.bgmElement = audio;
       this.currentBgmId = def.id;
       this.bgmState = "playing";
@@ -304,7 +355,8 @@ class AudioManagerImpl implements IAudioManager {
       if (this.currentBgmId !== def.id || this.bgmElement !== intro) return;
 
       try {
-        const loopAudio = new Audio(def.loopPath!);
+        const loopSrc = preferredSrc(def.loopPath!, def.fallbackLoopPath ?? undefined);
+        const loopAudio = new Audio(loopSrc);
         loopAudio.loop = def.loop;
         loopAudio.volume = 0;
 

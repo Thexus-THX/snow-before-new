@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
+import MobileLandscapeHint from "@/components/common/MobileLandscapeHint";
 import SceneRenderer from "@/components/scenes/SceneRenderer";
 import { useGameStore } from "@/app/stores/gameStore";
 import { validateGameData } from "@/schemas/gameSchema";
@@ -25,6 +26,25 @@ import gameDataRaw from "@/content/game-data.json";
  * - dialogueHeight: 216 (20%)
  * - topStatusHeight: 72 (叠加在场景上，不占独立空间)
  */
+/** 图片预加载缓存 */
+const imgPreloadCache = new Map<string, Promise<void>>();
+
+function preloadImage(src: string): Promise<void> {
+  if (!src) return Promise.resolve();
+  if (imgPreloadCache.has(src)) return imgPreloadCache.get(src)!;
+  const promise = new Promise<void>((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+    img.src = src;
+    if ("decode" in img) {
+      img.decode().then(() => resolve()).catch(() => resolve());
+    }
+  });
+  imgPreloadCache.set(src, promise);
+  return promise;
+}
+
 export default function GamePage() {
   const navigate = useNavigate();
   const {
@@ -34,6 +54,7 @@ export default function GamePage() {
   } = useGameStore();
 
   const initializedRef = useRef(false);
+  const transitioningRef = useRef(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showingChoices, setShowingChoices] = useState(false);
@@ -95,6 +116,7 @@ export default function GamePage() {
     setShowingChoices(false);
     setPendingConfirm(null);
     setChoiceError(null);
+    transitioningRef.current = false;
   }, [state?.currentSceneId]);
 
   const currentScene = getCurrentScene();
@@ -102,35 +124,46 @@ export default function GamePage() {
     ? engine.getResolvedChoices(currentScene.id, state) : [];
   const hasChoices = resolvedChoices.length > 0;
 
-  // 推进场景（统一入口）：在推进前记录当前特殊场景的历史
+  // 推进场景（统一入口）：预加载背景 + 防双击
   const handleAdvance = useCallback((nextSceneId: string) => {
-    if (!currentScene) return;
+    if (!currentScene || transitioningRef.current) return;
 
-    // 有选项但未显示 → 显示选项（无论 nextSceneId 是否为空）
+    // 有选项但未显示 → 显示选项
     if (hasChoices && !showingChoices) {
       setShowingChoices(true);
       return;
     }
 
-    // 需要有效的 nextSceneId 才能推进
     if (!nextSceneId) return;
 
-    // 特殊目标：返回标题页
     if (nextSceneId === "__title__") {
       navigate("/");
       return;
     }
 
-    // 特殊场景（非 standardDialogue）：离开前记录历史
+    // 特殊场景：离开前记录历史
     if (currentScene.template !== "standardDialogue") {
       const historyEntry = buildHistoryEntryFromScene(currentScene);
-      if (historyEntry) {
-        recordHistoryEntry(historyEntry);
-      }
+      if (historyEntry) recordHistoryEntry(historyEntry);
     }
 
-    advanceScene(nextSceneId);
-  }, [currentScene, hasChoices, showingChoices, advanceScene, recordHistoryEntry, navigate]);
+    transitioningRef.current = true;
+
+    // 兜底解锁：2s 后无论发生什么都强制解锁
+    const forceUnlockTimer = setTimeout(() => {
+      transitioningRef.current = false;
+    }, 2000);
+
+    // 预加载下一场景背景图（1200ms 超时，不卡剧情）
+    const nextBg = engine?.getScene(nextSceneId)?.background ?? "";
+    Promise.race([
+      preloadImage(nextBg),
+      new Promise((resolve) => setTimeout(resolve, 1200)),
+    ]).finally(() => {
+      clearTimeout(forceUnlockTimer);
+      advanceScene(nextSceneId);
+    });
+  }, [currentScene, hasChoices, showingChoices, advanceScene, recordHistoryEntry, navigate, engine]);
 
   const handleSelectChoice = useCallback((choice: ChoiceDefinition) => {
     setChoiceError(null);
@@ -183,13 +216,15 @@ export default function GamePage() {
   useSceneAudio(currentScene ?? undefined);
 
   // 加载/错误
-  if (loading) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-secondary)",fontSize:24}}>正在加载…</div></GameViewport>);
-  if (error) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-change-negative)",fontSize:16,padding:64,gap:16}}><p style={{fontSize:22,color:"var(--color-text-amber)"}}>数据加载失败</p><pre style={{whiteSpace:"pre-wrap",maxWidth:800,lineHeight:1.6}}>{error}</pre></div></GameViewport>);
-  if (!state || !engine || !currentScene) return (<GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-dim)",fontSize:24}}>无场景数据</div></GameViewport>);
+  if (loading) return (<><MobileLandscapeHint /><GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-secondary)",fontSize:24}}>正在加载…</div></GameViewport></>);
+  if (error) return (<><MobileLandscapeHint /><GameViewport><div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-change-negative)",fontSize:16,padding:64,gap:16}}><p style={{fontSize:22,color:"var(--color-text-amber)"}}>数据加载失败</p><pre style={{whiteSpace:"pre-wrap",maxWidth:800,lineHeight:1.6}}>{error}</pre></div></GameViewport></>);
+  if (!state || !engine || !currentScene) return (<><MobileLandscapeHint /><GameViewport><div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",background:"var(--color-bg-dark)",color:"var(--color-text-dim)",fontSize:24}}>无场景数据</div></GameViewport></>);
 
   return (
-    <GameViewport>
-      <SceneRenderer
+    <>
+      <MobileLandscapeHint />
+      <GameViewport>
+        <SceneRenderer
         scene={currentScene}
         state={state}
         engine={engine}
@@ -208,5 +243,6 @@ export default function GamePage() {
         showHistory={showHistory}
       />
     </GameViewport>
+    </>
   );
 }

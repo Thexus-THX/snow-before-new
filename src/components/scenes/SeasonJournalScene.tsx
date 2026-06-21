@@ -1,24 +1,33 @@
+import { useState, useEffect } from "react";
 import SpecialSceneShell from "./SpecialSceneShell";
 import type { SeasonJournalSceneProps } from "./sceneRendererTypes";
 
 /**
  * SeasonJournalScene — 季节札记展示页
  *
- * 数据来源：scene.content.journal
- * - visibleSummary: knowledgeLabel / wellbeingLabel / preparationLabel
- * - journalText: 沈怀远第一人称札记
- * - keepsakes: 1-3 项本季留下的事物
- *
- * 要求：
- * - 全屏背景上居中显示札记面板
- * - 只显示显性状态（学识/身心/行动准备），不显示隐藏数值
- * - journalText 使用第一人称札记排版
- * - keepsakes 显示 1-3 项，没有时自然隐藏
- * - 进入下一季按钮只触发一次
+ * 桌面端：SpecialSceneShell + 札记面板居中
+ * 移动端：文档卡片流式布局
  */
 export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
   const { scene, onAdvance } = props;
   const journal = scene.content?.journal;
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 移动端检测
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth <= 768;
+      const coarse = typeof matchMedia === "function" && matchMedia("(pointer: coarse)").matches;
+      setIsMobile(mobile || coarse);
+    };
+    check();
+    window.addEventListener("resize", check);
+    window.addEventListener("orientationchange", check);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("orientationchange", check);
+    };
+  }, []);
 
   const canAdvance = !!scene.nextSceneId;
 
@@ -40,7 +49,81 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
   }
 
   const { visibleSummary } = journal;
+  const hasKeepsakes = journal.keepsakes && journal.keepsakes.length > 0;
 
+  // ===== 移动端：文档卡片 =====
+  if (isMobile) {
+    return (
+      <SpecialSceneShell
+        scene={scene}
+        sceneName={scene.name}
+        onAdvance={() => scene.nextSceneId && onAdvance(scene.nextSceneId)}
+        canAdvance={canAdvance}
+        disableClickAdvance
+        hideContinueHint
+      >
+        <div className="mobile-season-summary">
+          <div className="mobile-season-summary-card">
+            {/* 状态标签行 */}
+            <div className="mobile-season-stats">
+              <div className="mobile-season-stat">
+                <span className="mobile-season-stat-label">学识</span>
+                <span className="mobile-season-stat-value" style={{ color: "var(--color-knowledge)" }}>
+                  {visibleSummary.knowledgeLabel}
+                </span>
+              </div>
+              <div className="mobile-season-stat">
+                <span className="mobile-season-stat-label">身心</span>
+                <span className="mobile-season-stat-value" style={{ color: "var(--color-wellbeing)" }}>
+                  {visibleSummary.wellbeingLabel}
+                </span>
+              </div>
+              <div className="mobile-season-stat">
+                <span className="mobile-season-stat-label">行动准备</span>
+                <span className="mobile-season-stat-value" style={{ color: "var(--color-preparation)" }}>
+                  {visibleSummary.preparationLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* 正文札记 */}
+            <div className="mobile-season-body">
+              <p className="mobile-season-text">
+                {journal.journalText}
+              </p>
+            </div>
+
+            {/* keepsakes */}
+            {hasKeepsakes && (
+              <div className="mobile-season-keepsakes">
+                <div className="mobile-season-keepsakes-title">本季留下的事物</div>
+                <ul className="mobile-season-keepsakes-list">
+                  {journal.keepsakes!.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 进入下一季 */}
+            {canAdvance && (
+              <button
+                className="mobile-season-next"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  scene.nextSceneId && onAdvance(scene.nextSceneId);
+                }}
+              >
+                进入下一季
+              </button>
+            )}
+          </div>
+        </div>
+      </SpecialSceneShell>
+    );
+  }
+
+  // ===== 桌面端：保持原有布局 =====
   return (
     <SpecialSceneShell
       scene={scene}
@@ -57,7 +140,6 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
         justifyContent: "center",
         padding: "60px",
       }}>
-        {/* 札记面板 */}
         <div style={{
           maxWidth: 840,
           width: "100%",
@@ -72,7 +154,6 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
           maxHeight: "88%",
           overflowY: "auto",
         }}>
-          {/* 显性状态摘要 */}
           <div style={{
             display: "flex",
             justifyContent: "center",
@@ -107,7 +188,6 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
             </div>
           </div>
 
-          {/* 第一人称札记 */}
           <div style={{
             color: "var(--color-text-secondary)",
             fontSize: "var(--font-size-dialogue)",
@@ -118,8 +198,7 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
             {journal.journalText}
           </div>
 
-          {/* keepsakes */}
-          {journal.keepsakes && journal.keepsakes.length > 0 && (
+          {hasKeepsakes && (
             <div style={{
               borderTop: "1px solid #3a2818",
               paddingTop: "var(--space-lg)",
@@ -137,7 +216,7 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
                 flexDirection: "column",
                 gap: "var(--space-sm)",
               }}>
-                {journal.keepsakes.map((item, i) => (
+                {journal.keepsakes!.map((item, i) => (
                   <div
                     key={i}
                     style={{
@@ -155,7 +234,6 @@ export default function SeasonJournalScene(props: SeasonJournalSceneProps) {
             </div>
           )}
 
-          {/* 进入下一季按钮 */}
           {canAdvance && (
             <div style={{
               textAlign: "center",

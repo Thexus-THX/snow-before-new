@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GameViewport from "@/components/common/GameViewport";
+import MobileLandscapeHint from "@/components/common/MobileLandscapeHint";
 import { useGameStore } from "@/app/stores/gameStore";
 import { useSettingsStore } from "@/app/stores/settingsStore";
 import { validateGameData } from "@/schemas/gameSchema";
@@ -138,6 +139,12 @@ export default function TitlePage() {
       setSaveExists(false);
     }
   }, [loadGameData]);
+
+  // 标题页挂载时锁定 body 不滚动（离开时恢复）
+  useEffect(() => {
+    document.body.classList.add("body--title-page");
+    return () => document.body.classList.remove("body--title-page");
+  }, []);
 
   // BGM：使用统一 AudioManager
   useEffect(() => {
@@ -399,8 +406,10 @@ export default function TitlePage() {
 
   return (
     <>
+      <MobileLandscapeHint />
       {/* 全屏电影感延展背景 */}
       <div
+        className="titlepage-blur-bg"
         style={{
           position: "fixed",
           inset: 0,
@@ -422,6 +431,7 @@ export default function TitlePage() {
 
       <GameViewport>
         <div
+          className="title-page"
           style={{
             width: "100%",
             height: "100%",
@@ -456,7 +466,7 @@ export default function TitlePage() {
             style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }} />
 
           {/* ===== 标题 + 菜单面板 ===== */}
-          <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+          <div className="title-content-area" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
 
             {/* 标题 */}
             <h1 style={{
@@ -483,7 +493,7 @@ export default function TitlePage() {
             </p>
 
             {/* ===== 档案面板 ===== */}
-            <div style={{
+            <div className="title-menu-panel" style={{
               width: 410,
               padding: "28px 32px 24px",
               background: "rgba(20, 16, 12, 0.58)",
@@ -493,7 +503,7 @@ export default function TitlePage() {
               backdropFilter: "none",
             }}>
               {/* 面板内按钮组 */}
-              <div style={{
+              <div className="title-menu" style={{
                 display: "flex",
                 flexDirection: "column",
                 gap: 13,
@@ -570,7 +580,7 @@ export default function TitlePage() {
           </div>
 
           {/* 底部版本号 */}
-          <p style={{
+          <p className="title-version-text" style={{
             position: "absolute",
             bottom: 32,
             color: "rgba(150,130,105,0.32)",

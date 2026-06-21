@@ -88,6 +88,7 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
 
   return (
     <div
+      className="standard-dialogue-scene"
       style={{
         width: "100%",
         height: "100%",
@@ -98,18 +99,23 @@ export default function StandardDialogueScene(props: StandardDialogueSceneProps)
       }}
     >
       {/* 场景区 — 固定 864px */}
-      <SceneArea
-        scene={scene}
-        onClick={sceneClickHandler}
-        clickable={!!sceneClickHandler}
-      />
+      <div className="mobile-scene-area" style={{ flex: "1 0 auto", minHeight: 0, position: "relative" }}>
+        <SceneArea
+          scene={scene}
+          onClick={sceneClickHandler}
+          clickable={!!sceneClickHandler}
+        />
+      </div>
 
       {/* 底部区域 — 固定 216px */}
-      {bottomArea}
+      <div className="mobile-dialogue-area">
+        {bottomArea}
+      </div>
 
       {/* 状态栏 — 绝对定位叠加在场景上方 72px */}
       {showStatusBar && chapter && (
         <div
+          className="hud-bar"
           style={{
             position: "absolute",
             top: 0,

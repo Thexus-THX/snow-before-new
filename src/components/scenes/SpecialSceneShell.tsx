@@ -27,6 +27,8 @@ interface SpecialSceneShellProps {
   hideOverlay?: boolean;
   /** 禁用点击背景推进（用于需要内部按钮操作的场景） */
   disableClickAdvance?: boolean;
+  /** 隐藏底部"点击继续"提示（用于自带继续按钮的移动端布局） */
+  hideContinueHint?: boolean;
 }
 
 export default function SpecialSceneShell({
@@ -37,6 +39,7 @@ export default function SpecialSceneShell({
   children,
   hideOverlay = false,
   disableClickAdvance = false,
+  hideContinueHint = false,
 }: SpecialSceneShellProps) {
   const { tryAdvance } = useAdvanceGuard(scene.id, onAdvance);
 
@@ -132,7 +135,7 @@ export default function SpecialSceneShell({
       </div>
 
       {/* 底部"点击继续"提示 */}
-      {canAdvance && (
+      {canAdvance && !hideContinueHint && (
         <div
           style={{
             position: "absolute",
